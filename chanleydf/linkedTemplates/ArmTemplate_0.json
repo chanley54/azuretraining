@@ -1,0 +1,575 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		},
+		"chanleysvc_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/chanleysvc')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('chanleysvc_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/chanleyds')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Business_Unit",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Company_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Empl_ID",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Empl_Rec_No",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Job_Row_Effective_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Job_Row_Eff_Seq",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Action",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Action_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Reason_Code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Reason_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Department_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Dept_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Job_Code_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Job_Entry_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Work_Location",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Work_Location_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Reporting_Location",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Reporting_Location_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Pay_Group",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Entry_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Primary_Job",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "employees"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/chanleytgr')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Business_Unit",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Company_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Empl_ID",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Empl_Rec_No",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Job_Row_Effective_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Job_Row_Eff_Seq",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Action",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Action_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Reason_Code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Reason_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Department_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Dept_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Job_Code_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Job_Entry_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Work_Location",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Work_Location_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Reporting_Location",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Reporting_Location_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Pay_Group",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Entry_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Primary_Job",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "employees_process"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Employees",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Business_Unit",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Business_Unit",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "Company_Description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Company_Description",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Empl_ID",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Empl_ID",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "Empl_Rec_No",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Empl_Rec_No",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "Job_Row_Effective_Date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "Job_Row_Effective_Date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "Job_Row_Eff_Seq",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Job_Row_Eff_Seq",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "Action",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Action",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Action_Date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "Action_Date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "Reason_Code",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Reason_Code",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Reason_Desc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Reason_Desc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Department_ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Department_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Dept_Description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Dept_Description",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Job_Code_Description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Job_Code_Description",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Job_Entry_Date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "Job_Entry_Date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "Work_Location",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Work_Location",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "Work_Location_Desc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Work_Location_Desc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Reporting_Location",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "Reporting_Location",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "Reporting_Location_Desc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Reporting_Location_Desc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Pay_Group",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Pay_Group",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Position_Number",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Position_Number",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Position_Description",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Position_Description",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Position_Entry_Date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "Position_Entry_Date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "Primary_Job",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Primary_Job",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "chanleyds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "chanleytgr",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/chanleyds')]",
+				"[concat(variables('factoryId'), '/datasets/chanleytgr')]"
+			]
+		}
+	]
+}

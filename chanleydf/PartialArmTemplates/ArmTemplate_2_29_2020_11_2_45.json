@@ -6,285 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "chanleydf"
-		},
-		"chanleysvc_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/chanleysvc')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('chanleysvc_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/chanleyds')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Business_Unit",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Company_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Empl_ID",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Empl_Rec_No",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Job_Row_Effective_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Job_Row_Eff_Seq",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Action",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Action_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Reason_Code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reason_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Department_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Dept_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Code_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Work_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Work_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reporting_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Reporting_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Pay_Group",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Number",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Primary_Job",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "employees"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/chanleytgr')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Business_Unit",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Company_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Empl_ID",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Empl_Rec_No",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Job_Row_Effective_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Job_Row_Eff_Seq",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Action",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Action_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Reason_Code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reason_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Department_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Dept_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Code_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Work_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Work_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reporting_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Reporting_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Pay_Group",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Number",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Primary_Job",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "employees_process"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -553,25 +280,20 @@
 						"inputs": [
 							{
 								"referenceName": "chanleyds",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "chanleytgr",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/chanleyds')]",
-				"[concat(variables('factoryId'), '/datasets/chanleytgr')]"
-			]
+			"dependsOn": []
 		}
 	]
 }

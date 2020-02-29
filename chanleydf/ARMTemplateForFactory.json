@@ -40,7 +40,9 @@
 								"queryTimeout": "02:00:00"
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table dbo.employees_process",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {

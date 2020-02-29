@@ -11,6 +11,18 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
 		},
+		"miscparquest_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"miscparquest_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://chanleysg.dfs.core.windows.net"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -40,6 +52,15 @@
 					},
 					"chanleysvc_connectionString": {
 						"value": "[parameters('chanleysvc_connectionString')]"
+					},
+					"miscparquest_accountKey": {
+						"value": "[parameters('miscparquest_accountKey')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"miscparquest_properties_typeProperties_url": {
+						"value": "[parameters('miscparquest_properties_typeProperties_url')]"
 					}
 				}
 			},

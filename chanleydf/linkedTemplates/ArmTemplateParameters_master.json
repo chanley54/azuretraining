@@ -8,6 +8,15 @@
 		"chanleysvc_connectionString": {
 			"value": ""
 		},
+		"miscparquest_accountKey": {
+			"value": ""
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"miscparquest_properties_typeProperties_url": {
+			"value": "https://chanleysg.dfs.core.windows.net"
+		},
 		"containerUri": {
 			"value": ""
 		},

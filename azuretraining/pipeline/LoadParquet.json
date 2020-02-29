@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "CopyParquest",
+				"name": "CopyParquet",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

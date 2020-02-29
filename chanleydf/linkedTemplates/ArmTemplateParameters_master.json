@@ -5,13 +5,13 @@
 		"factoryName": {
 			"value": "chanleydf"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"chanleysvc_connectionString": {
 			"value": ""
 		},
 		"miscparquest_accountKey": {
-			"value": ""
-		},
-		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
 		"miscparquest_properties_typeProperties_url": {

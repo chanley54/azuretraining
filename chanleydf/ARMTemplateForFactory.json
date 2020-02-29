@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "chanleydf"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
 		"chanleysvc_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
@@ -14,10 +18,6 @@
 		"miscparquest_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
-		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
 		"miscparquest_properties_typeProperties_url": {
 			"type": "string",
@@ -35,8 +35,8 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy Employees",
-						"type": "Copy",
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -47,276 +47,104 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "ParquetSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ParquestSrc": {},
+									"sink1": {}
 								}
 							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Business_Unit",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Business_Unit",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "Company_Description",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Company_Description",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Empl_ID",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Empl_ID",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "Empl_Rec_No",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Empl_Rec_No",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "Job_Row_Effective_Date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "Job_Row_Effective_Date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "Job_Row_Eff_Seq",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Job_Row_Eff_Seq",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "Action",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Action",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Action_Date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "Action_Date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "Reason_Code",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Reason_Code",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Reason_Desc",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Reason_Desc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Department_ID",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Department_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Dept_Description",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Dept_Description",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Job_Code_Description",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Job_Code_Description",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Job_Entry_Date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "Job_Entry_Date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "Work_Location",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Work_Location",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "Work_Location_Desc",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Work_Location_Desc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Reporting_Location",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "Reporting_Location",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "Reporting_Location_Desc",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Reporting_Location_Desc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Pay_Group",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Pay_Group",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Position_Number",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Position_Number",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Position_Description",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Position_Description",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Position_Entry_Date",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "Position_Entry_Date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "Primary_Job",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Primary_Job",
-											"type": "String"
-										}
-									}
-								]
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
 							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Parquet1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "chanleytgr",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						}
 					}
 				],
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
-				"[concat(variables('factoryId'), '/datasets/chanleytgr')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "registration_dttm",
+						"type": "INT96"
+					},
+					{
+						"name": "id",
+						"type": "INT32"
+					},
+					{
+						"name": "first_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "last_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "email",
+						"type": "UTF8"
+					},
+					{
+						"name": "gender",
+						"type": "UTF8"
+					},
+					{
+						"name": "ip_address",
+						"type": "UTF8"
+					},
+					{
+						"name": "cc",
+						"type": "UTF8"
+					},
+					{
+						"name": "country",
+						"type": "UTF8"
+					},
+					{
+						"name": "birthdate",
+						"type": "UTF8"
+					},
+					{
+						"name": "salary",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "title",
+						"type": "UTF8"
+					},
+					{
+						"name": "comments",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		},
 		{
@@ -458,122 +286,25 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Business_Unit",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Company_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Empl_ID",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Empl_Rec_No",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Job_Row_Effective_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Job_Row_Eff_Seq",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Action",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Action_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Reason_Code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reason_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Department_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Dept_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Code_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Work_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Work_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reporting_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Reporting_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Pay_Group",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Number",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Primary_Job",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "employees_process"
-				}
+				"schema": [],
+				"typeProperties": {}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/chanleysvc')]",
@@ -606,93 +337,38 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "MappingDataFlow",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Parquet1",
+								"type": "DatasetReference"
+							},
+							"name": "ParquestSrc",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "chanleyds",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\twildcardPaths:['*']) ~> ParquestSrc\nParquestSrc sink(input(\n\t\tBusiness_Unit as double,\n\t\tCompany_Description as string,\n\t\tEmpl_ID as double,\n\t\tEmpl_Rec_No as double,\n\t\tJob_Row_Effective_Date as timestamp,\n\t\tJob_Row_Eff_Seq as double,\n\t\tAction as string,\n\t\tAction_Date as timestamp,\n\t\tReason_Code as string,\n\t\tReason_Desc as string,\n\t\tDepartment_ID as string,\n\t\tDept_Description as string,\n\t\tJob_Code_Description as string,\n\t\tJob_Entry_Date as timestamp,\n\t\tWork_Location as double,\n\t\tWork_Location_Desc as string,\n\t\tReporting_Location as double,\n\t\tReporting_Location_Desc as string,\n\t\tPay_Group as string,\n\t\tPosition_Number as string,\n\t\tPosition_Description as string,\n\t\tPosition_Entry_Date as timestamp,\n\t\tPrimary_Job as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 				}
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "chanleyblob"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "registration_dttm",
-						"type": "INT96"
-					},
-					{
-						"name": "id",
-						"type": "INT32"
-					},
-					{
-						"name": "first_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "last_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "email",
-						"type": "UTF8"
-					},
-					{
-						"name": "gender",
-						"type": "UTF8"
-					},
-					{
-						"name": "ip_address",
-						"type": "UTF8"
-					},
-					{
-						"name": "cc",
-						"type": "UTF8"
-					},
-					{
-						"name": "country",
-						"type": "UTF8"
-					},
-					{
-						"name": "birthdate",
-						"type": "UTF8"
-					},
-					{
-						"name": "salary",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "title",
-						"type": "UTF8"
-					},
-					{
-						"name": "comments",
-						"type": "UTF8"
-					}
-				]
-			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
+				"[concat(variables('factoryId'), '/datasets/chanleyds')]"
 			]
 		}
 	]

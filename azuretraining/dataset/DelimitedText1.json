@@ -13,7 +13,7 @@
 				"fileName": "Name.txt",
 				"container": "chanleyblob"
 			},
-			"columnDelimiter": "\u0007",
+			"columnDelimiter": ",",
 			"escapeChar": "",
 			"firstRowAsHeader": true,
 			"quoteChar": ""

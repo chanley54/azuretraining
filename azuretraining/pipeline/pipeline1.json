@@ -26,7 +26,15 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false
 				},
@@ -38,7 +46,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "sql_name",
+						"referenceName": "DelimitedText2",
 						"type": "DatasetReference"
 					}
 				]

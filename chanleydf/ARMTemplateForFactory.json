@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
 		},
+		"Names_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Names'"
+		},
 		"miscparquest_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
@@ -28,6 +32,196 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadParquet')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyParquet",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "registration_dttm",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "registration_dttm",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "id",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "first_name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "first_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "last_name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "email",
+											"type": "String"
+										},
+										"sink": {
+											"name": "email",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "gender",
+											"type": "String"
+										},
+										"sink": {
+											"name": "gender",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ip_address",
+											"type": "String"
+										},
+										"sink": {
+											"name": "ip_address",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "cc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "cc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "country",
+											"type": "String"
+										},
+										"sink": {
+											"name": "country",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "birthdate",
+											"type": "String"
+										},
+										"sink": {
+											"name": "birthdate",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "salary",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "salary",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "title",
+											"type": "String"
+										},
+										"sink": {
+											"name": "title",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "comments",
+											"type": "String"
+										},
+										"sink": {
+											"name": "comments",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Parquet1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "chanleytgr",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
+				"[concat(variables('factoryId'), '/datasets/chanleytgr')]"
+			]
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -369,8 +563,7 @@
 								"referenceName": "Parquet1",
 								"type": "DatasetReference"
 							},
-							"name": "ParquestSrc",
-							"typeProperties": {}
+							"name": "ParquestSrc"
 						}
 					],
 					"sinks": [
@@ -392,13 +585,84 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LoadParquet')]",
+			"name": "[concat(parameters('factoryName'), '/Names')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('Names_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sql_name')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Last_Name",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Names"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Name.txt",
+						"container": "chanleyblob"
+					},
+					"columnDelimiter": "\u0007",
+					"escapeChar": "",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyParquet",
+						"name": "Copy data1",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -411,163 +675,30 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "ParquetSource",
+								"type": "DelimitedTextSource",
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
 								}
 							},
 							"sink": {
 								"type": "AzureSqlSink"
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "registration_dttm",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "registration_dttm",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "id",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "id",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "first_name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "first_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "last_name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "last_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "email",
-											"type": "String"
-										},
-										"sink": {
-											"name": "email",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "gender",
-											"type": "String"
-										},
-										"sink": {
-											"name": "gender",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ip_address",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ip_address",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "cc",
-											"type": "String"
-										},
-										"sink": {
-											"name": "cc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "country",
-											"type": "String"
-										},
-										"sink": {
-											"name": "country",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "birthdate",
-											"type": "String"
-										},
-										"sink": {
-											"name": "birthdate",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "salary",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "salary",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"name": "title",
-											"type": "String"
-										},
-										"sink": {
-											"name": "title",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "comments",
-											"type": "String"
-										},
-										"sink": {
-											"name": "comments",
-											"type": "String"
-										}
-									}
-								]
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "Parquet1",
+								"referenceName": "DelimitedText1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "chanleytgr",
+								"referenceName": "sql_name",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -577,8 +708,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
-				"[concat(variables('factoryId'), '/datasets/chanleytgr')]"
+				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
+				"[concat(variables('factoryId'), '/datasets/sql_name')]"
 			]
 		}
 	]

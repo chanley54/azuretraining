@@ -14,6 +14,9 @@
 		"miscparquest_accountKey": {
 			"value": ""
 		},
+		"Names_connectionString": {
+			"value": ""
+		},
 		"miscparquest_properties_typeProperties_url": {
 			"value": "https://chanleysg.dfs.core.windows.net"
 		},

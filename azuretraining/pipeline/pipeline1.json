@@ -26,15 +26,8 @@
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
 					},
 					"enableStaging": false,
 					"translator": {
@@ -42,12 +35,12 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "First_Name\u0007",
+									"name": "First_Name",
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 1
+									"name": "First_Name",
+									"type": "String"
 								}
 							},
 							{
@@ -56,8 +49,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 2
+									"name": "Last_Name",
+									"type": "String"
 								}
 							}
 						]
@@ -65,13 +58,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "DelimitedText2",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText2",
+						"referenceName": "chanleytgr",
 						"type": "DatasetReference"
 					}
 				]

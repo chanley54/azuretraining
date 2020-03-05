@@ -10,12 +10,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "blah.csv",
+				"fileName": "TechCrunchcontinentalUSA.csv",
 				"container": "chanleyblob"
 			},
 			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"quoteChar": "\""
+			"escapeChar": "",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
 		},
 		"schema": []
 	}

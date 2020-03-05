@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"Names_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Names'"
+		},
 		"chanleysvc_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
@@ -18,10 +22,6 @@
 		"miscparquest_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
-		},
-		"Names_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Names'"
 		},
 		"miscparquest_properties_typeProperties_url": {
 			"type": "string",
@@ -57,14 +57,14 @@
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
+					"Names_connectionString": {
+						"value": "[parameters('Names_connectionString')]"
+					},
 					"chanleysvc_connectionString": {
 						"value": "[parameters('chanleysvc_connectionString')]"
 					},
 					"miscparquest_accountKey": {
 						"value": "[parameters('miscparquest_accountKey')]"
-					},
-					"Names_connectionString": {
-						"value": "[parameters('Names_connectionString')]"
 					},
 					"miscparquest_properties_typeProperties_url": {
 						"value": "[parameters('miscparquest_properties_typeProperties_url')]"

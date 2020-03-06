@@ -68,7 +68,7 @@
 		],
 		"typeProperties": {
 			"schema": "",
-			"table": "userdata"
+			"table": ""
 		}
 	}
 }

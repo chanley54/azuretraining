@@ -117,7 +117,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "employees"
+			"table": "userdata"
 		}
 	}
 }

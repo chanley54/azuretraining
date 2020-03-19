@@ -378,7 +378,7 @@
 						"folderPath": "bell",
 						"container": "chanleyblob"
 					},
-					"columnDelimiter": "|",
+					"columnDelimiter": "\t",
 					"escapeChar": "",
 					"firstRowAsHeader": true,
 					"nullValue": "\\n",

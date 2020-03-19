@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "blah.txt",
 				"folderPath": "bell",
 				"container": "chanleyblob"
 			},

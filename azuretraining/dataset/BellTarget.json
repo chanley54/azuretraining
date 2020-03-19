@@ -15,6 +15,7 @@
 			},
 			"columnDelimiter": "\\u007",
 			"escapeChar": "",
+			"firstRowAsHeader": true,
 			"quoteChar": ""
 		},
 		"schema": []

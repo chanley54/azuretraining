@@ -1,0 +1,144 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pqTraffic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "pems_sorted/station=402260",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "timeperiod",
+						"type": "UTF8"
+					},
+					{
+						"name": "flow1",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy1",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed1",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow2",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy2",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed2",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow3",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy3",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed3",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow4",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy4",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed4",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow5",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy5",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed5",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow6",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy6",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed6",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow7",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy7",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed7",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow8",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy8",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed8",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "station",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": []
+		}
+	]
+}

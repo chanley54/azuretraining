@@ -1,0 +1,193 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/dfTraffic')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "traffic",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "sqlTraffic",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double,\n\t\tflow4 as integer,\n\t\toccupancy4 as double,\n\t\tspeed4 as double,\n\t\tflow5 as integer,\n\t\toccupancy5 as double,\n\t\tspeed5 as double,\n\t\tflow6 as integer,\n\t\toccupancy6 as double,\n\t\tspeed6 as double,\n\t\tflow7 as integer,\n\t\toccupancy7 as double,\n\t\tspeed7 as double,\n\t\tflow8 as integer,\n\t\toccupancy8 as double,\n\t\tspeed8 as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/traffic')]",
+				"[concat(variables('factoryId'), '/datasets/sqlTraffic')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/traffic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "part-r-00000-ddaee723-f3f6-4f25-a34b-3312172aa6d7.snappy.parquet",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "timeperiod",
+						"type": "UTF8"
+					},
+					{
+						"name": "flow1",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy1",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed1",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow2",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy2",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed2",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow3",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy3",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed3",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow4",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy4",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed4",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow5",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy5",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed5",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow6",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy6",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed6",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow7",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy7",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed7",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow8",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy8",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed8",
+						"type": "DOUBLE"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sqlTraffic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "traffic"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

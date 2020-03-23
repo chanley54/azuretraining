@@ -1,0 +1,51 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Traffic_Main')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "pqTraffic",
+								"type": "DatasetReference"
+							},
+							"name": "traffic"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "sqlTraffic",
+								"type": "DatasetReference"
+							},
+							"name": "UserDataSink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "RegistrationDT"
+						}
+					],
+					"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double,\n\t\tflow4 as integer,\n\t\toccupancy4 as double,\n\t\tspeed4 as double,\n\t\tflow5 as integer,\n\t\toccupancy5 as double,\n\t\tspeed5 as double,\n\t\tflow6 as integer,\n\t\toccupancy6 as double,\n\t\tspeed6 as double,\n\t\tflow7 as integer,\n\t\toccupancy7 as double,\n\t\tspeed7 as double,\n\t\tflow8 as integer,\n\t\toccupancy8 as double,\n\t\tspeed8 as double,\n\t\tstation as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> traffic\ntraffic derive(flow1 = flow1 + 1) ~> RegistrationDT\nRegistrationDT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\ttimeperiod,\n\t\tflow1,\n\t\toccupancy1,\n\t\tspeed1,\n\t\tflow2,\n\t\toccupancy2,\n\t\tspeed2,\n\t\tflow3,\n\t\toccupancy3,\n\t\tspeed3,\n\t\tflow4,\n\t\toccupancy4,\n\t\tspeed4,\n\t\tflow5,\n\t\toccupancy5,\n\t\tspeed5,\n\t\tflow6,\n\t\toccupancy6,\n\t\tspeed6,\n\t\tflow7,\n\t\toccupancy7,\n\t\tspeed7,\n\t\tflow8,\n\t\toccupancy8,\n\t\tspeed8,\n\t\tstation\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

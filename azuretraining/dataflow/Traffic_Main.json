@@ -6,16 +6,16 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "UserDataParquet",
+						"referenceName": "pqTraffic",
 						"type": "DatasetReference"
 					},
-					"name": "UserData"
+					"name": "traffic"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "UserDataDS",
+						"referenceName": "sqlTraffic",
 						"type": "DatasetReference"
 					},
 					"name": "UserDataSink"
@@ -26,7 +26,7 @@
 					"name": "RegistrationDT"
 				}
 			],
-			"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> UserData\nUserData derive(registrationDT = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as decimal(19,4),\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tregistration_dttm = registrationDT,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
+			"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double,\n\t\tflow4 as integer,\n\t\toccupancy4 as double,\n\t\tspeed4 as double,\n\t\tflow5 as integer,\n\t\toccupancy5 as double,\n\t\tspeed5 as double,\n\t\tflow6 as integer,\n\t\toccupancy6 as double,\n\t\tspeed6 as double,\n\t\tflow7 as integer,\n\t\toccupancy7 as double,\n\t\tspeed7 as double,\n\t\tflow8 as integer,\n\t\toccupancy8 as double,\n\t\tspeed8 as double,\n\t\tstation as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet',\n\twildcardPaths:['**']) ~> traffic\ntraffic derive(flow1 = flow1 + 1) ~> RegistrationDT\nRegistrationDT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\ttimeperiod,\n\t\tflow1,\n\t\toccupancy1,\n\t\tspeed1,\n\t\tflow2,\n\t\toccupancy2,\n\t\tspeed2,\n\t\tflow3,\n\t\toccupancy3,\n\t\tspeed3,\n\t\tflow4,\n\t\toccupancy4,\n\t\tspeed4,\n\t\tflow5,\n\t\toccupancy5,\n\t\tspeed5,\n\t\tflow6,\n\t\toccupancy6,\n\t\tspeed6,\n\t\tflow7,\n\t\toccupancy7,\n\t\tspeed7,\n\t\tflow8,\n\t\toccupancy8,\n\t\tspeed8,\n\t\tstation\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
 		}
 	}
 }

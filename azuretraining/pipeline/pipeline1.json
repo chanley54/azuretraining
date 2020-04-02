@@ -19,11 +19,22 @@
 						"type": "AzureSqlSource",
 						"queryTimeout": "02:00:00"
 					},
+					"sink": {
+						"type": "SqlDWSink",
+						"allowCopyCommand": true,
+						"tableOption": "autoCreate"
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "chanleyds",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_chanley54_synapse",
 						"type": "DatasetReference"
 					}
 				]

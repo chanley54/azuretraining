@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
 		},
+		"chanley54Synapse_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'chanley54Synapse'"
+		},
 		"miscparquest_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
@@ -65,6 +69,9 @@
 					},
 					"miscparquest_accountKey": {
 						"value": "[parameters('miscparquest_accountKey')]"
+					},
+					"chanley54Synapse_connectionString": {
+						"value": "[parameters('chanley54Synapse_connectionString')]"
 					},
 					"miscparquest_properties_typeProperties_url": {
 						"value": "[parameters('miscparquest_properties_typeProperties_url')]"

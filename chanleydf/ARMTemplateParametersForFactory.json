@@ -17,6 +17,9 @@
 		"miscparquest_accountKey": {
 			"value": ""
 		},
+		"chanley54Synapse_connectionString": {
+			"value": ""
+		},
 		"miscparquest_properties_typeProperties_url": {
 			"value": "https://chanleysg.dfs.core.windows.net"
 		}

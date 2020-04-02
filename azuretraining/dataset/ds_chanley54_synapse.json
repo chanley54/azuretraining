@@ -1,0 +1,12 @@
+{
+	"name": "ds_chanley54_synapse",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanley54Synapse",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": []
+	}
+}

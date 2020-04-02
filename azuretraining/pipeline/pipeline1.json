@@ -16,8 +16,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
-						"queryTimeout": "02:00:00"
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						}
 					},
 					"sink": {
 						"type": "SqlDWSink",
@@ -28,7 +31,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "chanleyds",
+						"referenceName": "UserDataParquet",
 						"type": "DatasetReference"
 					}
 				],

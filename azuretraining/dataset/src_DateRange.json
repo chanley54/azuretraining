@@ -1,0 +1,26 @@
+{
+	"name": "src_DateRange",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATE_KEY",
+				"type": "varchar"
+			},
+			{
+				"name": "DateId",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DateRanges"
+		}
+	}
+}

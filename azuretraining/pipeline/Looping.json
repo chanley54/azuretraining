@@ -1,0 +1,33 @@
+{
+	"name": "Looping",
+	"properties": {
+		"activities": [
+			{
+				"name": "LookupDateRange",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": " \nselect\nDATE_KEY, DateID\n from\n[dbo].[DateRanges]\nwhere \nDATE_KEY between 20190101 and 20200101",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "src_DateRange",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"annotations": []
+	}
+}

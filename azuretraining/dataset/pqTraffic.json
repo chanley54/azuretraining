@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "pems_sorted",
+				"fileName": "part-r-00000-ddaee723-f3f6-4f25-a34b-3312172aa6d7.snappy.parquet",
+				"folderPath": "pems_sorted/station=402260",
 				"container": "chanleyblob"
 			},
 			"compressionCodec": "snappy"

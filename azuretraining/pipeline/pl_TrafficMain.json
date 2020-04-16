@@ -19,12 +19,6 @@
 						"referenceName": "Traffic_Main",
 						"type": "DataFlowReference"
 					},
-					"staging": {
-						"linkedService": {
-							"referenceName": "AzureBlobStorage1",
-							"type": "LinkedServiceReference"
-						}
-					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"

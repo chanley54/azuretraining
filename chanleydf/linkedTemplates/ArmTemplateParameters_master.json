@@ -11,13 +11,13 @@
 		"Names_connectionString": {
 			"value": ""
 		},
+		"chanley54Synapse_connectionString": {
+			"value": ""
+		},
 		"chanleysvc_connectionString": {
 			"value": ""
 		},
 		"miscparquest_accountKey": {
-			"value": ""
-		},
-		"chanley54Synapse_connectionString": {
 			"value": ""
 		},
 		"miscparquest_properties_typeProperties_url": {

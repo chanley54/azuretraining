@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Names'"
 		},
+		"chanley54Synapse_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'chanley54Synapse'"
+		},
 		"chanleysvc_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
@@ -22,10 +26,6 @@
 		"miscparquest_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
-		},
-		"chanley54Synapse_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'chanley54Synapse'"
 		},
 		"miscparquest_properties_typeProperties_url": {
 			"type": "string",
@@ -64,14 +64,14 @@
 					"Names_connectionString": {
 						"value": "[parameters('Names_connectionString')]"
 					},
+					"chanley54Synapse_connectionString": {
+						"value": "[parameters('chanley54Synapse_connectionString')]"
+					},
 					"chanleysvc_connectionString": {
 						"value": "[parameters('chanleysvc_connectionString')]"
 					},
 					"miscparquest_accountKey": {
 						"value": "[parameters('miscparquest_accountKey')]"
-					},
-					"chanley54Synapse_connectionString": {
-						"value": "[parameters('chanley54Synapse_connectionString')]"
 					},
 					"miscparquest_properties_typeProperties_url": {
 						"value": "[parameters('miscparquest_properties_typeProperties_url')]"

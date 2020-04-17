@@ -13,7 +13,16 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "name",
+						"value": "trafficemain"
+					},
+					{
+						"name": "author",
+						"value": "Chris Hanley"
+					}
+				],
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "Traffic_Main",

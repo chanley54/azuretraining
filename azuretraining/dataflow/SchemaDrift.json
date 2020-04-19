@@ -21,8 +21,13 @@
 					"name": "tgtTraffic"
 				}
 			],
-			"transformations": [],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcTraffic\nsrcTraffic sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTraffic"
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				}
+			],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcTraffic\nsrcTraffic derive(timeperiod = toString(byName('timeperiod')),\n\t\tflow1 = toInteger(byName('flow1')),\n\t\toccupancy1 = toDouble(byName('occupancy1')),\n\t\tspeed1 = toDouble(byName('speed1')),\n\t\tflow2 = toInteger(byName('flow2')),\n\t\toccupancy2 = toDouble(byName('occupancy2')),\n\t\tspeed2 = toDouble(byName('speed2')),\n\t\tflow3 = toInteger(byName('flow3')),\n\t\toccupancy3 = toDouble(byName('occupancy3')),\n\t\tspeed3 = toDouble(byName('speed3')),\n\t\tblah = toDouble(byName('blah'))) ~> MapDrifted1\nMapDrifted1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTraffic"
 		}
 	}
 }

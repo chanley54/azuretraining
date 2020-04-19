@@ -911,380 +911,145 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AsBuilt')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/srcTraffic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
 					{
-						"name": "parquet_to_bell",
-						"description": " ",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "delete_bell",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ParquetSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*.parquet",
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "registration_dttm",
-											"type": "DateTime"
-										},
-										"sink": {
-											"name": "registration_dttm",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"name": "id",
-											"type": "Int32"
-										},
-										"sink": {
-											"name": "id",
-											"type": "Int32"
-										}
-									},
-									{
-										"source": {
-											"name": "first_name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "first_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "last_name",
-											"type": "String"
-										},
-										"sink": {
-											"name": "last_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "email",
-											"type": "String"
-										},
-										"sink": {
-											"name": "email",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "gender",
-											"type": "String"
-										},
-										"sink": {
-											"name": "gender",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ip_address",
-											"type": "String"
-										},
-										"sink": {
-											"name": "ip_address",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "cc",
-											"type": "String"
-										},
-										"sink": {
-											"name": "cc",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "country",
-											"type": "String"
-										},
-										"sink": {
-											"name": "country",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "birthdate",
-											"type": "String"
-										},
-										"sink": {
-											"name": "birthdate",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "salary",
-											"type": "Double"
-										},
-										"sink": {
-											"name": "salary",
-											"type": "Double"
-										}
-									},
-									{
-										"source": {
-											"name": "title",
-											"type": "String"
-										},
-										"sink": {
-											"name": "title",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "comments",
-											"type": "String"
-										},
-										"sink": {
-											"name": "comments",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "UserDataParquet",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "BellTarget",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "timeperiod",
+						"type": "nvarchar"
 					},
 					{
-						"name": "delete_bell",
-						"description": "Delete bell files",
-						"type": "Delete",
-						"dependsOn": [
-							{
-								"activity": "trunc_user_data",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "BellTarget",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"enableLogging": false,
-							"storeSettings": {
-								"type": "AzureBlobStorageReadSettings",
-								"recursive": true,
-								"wildcardFileName": "*.txt"
-							}
-						}
+						"name": "flow1",
+						"type": "int",
+						"precision": 10
 					},
 					{
-						"name": "Ingestbell",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "parquet_to_bell",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*.txt",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "BellTarget",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "chanleyds",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "occupancy1",
+						"type": "float",
+						"precision": 15
 					},
 					{
-						"name": "trunc_user_data",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[trunc_userdata]"
-						},
-						"linkedServiceName": {
-							"referenceName": "chanleysvc",
-							"type": "LinkedServiceReference"
-						}
+						"name": "speed1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "flow2",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "occupancy2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "speed2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "flow3",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "occupancy3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "speed3",
+						"type": "float",
+						"precision": 15
 					}
 				],
-				"annotations": []
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "traffic"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/UserDataParquet')]",
-				"[concat(variables('factoryId'), '/datasets/BellTarget')]",
-				"[concat(variables('factoryId'), '/datasets/chanleyds')]",
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/copyuserdata')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/tgtTraffic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
 					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ParquetSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*",
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "SqlDWSink",
-								"allowPolyBase": true,
-								"polyBaseSettings": {
-									"rejectValue": 0,
-									"rejectType": "value",
-									"useTypeDefault": true
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "UserDataParquet",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_chanley54_synapse",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+						"name": "timeperiod",
+						"type": "nvarchar"
+					},
+					{
+						"name": "flow1",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "occupancy1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "speed1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "flow2",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "occupancy2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "speed2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "flow3",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "occupancy3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "speed3",
+						"type": "float",
+						"precision": 15
 					}
 				],
-				"annotations": []
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "traffic2"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/UserDataParquet')]",
-				"[concat(variables('factoryId'), '/datasets/ds_chanley54_synapse')]"
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
 		}
 	]

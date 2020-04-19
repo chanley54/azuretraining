@@ -1,0 +1,20 @@
+{
+	"name": "SchemaDrift",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "srcTraffic",
+						"type": "DatasetReference"
+					},
+					"name": "srcTraffic"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcTraffic"
+		}
+	}
+}

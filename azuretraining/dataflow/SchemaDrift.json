@@ -12,9 +12,17 @@
 					"name": "srcTraffic"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "tgtTraffic",
+						"type": "DatasetReference"
+					},
+					"name": "tgtTraffic"
+				}
+			],
 			"transformations": [],
-			"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcTraffic"
+			"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcTraffic\nsrcTraffic sink(input(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTraffic"
 		}
 	}
 }

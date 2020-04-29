@@ -5,6 +5,9 @@
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "dMisc"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

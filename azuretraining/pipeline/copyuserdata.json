@@ -49,6 +49,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "Misc"
+		},
 		"annotations": []
 	}
 }

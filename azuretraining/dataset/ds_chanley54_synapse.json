@@ -5,6 +5,9 @@
 			"referenceName": "chanley54Synapse",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "dMisc"
+		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
 		"schema": [],

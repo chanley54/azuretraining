@@ -1,6 +1,9 @@
 {
 	"name": "dfTraffic",
 	"properties": {
+		"folder": {
+			"name": "dfMisc"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

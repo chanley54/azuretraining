@@ -5,12 +5,16 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "bUser",
+						"type": "DatasetReference"
+					},
 					"name": "sUserData"
 				}
 			],
 			"sinks": [],
 			"transformations": [],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sUserData"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData"
 		}
 	}
 }

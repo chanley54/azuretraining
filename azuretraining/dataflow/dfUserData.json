@@ -9,7 +9,8 @@
 						"referenceName": "bUser",
 						"type": "DatasetReference"
 					},
-					"name": "sUserData"
+					"name": "sUserData",
+					"description": "This is the description sections.  It's a shame we can simply put this in the palette."
 				}
 			],
 			"sinks": [],

@@ -6,30 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "chanleydf"
-		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
-		},
-		"Names_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Names'"
-		},
-		"chanley54Synapse_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'chanley54Synapse'"
-		},
-		"chanleysvc_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
-		},
-		"miscparquest_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
-		},
-		"miscparquest_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://chanleysg.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -223,15 +199,13 @@
 						"inputs": [
 							{
 								"referenceName": "UserDataParquet",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "BellTarget",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -258,8 +232,7 @@
 						"typeProperties": {
 							"dataset": {
 								"referenceName": "BellTarget",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							},
 							"enableLogging": false,
 							"storeSettings": {
@@ -309,15 +282,13 @@
 						"inputs": [
 							{
 								"referenceName": "BellTarget",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "chanleyds",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -350,8 +321,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/UserDataParquet')]",
 				"[concat(variables('factoryId'), '/datasets/BellTarget')]",
-				"[concat(variables('factoryId'), '/datasets/chanleyds')]",
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+				"[concat(variables('factoryId'), '/datasets/chanleyds')]"
 			]
 		},
 		{
@@ -375,14 +345,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "UserData",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UserData": {},
-									"UserDataSink": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -441,15 +405,13 @@
 						"inputs": [
 							{
 								"referenceName": "UserDataParquet",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "ds_chanley54_synapse",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -485,14 +447,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "dfTraffic",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -540,7 +496,6 @@
 							"sink": {
 								"type": "SqlDWSink",
 								"allowCopyCommand": true,
-								"copyCommandSettings": {},
 								"tableOption": "autoCreate"
 							},
 							"enableStaging": false
@@ -548,15 +503,13 @@
 						"inputs": [
 							{
 								"referenceName": "UserDataParquet",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "ds_chanley54_synapse",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -592,14 +545,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "SchemaDrift",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"srcTraffic": {},
-									"tgtTraffic": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -646,14 +593,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "Traffic_Main",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"traffic": {},
-									"UserDataSink": {}
-								}
+								"type": "DataFlowReference"
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -698,9 +639,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
@@ -729,9 +668,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
@@ -760,9 +697,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UserDataDS')]",
@@ -842,9 +777,7 @@
 					"table": "userdata"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UserDataParquet')]",
@@ -923,9 +856,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/chanleyds')]",
@@ -1054,9 +985,7 @@
 					"table": "userdata"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/chanleytgr')]",
@@ -1136,9 +1065,7 @@
 					"table": ""
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_chanley54_synapse')]",
@@ -1160,9 +1087,7 @@
 					"table": "userdata"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanley54Synapse')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pqTraffic')]",
@@ -1290,9 +1215,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/sqlTraffic')]",
@@ -1314,9 +1237,7 @@
 					"table": "traffic"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/sql_name')]",
@@ -1347,9 +1268,7 @@
 					"table": "Names"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/srcTraffic')]",
@@ -1371,9 +1290,7 @@
 					"table": "traffic"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/src_DateRange')]",
@@ -1405,9 +1322,7 @@
 					"table": "DateRanges"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/tgtTraffic')]",
@@ -1429,9 +1344,7 @@
 					"table": "traffic2"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/traffic')]",
@@ -1557,77 +1470,6 @@
 						"type": "DOUBLE"
 					}
 				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Names')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('Names_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/chanley54Synapse')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDW",
-				"typeProperties": {
-					"connectionString": "[parameters('chanley54Synapse_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/chanleysvc')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('chanleysvc_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/miscparquest')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('miscparquest_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('miscparquest_accountKey')]"
-					}
-				}
 			},
 			"dependsOn": []
 		},
@@ -1796,12 +1638,9 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {}
+				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/1_d_Personnel')]",
@@ -1838,15 +1677,13 @@
 						"inputs": [
 							{
 								"referenceName": "dsUser",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "bUser",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -1886,9 +1723,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
+			"dependsOn": []
 		}
 	]
 }

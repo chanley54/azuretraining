@@ -16,10 +16,10 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "dUserData"
+					"name": "SelectUserData"
 				}
 			],
-			"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nsUserData derive() ~> dUserData"
+			"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nsUserData select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tjoblevel_rate,\n\t\tmobile_phone\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectUserData"
 		}
 	}
 }

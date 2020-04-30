@@ -82,6 +82,42 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "dfUserData",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "CopyUserData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfUserData",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"sUserData": {},
+									"dPersonnel": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
 					}
 				],
 				"folder": {
@@ -91,7 +127,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/dsUser')]",
-				"[concat(variables('factoryId'), '/datasets/bUser')]"
+				"[concat(variables('factoryId'), '/datasets/bUser')]",
+				"[concat(variables('factoryId'), '/dataflows/dfUserData')]"
 			]
 		},
 		{

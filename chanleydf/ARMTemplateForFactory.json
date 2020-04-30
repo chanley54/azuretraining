@@ -1374,7 +1374,7 @@
 				],
 				"typeProperties": {
 					"schema": "DW",
-					"table": "d_Personnel"
+					"table": "d_Personnel2"
 				}
 			},
 			"dependsOn": [

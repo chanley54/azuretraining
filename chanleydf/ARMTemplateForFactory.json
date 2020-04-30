@@ -112,7 +112,9 @@
 									"dPersonnel": {}
 								}
 							},
-							"staging": {},
+							"staging": {
+								"folderPath": "chanleyblob/mgs"
+							},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"

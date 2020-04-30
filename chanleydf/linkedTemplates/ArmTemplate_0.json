@@ -363,6 +363,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/bUser')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "dMGS"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "user.parquet",
+						"folderPath": "mgs",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/chanleyds')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -570,6 +599,144 @@
 					"schema": "",
 					"table": ""
 				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/d_Personnel')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "LFBI_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "LFBI_LoadTime",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_Start",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_End",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_Current",
+						"type": "bit"
+					},
+					{
+						"name": "billable",
+						"type": "bit"
+					},
+					{
+						"name": "active",
+						"type": "bit"
+					},
+					{
+						"name": "create_date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "user_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "first_name",
+						"type": "varchar"
+					},
+					{
+						"name": "last_name",
+						"type": "varchar"
+					},
+					{
+						"name": "FullName",
+						"type": "varchar"
+					},
+					{
+						"name": "login_id",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "bamboo_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "practice",
+						"type": "varchar"
+					},
+					{
+						"name": "current_manager",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "joblevel_rate",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Mobile_Phone",
+						"type": "varchar"
+					},
+					{
+						"name": "OnPTO",
+						"type": "bit"
+					},
+					{
+						"name": "xCustom",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "DW",
+					"table": "d_Personnel"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dsUser')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "dMGS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
@@ -808,193 +975,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/src_DateRange')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "DATE_KEY",
-						"type": "varchar"
-					},
-					{
-						"name": "DateId",
-						"type": "bigint",
-						"precision": 19
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DateRanges"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tgtTraffic')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "traffic2"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/traffic')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "part-r-00000-ddaee723-f3f6-4f25-a34b-3312172aa6d7.snappy.parquet",
-						"container": "chanleyblob"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "timeperiod",
-						"type": "UTF8"
-					},
-					{
-						"name": "flow1",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy1",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed1",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow2",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy2",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed2",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow3",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy3",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed3",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow4",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy4",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed4",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow5",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy5",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed5",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow6",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy6",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed6",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow7",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy7",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed7",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "flow8",
-						"type": "INT32"
-					},
-					{
-						"name": "occupancy8",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "speed8",
-						"type": "DOUBLE"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		}
 	]

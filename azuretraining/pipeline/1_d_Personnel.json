@@ -66,10 +66,6 @@
 						"type": "DataFlowReference"
 					},
 					"staging": {
-						"linkedService": {
-							"referenceName": "AzureBlobStorage1",
-							"type": "LinkedServiceReference"
-						},
 						"folderPath": "chanleyblob/mgs"
 					},
 					"compute": {

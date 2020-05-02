@@ -1,6 +1,7 @@
 {
 	"name": "1_d_Personnel",
 	"properties": {
+		"description": "Add a Union ALL to pickup unknown record",
 		"activities": [
 			{
 				"name": "CopyUserData",
@@ -64,9 +65,6 @@
 					"dataflow": {
 						"referenceName": "dfUserData",
 						"type": "DataFlowReference"
-					},
-					"staging": {
-						"folderPath": "chanleyblob/mgs"
 					},
 					"compute": {
 						"coreCount": 8,

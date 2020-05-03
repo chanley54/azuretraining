@@ -5,6 +5,7 @@
 		"activities": [
 			{
 				"name": "CopyUserData",
+				"description": "SQL Database",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

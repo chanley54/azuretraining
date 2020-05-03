@@ -1,6 +1,9 @@
 {
 	"name": "dfUserData",
 	"properties": {
+		"folder": {
+			"name": "dfMGS"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [

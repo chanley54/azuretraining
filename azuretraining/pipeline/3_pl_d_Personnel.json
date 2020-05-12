@@ -64,7 +64,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "3_d_Personnel",
+						"referenceName": "3_df_d_Personnel",
 						"type": "DataFlowReference"
 					},
 					"compute": {

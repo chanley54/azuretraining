@@ -1,6 +1,9 @@
 {
 	"name": "2_pl_d_bill_code",
 	"properties": {
+		"folder": {
+			"name": "pMGS"
+		},
 		"annotations": []
 	}
 }

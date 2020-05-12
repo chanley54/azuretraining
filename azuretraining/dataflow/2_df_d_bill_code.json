@@ -1,6 +1,9 @@
 {
 	"name": "2_df_d_bill_code",
 	"properties": {
+		"folder": {
+			"name": "dfMGS"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [],

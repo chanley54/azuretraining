@@ -1,6 +1,9 @@
 {
 	"name": "0_df_staging",
 	"properties": {
+		"folder": {
+			"name": "dfMGS"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [],

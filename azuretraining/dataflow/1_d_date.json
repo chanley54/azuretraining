@@ -1,6 +1,9 @@
 {
 	"name": "1_d_date",
 	"properties": {
+		"folder": {
+			"name": "dfMGS"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [],

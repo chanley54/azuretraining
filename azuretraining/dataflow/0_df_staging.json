@@ -1,0 +1,12 @@
+{
+	"name": "0_df_staging",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"script": ""
+		}
+	}
+}

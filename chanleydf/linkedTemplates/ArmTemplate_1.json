@@ -628,6 +628,51 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/3_df_d_Personnel')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "dfMGS"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "bUser",
+								"type": "DatasetReference"
+							},
+							"name": "sUserData",
+							"description": "This is the description sections.  This is a parquet data source."
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "d_Personnel",
+								"type": "DatasetReference"
+							},
+							"name": "dPersonnel"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectUserData"
+						},
+						{
+							"name": "AggrUserData"
+						},
+						{
+							"name": "AlterRow1"
+						}
+					],
+					"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nsUserData select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tmobile_phone,\n\t\tjoblevel_rate\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectUserData\nSelectUserData aggregate(groupBy(billable,\n\t\tactive,\n\t\tuser_id),\n\tcreate_date = max(create_date),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\tFullName = max(FullName),\n\t\tlogin_id = max(login_id),\n\t\temail = max(email),\n\t\tbamboo_id = max(bamboo_id),\n\t\tpractice = max(practice),\n\t\tcurrent_manager = max(current_manager),\n\t\tjoblevel_rate = max(joblevel_rate),\n\t\tmobile_phone = max(mobile_phone),\n\t\txCustom = max(xCustom)) ~> AggrUserData\nAggrUserData alterRow(upsertIf(true())) ~> AlterRow1\nAlterRow1 sink(input(\n\t\tLFBI_ID as integer,\n\t\tLFBI_LoadTime as timestamp,\n\t\tLFBI_Start as timestamp,\n\t\tLFBI_End as timestamp,\n\t\tLFBI_Current as boolean,\n\t\tbillable as boolean,\n\t\tactive as boolean,\n\t\tcreate_date as timestamp,\n\t\tuser_id as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tbamboo_id as integer,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\tjoblevel_rate as decimal(19,4),\n\t\tMobile_Phone as string,\n\t\tOnPTO as boolean,\n\t\txCustom as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Mobile_Phone'],\n\tformat: 'table',\n\tmapColumn(\n\t\tLFBI_LoadTime = create_date,\n\t\tLFBI_Current = create_date,\n\t\tLFBI_Start = create_date,\n\t\tLFBI_End = create_date,\n\t\tbillable,\n\t\tactive,\n\t\tcreate_date,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\tjoblevel_rate,\n\t\tMobile_Phone = mobile_phone,\n\t\txCustom\n\t)) ~> dPersonnel"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SchemaDrift')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -772,52 +817,15 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dfUserData')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "bUser",
-								"type": "DatasetReference"
-							},
-							"name": "sUserData",
-							"description": "This is the description sections.  This is a parquet data source."
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "d_Personnel",
-								"type": "DatasetReference"
-							},
-							"name": "dPersonnel"
-						}
-					],
-					"transformations": [
-						{
-							"name": "SelectUserData"
-						},
-						{
-							"name": "AggrUserData"
-						}
-					],
-					"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nsUserData select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tmobile_phone,\n\t\tjoblevel_rate\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectUserData\nSelectUserData aggregate(groupBy(billable,\n\t\tactive,\n\t\tuser_id),\n\tcreate_date = max(create_date),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\tFullName = max(FullName),\n\t\tlogin_id = max(login_id),\n\t\temail = max(email),\n\t\tbamboo_id = max(bamboo_id),\n\t\tpractice = max(practice),\n\t\tcurrent_manager = max(current_manager),\n\t\tjoblevel_rate = max(joblevel_rate),\n\t\tmobile_phone = max(mobile_phone),\n\t\txCustom = max(xCustom)) ~> AggrUserData\nAggrUserData sink(input(\n\t\tLFBI_ID as integer,\n\t\tLFBI_LoadTime as timestamp,\n\t\tLFBI_Start as timestamp,\n\t\tLFBI_End as timestamp,\n\t\tLFBI_Current as boolean,\n\t\tbillable as boolean,\n\t\tactive as boolean,\n\t\tcreate_date as timestamp,\n\t\tuser_id as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tbamboo_id as integer,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\tjoblevel_rate as decimal(19,4),\n\t\tMobile_Phone as string,\n\t\tOnPTO as boolean,\n\t\txCustom as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tLFBI_LoadTime = create_date,\n\t\tLFBI_Current = create_date,\n\t\tLFBI_Start = create_date,\n\t\tLFBI_End = create_date,\n\t\tbillable,\n\t\tactive,\n\t\tcreate_date,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\tjoblevel_rate,\n\t\tMobile_Phone = mobile_phone,\n\t\txCustom\n\t)) ~> dPersonnel"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/1_d_Personnel')]",
+			"name": "[concat(parameters('factoryName'), '/3_pl_d_Personnel')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "Add a Union ALL to pickup unknown record",
 				"activities": [
 					{
 						"name": "CopyUserData",
+						"description": "SQL Database",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -878,7 +886,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "dfUserData",
+								"referenceName": "3_df_d_Personnel",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -900,7 +908,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfUserData')]"
+				"[concat(variables('factoryId'), '/dataflows/3_df_d_Personnel')]"
 			]
 		},
 		{

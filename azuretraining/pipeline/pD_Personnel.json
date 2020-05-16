@@ -26,7 +26,212 @@
 						"preCopyScript": "truncate table DW.d_Personnel2",
 						"disableMetricsCollection": false
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "create_date",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "LFBI_LoadTime",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "create_date",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "LFBI_Start",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "create_date",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "LFBI_End",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "active",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "LFBI_Current",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "billable",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "billable",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "active",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "active",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "create_date",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "create_date",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"name": "user_id",
+									"type": "String"
+								},
+								"sink": {
+									"name": "user_id",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "first_name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "first_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "last_name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "last_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "FullName",
+									"type": "String"
+								},
+								"sink": {
+									"name": "FullName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "login_id",
+									"type": "String"
+								},
+								"sink": {
+									"name": "login_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "email",
+									"type": "String"
+								},
+								"sink": {
+									"name": "email",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "bamboo_id",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "bamboo_id",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "practice",
+									"type": "String"
+								},
+								"sink": {
+									"name": "practice",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "current_manager",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "current_manager",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "joblevel_rate",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "joblevel_rate",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"name": "mobile_phone",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Mobile_Phone",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "active",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "OnPTO",
+									"type": "Boolean"
+								}
+							},
+							{
+								"source": {
+									"name": "xCustom",
+									"type": "String"
+								},
+								"sink": {
+									"name": "xCustom",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{

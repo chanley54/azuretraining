@@ -22,7 +22,9 @@
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table DW.d_Personnel2",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false
 				},

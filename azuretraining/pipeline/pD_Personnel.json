@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "CopyUserData",
+				"name": "CopyPersonnel",
 				"description": "SQL Database",
 				"type": "Copy",
 				"dependsOn": [],

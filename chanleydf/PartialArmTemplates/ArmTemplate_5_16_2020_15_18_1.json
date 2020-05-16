@@ -1,0 +1,271 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pD_Personnel')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyUserData",
+						"description": "SQL Database",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select \ngetdate() as [LFBI_LoadTime],\ngetdate() as [LFBI_Start],\ngetdate() as [LFBI_End],\n1 as [LFBI_Current],\nDate_OF_Birth as create_date, \ncast(Emp_ID as int) as [user_id], \n[First_Name] as first_name, \n[LastName] as last_name, \n[First_Name] + ',' + [LastName] as FullName, \n[User_Name] as login_id, \n[EMail] as email, \n1 as active, \ngetdate() as update_date, \n1 as billable, \n0 as mscrm_system_user_id, \n0 as mscrm_cat_consultant_id, \n0 as mscrm_contact_id, \n165 as contractor_rate, \n1 as contractor_rate_type, \n1234 as user_guid, \nWeight_in_Kgs as bamboo_id, \n'Data' as practice, \n1 as current_manager, \n'0' as xCustom,\n3 as joblevel_rate, \nPhone_No as mobile_phone,\n'0' as [OnPTO]\nfrom dbo.dboEmpSample\n",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table DW.d_Personnel2",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "LFBI_LoadTime",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LFBI_LoadTime",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LFBI_Start",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LFBI_Start",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LFBI_End",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "LFBI_End",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "LFBI_Current",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "LFBI_Current",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "billable",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "billable",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "active",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "active",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "create_date",
+											"type": "DateTime"
+										},
+										"sink": {
+											"name": "create_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"name": "user_id",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "user_id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "first_name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "first_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "last_name",
+											"type": "String"
+										},
+										"sink": {
+											"name": "last_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "FullName",
+											"type": "String"
+										},
+										"sink": {
+											"name": "FullName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "login_id",
+											"type": "String"
+										},
+										"sink": {
+											"name": "login_id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "email",
+											"type": "String"
+										},
+										"sink": {
+											"name": "email",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "bamboo_id",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "bamboo_id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "practice",
+											"type": "String"
+										},
+										"sink": {
+											"name": "practice",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "current_manager",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "current_manager",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "joblevel_rate",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "joblevel_rate",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"name": "mobile_phone",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Mobile_Phone",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "OnPTO",
+											"type": "String"
+										},
+										"sink": {
+											"name": "OnPTO",
+											"type": "Boolean"
+										}
+									},
+									{
+										"source": {
+											"name": "xCustom",
+											"type": "String"
+										},
+										"sink": {
+											"name": "xCustom",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "dsUser",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "d_Personnel",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}

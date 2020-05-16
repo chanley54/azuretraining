@@ -22,10 +22,7 @@
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
-						"type": "ParquetSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						}
+						"type": "AzureSqlSink"
 					},
 					"enableStaging": false
 				},
@@ -37,7 +34,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "bUser",
+						"referenceName": "d_Personnel",
 						"type": "DatasetReference"
 					}
 				]

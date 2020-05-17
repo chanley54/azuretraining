@@ -196,7 +196,7 @@
 				]
 			},
 			{
-				"name": "Delete1",
+				"name": "deletetraffic",
 				"type": "Delete",
 				"dependsOn": [
 					{

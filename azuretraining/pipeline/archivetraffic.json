@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "archivetraffic",
 	"properties": {
 		"activities": [
 			{
@@ -41,7 +41,7 @@
 				]
 			},
 			{
-				"name": "Delete1",
+				"name": "archivetraffic",
 				"type": "Delete",
 				"dependsOn": [
 					{

@@ -27,7 +27,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "truncate table [dbo].[traffic]",
+						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
@@ -36,8 +36,8 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "timeperiod",
-									"type": "String"
+									"name": "registration_dttm",
+									"type": "DateTime"
 								},
 								"sink": {
 									"name": "timeperiod",
@@ -46,7 +46,7 @@
 							},
 							{
 								"source": {
-									"name": "flow1",
+									"name": "id",
 									"type": "Int32"
 								},
 								"sink": {
@@ -56,8 +56,8 @@
 							},
 							{
 								"source": {
-									"name": "occupancy1",
-									"type": "Double"
+									"name": "first_name",
+									"type": "String"
 								},
 								"sink": {
 									"name": "occupancy1",
@@ -66,8 +66,8 @@
 							},
 							{
 								"source": {
-									"name": "speed1",
-									"type": "Double"
+									"name": "last_name",
+									"type": "String"
 								},
 								"sink": {
 									"name": "speed1",
@@ -76,8 +76,8 @@
 							},
 							{
 								"source": {
-									"name": "flow2",
-									"type": "Int32"
+									"name": "email",
+									"type": "String"
 								},
 								"sink": {
 									"name": "flow2",
@@ -86,8 +86,8 @@
 							},
 							{
 								"source": {
-									"name": "occupancy2",
-									"type": "Double"
+									"name": "gender",
+									"type": "String"
 								},
 								"sink": {
 									"name": "occupancy2",
@@ -96,8 +96,8 @@
 							},
 							{
 								"source": {
-									"name": "speed2",
-									"type": "Double"
+									"name": "ip_address",
+									"type": "String"
 								},
 								"sink": {
 									"name": "speed2",
@@ -106,8 +106,8 @@
 							},
 							{
 								"source": {
-									"name": "flow3",
-									"type": "Int32"
+									"name": "cc",
+									"type": "String"
 								},
 								"sink": {
 									"name": "flow3",
@@ -116,8 +116,8 @@
 							},
 							{
 								"source": {
-									"name": "occupancy3",
-									"type": "Double"
+									"name": "country",
+									"type": "String"
 								},
 								"sink": {
 									"name": "occupancy3",
@@ -126,11 +126,31 @@
 							},
 							{
 								"source": {
-									"name": "speed3",
-									"type": "Double"
+									"name": "birthdate",
+									"type": "String"
 								},
 								"sink": {
 									"name": "speed3",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "salary",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "blah",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "title",
+									"type": "String"
+								},
+								"sink": {
+									"name": "blah2",
 									"type": "Double"
 								}
 							}

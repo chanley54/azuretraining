@@ -13,28 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/srcTraffic')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "traffic"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/src_DateRange')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -558,7 +536,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "copytraffice",
+						"name": "copyuserdata",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -595,8 +573,8 @@
 											"type": "DateTime"
 										},
 										"sink": {
-											"name": "timeperiod",
-											"type": "String"
+											"name": "registration_dttm",
+											"type": "DateTime"
 										}
 									},
 									{
@@ -605,7 +583,7 @@
 											"type": "Int32"
 										},
 										"sink": {
-											"name": "flow1",
+											"name": "id",
 											"type": "Int32"
 										}
 									},
@@ -615,8 +593,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "occupancy1",
-											"type": "Double"
+											"name": "first_name",
+											"type": "String"
 										}
 									},
 									{
@@ -625,8 +603,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "speed1",
-											"type": "Double"
+											"name": "last_name",
+											"type": "String"
 										}
 									},
 									{
@@ -635,8 +613,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "flow2",
-											"type": "Int32"
+											"name": "email",
+											"type": "String"
 										}
 									},
 									{
@@ -645,8 +623,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "occupancy2",
-											"type": "Double"
+											"name": "gender",
+											"type": "String"
 										}
 									},
 									{
@@ -655,8 +633,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "speed2",
-											"type": "Double"
+											"name": "ip_address",
+											"type": "String"
 										}
 									},
 									{
@@ -665,8 +643,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "flow3",
-											"type": "Int32"
+											"name": "cc",
+											"type": "String"
 										}
 									},
 									{
@@ -675,8 +653,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "occupancy3",
-											"type": "Double"
+											"name": "country",
+											"type": "String"
 										}
 									},
 									{
@@ -685,8 +663,8 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "speed3",
-											"type": "Double"
+											"name": "birthdate",
+											"type": "String"
 										}
 									},
 									{
@@ -695,8 +673,8 @@
 											"type": "Double"
 										},
 										"sink": {
-											"name": "blah",
-											"type": "Double"
+											"name": "salary",
+											"type": "Decimal"
 										}
 									},
 									{
@@ -705,8 +683,18 @@
 											"type": "String"
 										},
 										"sink": {
-											"name": "blah2",
-											"type": "Double"
+											"name": "title",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "comments",
+											"type": "String"
+										},
+										"sink": {
+											"name": "comments",
+											"type": "String"
 										}
 									}
 								]
@@ -721,7 +709,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "sqlTraffic",
+								"referenceName": "UserDataDS",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -732,7 +720,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "copytraffice",
+								"activity": "copyuserdata",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -748,14 +736,8 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "ParquetSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFolderPath": "parquet",
-									"wildcardFileName": "*.parquet",
-									"enablePartitionDiscovery": false
-								}
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00"
 							},
 							"sink": {
 								"type": "ParquetSink",
@@ -767,14 +749,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "pqTraffic",
+								"referenceName": "dsUser",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "trafficearchive",
+								"referenceName": "pqTraffic",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -822,9 +804,7 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/trafficearchive')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/copyuserdata')]",
@@ -1329,43 +1309,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/srcTraffic')]",
 				"[concat(variables('factoryId'), '/datasets/tgtTraffic')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Traffic_Main')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "dfMisc"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "pqTraffic",
-								"type": "DatasetReference"
-							},
-							"name": "traffic"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "sqlTraffic",
-								"type": "DatasetReference"
-							},
-							"name": "UserDataSink"
-						}
-					],
-					"transformations": [],
-					"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double,\n\t\tflow4 as integer,\n\t\toccupancy4 as double,\n\t\tspeed4 as double,\n\t\tflow5 as integer,\n\t\toccupancy5 as double,\n\t\tspeed5 as double,\n\t\tflow6 as integer,\n\t\toccupancy6 as double,\n\t\tspeed6 as double,\n\t\tflow7 as integer,\n\t\toccupancy7 as double,\n\t\tspeed7 as double,\n\t\tflow8 as integer,\n\t\toccupancy8 as double,\n\t\tspeed8 as double\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> traffic\ntraffic sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\ttimeperiod,\n\t\tflow1,\n\t\toccupancy1,\n\t\tspeed1,\n\t\tflow2,\n\t\toccupancy2,\n\t\tspeed2,\n\t\tflow3,\n\t\toccupancy3,\n\t\tspeed3\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
-				}
-			},
-			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UserData')]",
@@ -1404,42 +1349,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dfTraffic')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "dfMisc"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "traffic",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "sqlTraffic",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"script": "source(output(\n\t\ttimeperiod as string,\n\t\tflow1 as integer,\n\t\toccupancy1 as double,\n\t\tspeed1 as double,\n\t\tflow2 as integer,\n\t\toccupancy2 as double,\n\t\tspeed2 as double,\n\t\tflow3 as integer,\n\t\toccupancy3 as double,\n\t\tspeed3 as double,\n\t\tflow4 as integer,\n\t\toccupancy4 as double,\n\t\tspeed4 as double,\n\t\tflow5 as integer,\n\t\toccupancy5 as double,\n\t\tspeed5 as double,\n\t\tflow6 as integer,\n\t\toccupancy6 as double,\n\t\tspeed6 as double,\n\t\tflow7 as integer,\n\t\toccupancy7 as double,\n\t\tspeed7 as double,\n\t\tflow8 as integer,\n\t\toccupancy8 as double,\n\t\tspeed8 as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tmapColumn(\n\t\ttimeperiod,\n\t\tflow1,\n\t\toccupancy1,\n\t\tspeed1,\n\t\tflow2,\n\t\toccupancy2,\n\t\tspeed2,\n\t\tflow3,\n\t\toccupancy3,\n\t\tspeed3,\n\t\tflow4,\n\t\toccupancy4,\n\t\tspeed4,\n\t\tflow5,\n\t\toccupancy5,\n\t\tspeed5,\n\t\tflow6,\n\t\toccupancy6,\n\t\tspeed6,\n\t\tflow7,\n\t\toccupancy7,\n\t\tspeed7,\n\t\tflow8,\n\t\toccupancy8,\n\t\tspeed8\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/traffic')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/3_pl_d_Personnel')]",
@@ -1582,51 +1491,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/plTraffic')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "dfTraffic",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dfTraffic",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"folder": {
-					"name": "Misc"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dfTraffic')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/pl_SchemaDrift')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1669,60 +1533,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/SchemaDrift')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_TrafficMain')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Traffic_Main",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "name",
-								"value": "trafficemain"
-							},
-							{
-								"name": "author",
-								"value": "Chris Hanley"
-							}
-						],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "Traffic_Main",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"traffic": {},
-									"UserDataSink": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"folder": {
-					"name": "Misc"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/Traffic_Main')]"
 			]
 		}
 	]

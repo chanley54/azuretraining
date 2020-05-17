@@ -201,14 +201,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "ParquetSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"wildcardFolderPath": "parquet",
-							"wildcardFileName": "*.parquet",
-							"enablePartitionDiscovery": false
-						}
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00"
 					},
 					"sink": {
 						"type": "ParquetSink",
@@ -220,7 +214,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "pqTraffic",
+						"referenceName": "dsUser",
 						"type": "DatasetReference"
 					}
 				],

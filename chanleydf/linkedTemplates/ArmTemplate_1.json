@@ -217,6 +217,29 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/userdataarchive')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "parquet/archive",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AsBuilt')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -736,8 +759,14 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00"
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "parquet",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
+								}
 							},
 							"sink": {
 								"type": "ParquetSink",
@@ -749,14 +778,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "dsUser",
+								"referenceName": "pqTraffic",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "pqTraffic",
+								"referenceName": "userdataarchive",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -804,7 +833,9 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/userdataarchive')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/copyuserdata')]",

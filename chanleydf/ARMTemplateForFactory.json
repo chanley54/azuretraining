@@ -527,6 +527,7 @@
 							},
 							"sink": {
 								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table dbo.userdata",
 								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
 							},
@@ -734,45 +735,6 @@
 								"parameters": {}
 							}
 						]
-					},
-					{
-						"name": "deleteuserdata",
-						"type": "Delete",
-						"dependsOn": [
-							{
-								"activity": "archive",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "pqTraffic",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"logStorageSettings": {
-								"linkedServiceName": {
-									"referenceName": "AzureBlobStorage1",
-									"type": "LinkedServiceReference"
-								},
-								"path": "chanleyblob/parquet/archive"
-							},
-							"enableLogging": true,
-							"storeSettings": {
-								"type": "AzureBlobStorageReadSettings",
-								"recursive": true
-							}
-						}
 					}
 				],
 				"annotations": []
@@ -780,8 +742,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/pqTraffic')]",
 				"[concat(variables('factoryId'), '/datasets/UserDataDS')]",
-				"[concat(variables('factoryId'), '/datasets/userdataarchive')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/datasets/userdataarchive')]"
 			]
 		},
 		{

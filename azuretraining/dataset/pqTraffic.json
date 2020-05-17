@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "parquet",
+				"folderPath": "parquet/archive",
 				"container": "chanleyblob"
 			},
 			"compressionCodec": "snappy"

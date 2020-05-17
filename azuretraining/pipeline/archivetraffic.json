@@ -201,8 +201,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
-						"queryTimeout": "02:00:00"
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						}
 					},
 					"sink": {
 						"type": "ParquetSink",
@@ -214,13 +217,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "dsUser",
+						"referenceName": "pqTraffic",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "pqTraffic",
+						"referenceName": "userdataarchive",
 						"type": "DatasetReference"
 					}
 				]

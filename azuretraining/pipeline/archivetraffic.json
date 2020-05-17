@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "copytraffic",
+				"name": "copyuserdata",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -185,7 +185,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "copytraffic",
+						"activity": "copyuserdata",
 						"dependencyConditions": [
 							"Succeeded"
 						]

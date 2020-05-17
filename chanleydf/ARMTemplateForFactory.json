@@ -583,12 +583,6 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"additionalColumns": [
-									{
-										"name": "sFilePath",
-										"value": "$$FILEPATH"
-									}
-								],
 								"sqlReaderQuery": "select \ngetdate() as [LFBI_LoadTime],\ngetdate() as [LFBI_Start],\ngetdate() as [LFBI_End],\n1 as [LFBI_Current],\nDate_OF_Birth as create_date, \ncast(Emp_ID as int) as [user_id], \n[First_Name] as first_name, \n[LastName] as last_name, \n[First_Name] + ',' + [LastName] as FullName, \n[User_Name] as login_id, \n[EMail] as email, \n1 as active, \ngetdate() as update_date, \n1 as billable, \n0 as mscrm_system_user_id, \n0 as mscrm_cat_consultant_id, \n0 as mscrm_contact_id, \n165 as contractor_rate, \n1 as contractor_rate_type, \n1234 as user_guid, \nWeight_in_Kgs as bamboo_id, \n'Data' as practice, \n1 as current_manager, \n'0' as xCustom,\n3 as joblevel_rate, \nPhone_No as mobile_phone,\n'0' as [OnPTO]\nfrom dbo.dboEmpSample\n",
 								"queryTimeout": "02:00:00"
 							},

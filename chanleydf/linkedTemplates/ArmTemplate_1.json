@@ -763,7 +763,7 @@
 						]
 					},
 					{
-						"name": "deletetraffic",
+						"name": "deleteuserdata",
 						"type": "Delete",
 						"dependsOn": [
 							{

@@ -194,6 +194,126 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/etlPersonnel')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "LFBI_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "LFBI_LoadTime",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_Start",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_End",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_Current",
+						"type": "bit"
+					},
+					{
+						"name": "billable",
+						"type": "bit"
+					},
+					{
+						"name": "active",
+						"type": "bit"
+					},
+					{
+						"name": "create_date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "user_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "first_name",
+						"type": "varchar"
+					},
+					{
+						"name": "last_name",
+						"type": "varchar"
+					},
+					{
+						"name": "FullName",
+						"type": "varchar"
+					},
+					{
+						"name": "login_id",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "bamboo_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "practice",
+						"type": "varchar"
+					},
+					{
+						"name": "current_manager",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "joblevel_rate",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Mobile_Phone",
+						"type": "varchar"
+					},
+					{
+						"name": "OnPTO",
+						"type": "bit"
+					},
+					{
+						"name": "xCustom",
+						"type": "varchar"
+					},
+					{
+						"name": "Update_Time",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "DW",
+					"table": "d_Personnel2"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AsBuilt')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -664,10 +784,10 @@
 							"name": "AggrUserData"
 						},
 						{
-							"name": "AlterRow1"
+							"name": "Upsert"
 						}
 					],
-					"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nsUserData select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tmobile_phone,\n\t\tjoblevel_rate\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectUserData\nSelectUserData aggregate(groupBy(billable,\n\t\tactive,\n\t\tuser_id),\n\tcreate_date = max(create_date),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\tFullName = max(FullName),\n\t\tlogin_id = max(login_id),\n\t\temail = max(email),\n\t\tbamboo_id = max(bamboo_id),\n\t\tpractice = max(practice),\n\t\tcurrent_manager = max(current_manager),\n\t\tjoblevel_rate = max(joblevel_rate),\n\t\tmobile_phone = max(mobile_phone),\n\t\txCustom = max(xCustom)) ~> AggrUserData\nAggrUserData alterRow(upsertIf(true())) ~> AlterRow1\nAlterRow1 sink(input(\n\t\tLFBI_ID as integer,\n\t\tLFBI_LoadTime as timestamp,\n\t\tLFBI_Start as timestamp,\n\t\tLFBI_End as timestamp,\n\t\tLFBI_Current as boolean,\n\t\tbillable as boolean,\n\t\tactive as boolean,\n\t\tcreate_date as timestamp,\n\t\tuser_id as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tbamboo_id as integer,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\tjoblevel_rate as decimal(19,4),\n\t\tMobile_Phone as string,\n\t\tOnPTO as boolean,\n\t\txCustom as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Mobile_Phone'],\n\tformat: 'table',\n\tmapColumn(\n\t\tLFBI_LoadTime = create_date,\n\t\tLFBI_Current = create_date,\n\t\tLFBI_Start = create_date,\n\t\tLFBI_End = create_date,\n\t\tbillable,\n\t\tactive,\n\t\tcreate_date,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\tjoblevel_rate,\n\t\tMobile_Phone = mobile_phone,\n\t\txCustom\n\t)) ~> dPersonnel"
+					"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nsUserData select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tmobile_phone,\n\t\tjoblevel_rate\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectUserData\nSelectUserData aggregate(groupBy(billable,\n\t\tactive,\n\t\tuser_id),\n\tcreate_date = max(create_date),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\tFullName = max(FullName),\n\t\tlogin_id = max(login_id),\n\t\temail = max(email),\n\t\tbamboo_id = max(bamboo_id),\n\t\tpractice = max(practice),\n\t\tcurrent_manager = max(current_manager),\n\t\tjoblevel_rate = max(joblevel_rate),\n\t\tmobile_phone = max(mobile_phone),\n\t\txCustom = max(xCustom)) ~> AggrUserData\nAggrUserData alterRow(upsertIf(true())) ~> Upsert\nUpsert sink(input(\n\t\tLFBI_ID as integer,\n\t\tLFBI_LoadTime as timestamp,\n\t\tLFBI_Start as timestamp,\n\t\tLFBI_End as timestamp,\n\t\tLFBI_Current as boolean,\n\t\tbillable as boolean,\n\t\tactive as boolean,\n\t\tcreate_date as timestamp,\n\t\tuser_id as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tbamboo_id as integer,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\tjoblevel_rate as decimal(19,4),\n\t\tMobile_Phone as string,\n\t\tOnPTO as boolean,\n\t\txCustom as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Mobile_Phone'],\n\tformat: 'table',\n\tmapColumn(\n\t\tLFBI_LoadTime = create_date,\n\t\tLFBI_Current = create_date,\n\t\tLFBI_Start = create_date,\n\t\tLFBI_End = create_date,\n\t\tbillable,\n\t\tactive,\n\t\tcreate_date,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\tjoblevel_rate,\n\t\tMobile_Phone = mobile_phone,\n\t\txCustom\n\t)) ~> dPersonnel"
 				}
 			},
 			"dependsOn": []
@@ -823,7 +943,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyUserData",
+						"name": "CopyPersonnel",
 						"description": "SQL Database",
 						"type": "Copy",
 						"dependsOn": [],
@@ -1062,6 +1182,53 @@
 						],
 						"outputs": [
 							{
+								"referenceName": "etlPersonnel",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "UpsertPersonnel",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "CopyPersonnel",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select\t\t\t\t \nmax(LFBI_LoadTime)\t\tas\tLFBI_LoadTime,\nmax(LFBI_Start)\t\tas\tLFBI_Start, \nmax(LFBI_End)\t\tas\tLFBI_End, \nLFBI_Current\t\tas\tLFBI_Current, \nbillable \t\tas\tbillable, \nactive \t\tas\tactive, \nmax(create_date)\t\tas\tcreate_date, \n[user_id] \t\tas\tuser_id, \nmax(first_name)\t\tas\tfirst_name, \nmax(last_name)\t\tas\tlast_name, \nmax(FullName)\t\tas\tFullName, \nmax(login_id)\t\tas\tlogin_id, \nmax(email)\t\tas\temail, \nmax(bamboo_id)\t\tas\tbamboo_id, \nmax(practice)\t\tas\tpractice, \nmax(current_manager)\t\tas\tcurrent_manager, \nmax(joblevel_rate)\t\tas\tjoblevel_rate, \nmax(Mobile_Phone)\t\tas\tMobile_Phone, \nOnPTO\t\tas\tOnPTO, \nmax(xCustom)\t\tas\txCustom\nfrom\n[DW].[d_Personnel2]\ngroup by\nbillable,\nactive,\n[user_id],\nLFBI_Current,\nOnPTO",
+								"queryTimeout": "02:00:00"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "delete from [DW].[d_Personnel3]\nwhere \ncast(billable as char(1)) + '~' + cast(active as char(1)) + '~' + cast([user_id] as varchar(75)) + '~' + cast(LFBI_Current as char(1)) + '~' + cast(OnPTO as char(1))\n\nin (\nSelect\ncast(billable as char(1)) + '~' + cast(active as char(1)) + '~' + cast([user_id] as varchar(75)) + '~' + cast(LFBI_Current as char(1)) + '~' + cast(OnPTO as char(1))\nfrom\n[DW].[d_Personnel2]\n)",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "d_Personnel",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
 								"referenceName": "d_Personnel",
 								"type": "DatasetReference",
 								"parameters": {}
@@ -1071,7 +1238,9 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/etlPersonnel')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/3_pl_d_Personnel')]",

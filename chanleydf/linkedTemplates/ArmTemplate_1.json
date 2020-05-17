@@ -216,6 +216,29 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/trafficearchive')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "parquet/archive",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AsBuilt')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1170,7 +1193,9 @@
 								}
 							},
 							"sink": {
-								"type": "AzureSqlSink"
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [dbo].[traffic]",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {
@@ -1295,11 +1320,61 @@
 						]
 					},
 					{
-						"name": "archivetraffic",
-						"type": "Delete",
+						"name": "archive",
+						"type": "Copy",
 						"dependsOn": [
 							{
 								"activity": "copytraffice",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "pqTraffic",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "trafficearchive",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "deletetraffic",
+						"type": "Delete",
+						"dependsOn": [
+							{
+								"activity": "archive",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1336,7 +1411,9 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/trafficearchive')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/3_pl_d_Personnel')]",

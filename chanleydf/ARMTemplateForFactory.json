@@ -716,7 +716,8 @@
 							"sink": {
 								"type": "ParquetSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
 								}
 							},
 							"enableStaging": false
@@ -2620,6 +2621,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": "*.parquet",
 						"folderPath": "parquet/archive",
 						"container": "chanleyblob"
 					},

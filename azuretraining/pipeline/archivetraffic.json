@@ -27,7 +27,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "\ntruncate table dbo.userdata",
+						"preCopyScript": "truncate table dbo.userdata",
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},

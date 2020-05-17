@@ -27,6 +27,7 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
+						"preCopyScript": "\ntruncate table dbo.userdata",
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
@@ -230,44 +231,6 @@
 						"type": "DatasetReference"
 					}
 				]
-			},
-			{
-				"name": "deleteuserdata",
-				"type": "Delete",
-				"dependsOn": [
-					{
-						"activity": "archive",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataset": {
-						"referenceName": "pqTraffic",
-						"type": "DatasetReference"
-					},
-					"logStorageSettings": {
-						"linkedServiceName": {
-							"referenceName": "AzureBlobStorage1",
-							"type": "LinkedServiceReference"
-						},
-						"path": "chanleyblob/parquet/archive"
-					},
-					"enableLogging": true,
-					"storeSettings": {
-						"type": "AzureBlobStorageReadSettings",
-						"recursive": true
-					}
-				}
 			}
 		],
 		"annotations": []

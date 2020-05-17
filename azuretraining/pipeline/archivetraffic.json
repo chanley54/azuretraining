@@ -25,7 +25,112 @@
 					"sink": {
 						"type": "AzureSqlSink"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "timeperiod",
+									"type": "String"
+								},
+								"sink": {
+									"name": "timeperiod",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "flow1",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "flow1",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "occupancy1",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "occupancy1",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "speed1",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "speed1",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "flow2",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "flow2",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "occupancy2",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "occupancy2",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "speed2",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "speed2",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "flow3",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "flow3",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "occupancy3",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "occupancy3",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "speed3",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "speed3",
+									"type": "Double"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{

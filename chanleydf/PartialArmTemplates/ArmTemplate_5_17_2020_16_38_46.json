@@ -1,0 +1,393 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pqTraffic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "dMisc"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "parquet",
+						"container": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "timeperiod",
+						"type": "UTF8"
+					},
+					{
+						"name": "flow1",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy1",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed1",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow2",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy2",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed2",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow3",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy3",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed3",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow4",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy4",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed4",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow5",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy5",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed5",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow6",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy6",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed6",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow7",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy7",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed7",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "flow8",
+						"type": "INT32"
+					},
+					{
+						"name": "occupancy8",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "speed8",
+						"type": "DOUBLE"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/archivetraffic')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "copytraffice",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "parquet",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [dbo].[traffic]",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "timeperiod",
+											"type": "String"
+										},
+										"sink": {
+											"name": "timeperiod",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "flow1",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "flow1",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "occupancy1",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "occupancy1",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "speed1",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "speed1",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "flow2",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "flow2",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "occupancy2",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "occupancy2",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "speed2",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "speed2",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "flow3",
+											"type": "Int32"
+										},
+										"sink": {
+											"name": "flow3",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"name": "occupancy3",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "occupancy3",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"name": "speed3",
+											"type": "Double"
+										},
+										"sink": {
+											"name": "speed3",
+											"type": "Double"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "pqTraffic",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "sqlTraffic",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "archive",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "copytraffice",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFolderPath": "parquet",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "pqTraffic",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "trafficearchive",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "deletetraffic",
+						"type": "Delete",
+						"dependsOn": [
+							{
+								"activity": "archive",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "pqTraffic",
+								"type": "DatasetReference"
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"path": "chanleyblob/parquet/archive"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/pqTraffic')]"
+			]
+		}
+	]
+}

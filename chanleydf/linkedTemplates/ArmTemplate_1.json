@@ -1189,7 +1189,10 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
+									"recursive": true,
+									"wildcardFolderPath": "parquet",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
@@ -1343,7 +1346,10 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
+									"recursive": true,
+									"wildcardFolderPath": "parquet",
+									"wildcardFileName": "*.parquet",
+									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {

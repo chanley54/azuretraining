@@ -120,7 +120,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "userdata"
+			"table": "TBL_PARQUET"
 		}
 	}
 }

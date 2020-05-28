@@ -32,6 +32,16 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "ID",
+									"type": "Int32"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
 									"name": "TEST_DATE",
 									"type": "DateTime"
 								},
@@ -43,7 +53,7 @@
 							{
 								"source": {
 									"name": "TEST_INT",
-									"type": "String"
+									"type": "Int32"
 								},
 								"sink": {
 									"name": "TEST_INT",

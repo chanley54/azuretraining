@@ -1,0 +1,34 @@
+{
+	"name": "tgt_chanleypool",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleypool",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TEST_DATE",
+				"type": "date"
+			},
+			{
+				"name": "TEST_INT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TEST_NVAR",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TBL_PARQUET"
+		}
+	}
+}

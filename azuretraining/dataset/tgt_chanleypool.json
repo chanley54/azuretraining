@@ -7,25 +7,7 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
-		"schema": [
-			{
-				"name": "ID",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "TEST_DATE",
-				"type": "date"
-			},
-			{
-				"name": "TEST_INT",
-				"type": "nvarchar"
-			},
-			{
-				"name": "TEST_NVAR",
-				"type": "nvarchar"
-			}
-		],
+		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "TBL_PARQUET"

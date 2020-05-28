@@ -26,42 +26,7 @@
 						"type": "SqlDWSink",
 						"allowCopyCommand": true
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "TEST_DATE",
-									"type": "DateTime"
-								},
-								"sink": {
-									"name": "TEST_DATE",
-									"type": "DateTime"
-								}
-							},
-							{
-								"source": {
-									"name": "TEST_INT",
-									"type": "Int32"
-								},
-								"sink": {
-									"name": "TEST_INT",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "TEST_NVAR",
-									"type": "String"
-								},
-								"sink": {
-									"name": "TEST_NVAR",
-									"type": "String"
-								}
-							}
-						]
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{

@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "part-r-00001-ddaee723-f3f6-4f25-a34b-3312172aa6d7.snappy.parquet",
 				"folderPath": "pems_sorted/station=402260",
 				"fileSystem": "chanleyblob"
 			},

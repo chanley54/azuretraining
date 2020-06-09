@@ -10,8 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "chrispar.parquet",
-				"folderPath": "parquettest",
+				"folderPath": "pems_sorted/station=402260",
 				"fileSystem": "chanleyblob"
 			},
 			"compressionCodec": "snappy"

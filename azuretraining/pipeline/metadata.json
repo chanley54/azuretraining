@@ -20,8 +20,9 @@
 						"type": "DatasetReference"
 					},
 					"fieldList": [
-						"itemName",
-						"lastModified"
+						"childItems",
+						"lastModified",
+						"itemName"
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings"

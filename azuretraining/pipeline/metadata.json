@@ -51,7 +51,14 @@
 							"name": "pc_LoadLakeTable",
 							"description": "pc_LoadLakeTable",
 							"type": "SqlServerStoredProcedure",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "meta_inner",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "7.00:00:00",
 								"retry": 0,
@@ -83,7 +90,7 @@
 							}
 						},
 						{
-							"name": "Get Metadata1",
+							"name": "meta_inner",
 							"type": "GetMetadata",
 							"dependsOn": [],
 							"policy": {

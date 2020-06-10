@@ -939,7 +939,10 @@
 											"referenceName": "meta",
 											"type": "DatasetReference",
 											"parameters": {
-												"FileName": "@item.name"
+												"FileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
 											}
 										},
 										"fieldList": [
@@ -2215,7 +2218,9 @@
 						"fileName": {
 							"value": "@dataset().FileName",
 							"type": "Expression"
-						}
+						},
+						"folderPath": "pems_sorted/station=402260",
+						"container": "chanleyblob"
 					},
 					"compressionCodec": "snappy"
 				},

@@ -55,7 +55,7 @@
 								{
 									"activity": "meta_inner",
 									"dependencyConditions": [
-										"Skipped"
+										"Succeeded"
 									]
 								}
 							],

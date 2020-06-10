@@ -1179,14 +1179,14 @@
 											},
 											"ItemDate": {
 												"value": {
-													"value": "@activity('meta_inner').output.name",
+													"value": "@activity('meta_inner').output.itemName",
 													"type": "Expression"
 												},
 												"type": "DateTime"
 											},
 											"ItemName": {
 												"value": {
-													"value": "@activity('meta_inner').output.name",
+													"value": "@activity('meta_inner').output.itemName",
 													"type": "Expression"
 												},
 												"type": "String"

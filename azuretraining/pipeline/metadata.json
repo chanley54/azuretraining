@@ -29,6 +29,26 @@
 						"recursive": true
 					}
 				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "mymeta",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('mymeta').output.childitems",
+						"type": "Expression"
+					},
+					"batchCount": 4
+				}
 			}
 		],
 		"annotations": []

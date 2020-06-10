@@ -55,7 +55,7 @@
 								{
 									"activity": "meta_inner",
 									"dependencyConditions": [
-										"Succeeded"
+										"Skipped"
 									]
 								}
 							],
@@ -115,7 +115,10 @@
 									"referenceName": "meta",
 									"type": "DatasetReference",
 									"parameters": {
-										"FileName": "@item.name"
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
 									}
 								},
 								"fieldList": [
@@ -123,7 +126,8 @@
 									"lastModified"
 								],
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings"
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
 								}
 							}
 						}

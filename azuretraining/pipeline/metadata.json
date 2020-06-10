@@ -25,7 +25,8 @@
 						"lastModified"
 					],
 					"storeSettings": {
-						"type": "AzureBlobFSReadSettings"
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true
 					}
 				}
 			}

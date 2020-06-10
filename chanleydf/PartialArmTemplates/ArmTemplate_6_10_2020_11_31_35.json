@@ -1,0 +1,426 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/metadata')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "mymeta",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "Parquet1",
+								"type": "DatasetReference"
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "mymeta",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('mymeta').output.childitems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "pc_LoadLakeTable",
+									"description": "pc_LoadLakeTable",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "meta_inner",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[pc_LoadLakeTable]",
+										"storedProcedureParameters": {
+											"ItemChild": {
+												"value": {
+													"value": "@activity('meta_inner').output.lastModified",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ItemDate": {
+												"value": {
+													"value": "@activity('meta_inner').output.name",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ItemName": {
+												"value": {
+													"value": "@activity('meta_inner').output.name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "chanleysvc",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "meta_inner",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "meta",
+											"type": "DatasetReference",
+											"parameters": {
+												"FileName": "@item.name"
+											}
+										},
+										"fieldList": [
+											"itemName",
+											"lastModified"
+										],
+										"storeSettings": {
+											"type": "AzureBlobStorageReadSettings",
+											"recursive": true
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]",
+				"[concat(variables('factoryId'), '/datasets/meta')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "miscparquest",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "pems_sorted/station=402260",
+						"fileSystem": "chanleyblob"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/chanleyds')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "dMisc"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Business_Unit",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Company_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Empl_ID",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Empl_Rec_No",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Job_Row_Effective_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Job_Row_Eff_Seq",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Action",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Action_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Reason_Code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Reason_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Department_ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Dept_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Job_Code_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Job_Entry_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Work_Location",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Work_Location_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Reporting_Location",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Reporting_Location_Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Pay_Group",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Number",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Description",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Position_Entry_Date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Primary_Job",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TBL_PARQUET"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/meta')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						}
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tgt_chanleypool')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleypool",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TBL_PARQUET"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/databrickslinkedservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-4430222745813530.10.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"existingClusterId": "0530-195028-quack609"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/3_df_d_Personnel')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "dfMGS"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "bUser",
+								"type": "DatasetReference"
+							},
+							"name": "sUserData",
+							"description": "This is the description sections.  This is a parquet data source."
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "d_Personnel",
+								"type": "DatasetReference"
+							},
+							"name": "dPersonnel"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AggrUserData"
+						},
+						{
+							"name": "Upsert"
+						},
+						{
+							"name": "derivedfirstname"
+						},
+						{
+							"name": "SelectUserData"
+						}
+					],
+					"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nSelectUserData aggregate(groupBy(billable,\n\t\tactive,\n\t\tuser_id),\n\tcreate_date = max(create_date),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\tFullName = max(FullName),\n\t\tlogin_id = max(login_id),\n\t\temail = max(email),\n\t\tbamboo_id = max(bamboo_id),\n\t\tpractice = max(practice),\n\t\tcurrent_manager = max(current_manager),\n\t\tjoblevel_rate = max(joblevel_rate),\n\t\tmobile_phone = max(mobile_phone),\n\t\txCustom = max(xCustom)) ~> AggrUserData\nAggrUserData alterRow(upsertIf(true())) ~> Upsert\nsUserData derive(first_name = trim(first_name)) ~> derivedfirstname\nderivedfirstname select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tjoblevel_rate,\n\t\tmobile_phone\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectUserData\nUpsert sink(input(\n\t\tLFBI_ID as integer,\n\t\tLFBI_LoadTime as timestamp,\n\t\tLFBI_Start as timestamp,\n\t\tLFBI_End as timestamp,\n\t\tLFBI_Current as boolean,\n\t\tbillable as boolean,\n\t\tactive as boolean,\n\t\tcreate_date as timestamp,\n\t\tuser_id as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tbamboo_id as integer,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\tjoblevel_rate as decimal(19,4),\n\t\tMobile_Phone as string,\n\t\tOnPTO as boolean,\n\t\txCustom as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Mobile_Phone'],\n\tformat: 'table',\n\tmapColumn(\n\t\tLFBI_LoadTime = create_date,\n\t\tLFBI_Current = create_date,\n\t\tLFBI_Start = create_date,\n\t\tLFBI_End = create_date,\n\t\tbillable,\n\t\tactive,\n\t\tcreate_date,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\tjoblevel_rate,\n\t\tMobile_Phone = mobile_phone,\n\t\txCustom\n\t)) ~> dPersonnel"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

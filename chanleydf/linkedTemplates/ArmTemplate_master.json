@@ -19,9 +19,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanley54Synapse'"
 		},
+		"chanleypool_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'chanleypool'"
+		},
 		"chanleysvc_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanleysvc'"
+		},
+		"databrickslinkedservice_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'databrickslinkedservice'"
 		},
 		"miscparquest_accountKey": {
 			"type": "secureString",
@@ -67,8 +75,14 @@
 					"chanley54Synapse_connectionString": {
 						"value": "[parameters('chanley54Synapse_connectionString')]"
 					},
+					"chanleypool_connectionString": {
+						"value": "[parameters('chanleypool_connectionString')]"
+					},
 					"chanleysvc_connectionString": {
 						"value": "[parameters('chanleysvc_connectionString')]"
+					},
+					"databrickslinkedservice_accessToken": {
+						"value": "[parameters('databrickslinkedservice_accessToken')]"
 					},
 					"miscparquest_accountKey": {
 						"value": "[parameters('miscparquest_accountKey')]"
@@ -98,6 +112,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_1')]"
 			]
 		}
 	]

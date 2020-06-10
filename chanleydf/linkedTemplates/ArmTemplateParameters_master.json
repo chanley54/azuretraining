@@ -14,7 +14,13 @@
 		"chanley54Synapse_connectionString": {
 			"value": ""
 		},
+		"chanleypool_connectionString": {
+			"value": ""
+		},
 		"chanleysvc_connectionString": {
+			"value": ""
+		},
+		"databrickslinkedservice_accessToken": {
 			"value": ""
 		},
 		"miscparquest_accountKey": {

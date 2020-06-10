@@ -72,14 +72,14 @@
 								"storedProcedureParameters": {
 									"ItemChild": {
 										"value": {
-											"value": "@activity('meta_inner').output.lastModified",
+											"value": "@activity('meta_inner').output.itemName",
 											"type": "Expression"
 										},
 										"type": "String"
 									},
 									"ItemDate": {
 										"value": {
-											"value": "@activity('meta_inner').output.itemName",
+											"value": "@activity('meta_inner').output.lastModified",
 											"type": "Expression"
 										},
 										"type": "DateTime"

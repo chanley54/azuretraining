@@ -71,15 +71,24 @@
 								"storedProcedureName": "[dbo].[pc_LoadLakeTable]",
 								"storedProcedureParameters": {
 									"ItemChild": {
-										"value": "",
+										"value": {
+											"value": "@activity('meta_inner').output.lastModified",
+											"type": "Expression"
+										},
 										"type": "String"
 									},
 									"ItemDate": {
-										"value": "",
+										"value": {
+											"value": "@activity('meta_inner').output.name",
+											"type": "Expression"
+										},
 										"type": "DateTime"
 									},
 									"ItemName": {
-										"value": "",
+										"value": {
+											"value": "@activity('meta_inner').output.name",
+											"type": "Expression"
+										},
 										"type": "String"
 									}
 								}

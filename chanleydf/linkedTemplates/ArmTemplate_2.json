@@ -13,6 +13,54 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/3_df_d_Personnel')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "dfMGS"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "bUser",
+								"type": "DatasetReference"
+							},
+							"name": "sUserData",
+							"description": "This is the description sections.  This is a parquet data source."
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "d_Personnel",
+								"type": "DatasetReference"
+							},
+							"name": "dPersonnel"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AggrUserData"
+						},
+						{
+							"name": "Upsert"
+						},
+						{
+							"name": "derivedfirstname"
+						},
+						{
+							"name": "SelectUserData"
+						}
+					],
+					"script": "source(output(\n\t\tcreate_date as timestamp,\n\t\tuser_id as string,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tactive as integer,\n\t\tupdate_date as timestamp,\n\t\tbillable as integer,\n\t\tmscrm_system_user_id as integer,\n\t\tmscrm_cat_consultant_id as integer,\n\t\tmscrm_contact_id as integer,\n\t\tcontractor_rate as integer,\n\t\tcontractor_rate_type as integer,\n\t\tuser_guid as integer,\n\t\tbamboo_id as double,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\txCustom as string,\n\t\tjoblevel_rate as integer,\n\t\tmobile_phone as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet') ~> sUserData\nSelectUserData aggregate(groupBy(billable,\n\t\tactive,\n\t\tuser_id),\n\tcreate_date = max(create_date),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\tFullName = max(FullName),\n\t\tlogin_id = max(login_id),\n\t\temail = max(email),\n\t\tbamboo_id = max(bamboo_id),\n\t\tpractice = max(practice),\n\t\tcurrent_manager = max(current_manager),\n\t\tjoblevel_rate = max(joblevel_rate),\n\t\tmobile_phone = max(mobile_phone),\n\t\txCustom = max(xCustom)) ~> AggrUserData\nAggrUserData alterRow(upsertIf(true())) ~> Upsert\nsUserData derive(first_name = trim(first_name)) ~> derivedfirstname\nderivedfirstname select(mapColumn(\n\t\tcreate_date,\n\t\tuser_id,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tactive,\n\t\tupdate_date,\n\t\tbillable,\n\t\tmscrm_system_user_id,\n\t\tmscrm_cat_consultant_id,\n\t\tmscrm_contact_id,\n\t\tcontractor_rate,\n\t\tcontractor_rate_type,\n\t\tuser_guid,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\txCustom,\n\t\tjoblevel_rate,\n\t\tmobile_phone\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectUserData\nUpsert sink(input(\n\t\tLFBI_ID as integer,\n\t\tLFBI_LoadTime as timestamp,\n\t\tLFBI_Start as timestamp,\n\t\tLFBI_End as timestamp,\n\t\tLFBI_Current as boolean,\n\t\tbillable as boolean,\n\t\tactive as boolean,\n\t\tcreate_date as timestamp,\n\t\tuser_id as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\tFullName as string,\n\t\tlogin_id as string,\n\t\temail as string,\n\t\tbamboo_id as integer,\n\t\tpractice as string,\n\t\tcurrent_manager as integer,\n\t\tjoblevel_rate as decimal(19,4),\n\t\tMobile_Phone as string,\n\t\tOnPTO as boolean,\n\t\txCustom as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['Mobile_Phone'],\n\tformat: 'table',\n\tmapColumn(\n\t\tLFBI_LoadTime = create_date,\n\t\tLFBI_Current = create_date,\n\t\tLFBI_Start = create_date,\n\t\tLFBI_End = create_date,\n\t\tbillable,\n\t\tactive,\n\t\tcreate_date,\n\t\tfirst_name,\n\t\tlast_name,\n\t\tFullName,\n\t\tlogin_id,\n\t\temail,\n\t\tbamboo_id,\n\t\tpractice,\n\t\tcurrent_manager,\n\t\tjoblevel_rate,\n\t\tMobile_Phone = mobile_phone,\n\t\txCustom\n\t)) ~> dPersonnel"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SchemaDrift')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -59,7 +107,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "UserDataParquet",
+								"referenceName": "UserData",
 								"type": "DatasetReference"
 							},
 							"name": "UserData"
@@ -68,7 +116,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "UserDataParquet",
+								"referenceName": "UserDataFinal",
 								"type": "DatasetReference"
 							},
 							"name": "UserDataSink"
@@ -77,9 +125,15 @@
 					"transformations": [
 						{
 							"name": "RegistrationDT"
+						},
+						{
+							"name": "AggregateUser"
+						},
+						{
+							"name": "Upsert"
 						}
 					],
-					"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> UserData\nUserData derive(registrationDT = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tmapColumn(\n\t\tregistration_dttm = registrationDT,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
+					"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'NONE',\n\tformat: 'table') ~> UserData\nUserData derive(registration_dttm = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT aggregate(groupBy(ip_address),\n\tregistration_dttm = max(registration_dttm),\n\t\tid = max(id),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\temail = max(email),\n\t\tgender = max(gender),\n\t\tcc = max(cc),\n\t\tcountry = max(country),\n\t\tbirthdate = max(birthdate),\n\t\tsalary = max(salary),\n\t\ttitle = max(title),\n\t\tcomments = max(comments)) ~> AggregateUser\nAggregateUser alterRow(upsertIf(true())) ~> Upsert\nUpsert sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tregistration_dttm,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
 				}
 			},
 			"dependsOn": []
@@ -175,7 +229,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/3_df_d_Personnel')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UserDataPipeline')]",
@@ -206,9 +262,9 @@
 								}
 							},
 							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
+							"integrationRuntime": {
+								"referenceName": "TTL10minutesIR",
+								"type": "IntegrationRuntimeReference"
 							}
 						}
 					}

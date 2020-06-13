@@ -387,6 +387,83 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/UserDataFinal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "registration_dttm",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "first_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "last_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "email",
+						"type": "nvarchar"
+					},
+					{
+						"name": "gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ip_address",
+						"type": "nvarchar"
+					},
+					{
+						"name": "cc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "birthdate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "salary",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "comments",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UserData_Final"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/UserDataParquet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -823,30 +900,6 @@
 				"typeProperties": {
 					"schema": "DW",
 					"table": "d_Personnel3"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dsUser')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMGS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "userdata"
 				}
 			},
 			"dependsOn": [

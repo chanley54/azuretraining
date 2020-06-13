@@ -488,9 +488,9 @@
 								}
 							},
 							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
+							"integrationRuntime": {
+								"referenceName": "TTL10minutesIR",
+								"type": "IntegrationRuntimeReference"
 							}
 						}
 					}
@@ -501,7 +501,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/UserData')]"
+				"[concat(variables('factoryId'), '/dataflows/UserData')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/TTL10minutesIR')]"
 			]
 		},
 		{
@@ -1742,6 +1743,83 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "userdata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UserDataFinal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "registration_dttm",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "first_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "last_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "email",
+						"type": "nvarchar"
+					},
+					{
+						"name": "gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ip_address",
+						"type": "nvarchar"
+					},
+					{
+						"name": "cc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "birthdate",
+						"type": "nvarchar"
+					},
+					{
+						"name": "salary",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "comments",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UserData_Final"
 				}
 			},
 			"dependsOn": [
@@ -3061,7 +3139,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "UserDataParquet",
+								"referenceName": "UserData",
 								"type": "DatasetReference"
 							},
 							"name": "UserData"
@@ -3070,7 +3148,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "UserDataParquet",
+								"referenceName": "UserDataFinal",
 								"type": "DatasetReference"
 							},
 							"name": "UserDataSink"
@@ -3079,13 +3157,20 @@
 					"transformations": [
 						{
 							"name": "RegistrationDT"
+						},
+						{
+							"name": "AggregateUser"
+						},
+						{
+							"name": "Upsert"
 						}
 					],
-					"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> UserData\nUserData derive(registrationDT = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tmapColumn(\n\t\tregistration_dttm = registrationDT,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
+					"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'NONE',\n\tformat: 'table') ~> UserData\nUserData derive(registration_dttm = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT aggregate(groupBy(ip_address),\n\tregistration_dttm = max(registration_dttm),\n\t\tid = max(id),\n\t\tfirst_name = max(first_name),\n\t\tlast_name = max(last_name),\n\t\temail = max(email),\n\t\tgender = max(gender),\n\t\tcc = max(cc),\n\t\tcountry = max(country),\n\t\tbirthdate = max(birthdate),\n\t\tsalary = max(salary),\n\t\ttitle = max(title),\n\t\tcomments = max(comments)) ~> AggregateUser\nAggregateUser alterRow(upsertIf(true())) ~> Upsert\nUpsert sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tregistration_dttm,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/UserDataParquet')]"
+				"[concat(variables('factoryId'), '/datasets/UserData')]",
+				"[concat(variables('factoryId'), '/datasets/UserDataFinal')]"
 			]
 		}
 	]

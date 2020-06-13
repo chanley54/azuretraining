@@ -13,6 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "userdata1.parquet",
 				"folderPath": "parquet",
 				"container": "chanleyblob"
 			},

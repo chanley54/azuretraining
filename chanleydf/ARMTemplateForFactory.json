@@ -804,6 +804,27 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "UserDataPipeline",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "CopyUserData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "UserDataPipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"folder": {
@@ -813,7 +834,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/UserDataParquet')]",
-				"[concat(variables('factoryId'), '/datasets/UserData')]"
+				"[concat(variables('factoryId'), '/datasets/UserData')]",
+				"[concat(variables('factoryId'), '/pipelines/UserDataPipeline')]"
 			]
 		},
 		{

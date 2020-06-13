@@ -43,6 +43,26 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "UserDataPipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "CopyUserData",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "UserDataPipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"folder": {

@@ -20,18 +20,12 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
-							"wildcardFileName": "*",
 							"enablePartitionDiscovery": false
 						}
 					},
 					"sink": {
-						"type": "SqlDWSink",
-						"allowPolyBase": true,
-						"polyBaseSettings": {
-							"rejectValue": 0,
-							"rejectType": "value",
-							"useTypeDefault": true
-						}
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
 					},
 					"enableStaging": false
 				},
@@ -43,7 +37,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_chanley54_synapse",
+						"referenceName": "UserData",
 						"type": "DatasetReference"
 					}
 				]

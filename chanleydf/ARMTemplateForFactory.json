@@ -806,8 +806,8 @@
 						]
 					},
 					{
-						"name": "UserDataPipeline",
-						"type": "ExecutePipeline",
+						"name": "UserData",
+						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
 								"activity": "CopyUserData",
@@ -816,14 +816,29 @@
 								]
 							}
 						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"pipeline": {
-								"referenceName": "UserDataPipeline",
-								"type": "PipelineReference"
+							"dataflow": {
+								"referenceName": "UserData",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"UserData": {},
+									"UserDataSink": {}
+								}
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "TTL10minutesIR",
+								"type": "IntegrationRuntimeReference"
+							}
 						}
 					}
 				],
@@ -835,7 +850,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/UserDataParquet')]",
 				"[concat(variables('factoryId'), '/datasets/UserData')]",
-				"[concat(variables('factoryId'), '/pipelines/UserDataPipeline')]"
+				"[concat(variables('factoryId'), '/dataflows/UserData')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/TTL10minutesIR')]"
 			]
 		},
 		{

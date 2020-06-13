@@ -13,6 +13,126 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/etlPersonnel')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "LFBI_ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "LFBI_LoadTime",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_Start",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_End",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LFBI_Current",
+						"type": "bit"
+					},
+					{
+						"name": "billable",
+						"type": "bit"
+					},
+					{
+						"name": "active",
+						"type": "bit"
+					},
+					{
+						"name": "create_date",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "user_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "first_name",
+						"type": "varchar"
+					},
+					{
+						"name": "last_name",
+						"type": "varchar"
+					},
+					{
+						"name": "FullName",
+						"type": "varchar"
+					},
+					{
+						"name": "login_id",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "bamboo_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "practice",
+						"type": "varchar"
+					},
+					{
+						"name": "current_manager",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "joblevel_rate",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "Mobile_Phone",
+						"type": "varchar"
+					},
+					{
+						"name": "OnPTO",
+						"type": "bit"
+					},
+					{
+						"name": "xCustom",
+						"type": "varchar"
+					},
+					{
+						"name": "Update_Time",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "DW",
+					"table": "d_Personnel2"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/meta')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -468,6 +588,25 @@
 					"compressionCodec": "snappy"
 				},
 				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UserData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UserData"
+				}
 			},
 			"dependsOn": []
 		},
@@ -1040,7 +1179,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
+						"name": "CopyUserData",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -1057,18 +1196,13 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
-									"wildcardFileName": "*",
+									"wildcardFileName": "*.parquet",
 									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
-								"type": "SqlDWSink",
-								"allowPolyBase": true,
-								"polyBaseSettings": {
-									"rejectValue": 0,
-									"rejectType": "value",
-									"useTypeDefault": true
-								}
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
 							},
 							"enableStaging": false
 						},
@@ -1081,7 +1215,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ds_chanley54_synapse",
+								"referenceName": "UserData",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1093,7 +1227,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/UserData')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/metadata')]",
@@ -1136,6 +1272,152 @@
 								"activity": "mymeta",
 								"dependencyConditions": [
 									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('mymeta').output.childitems",
+								"type": "Expression"
+							},
+							"batchCount": 4,
+							"activities": [
+								{
+									"name": "pc_LoadLakeTable",
+									"description": "pc_LoadLakeTable",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "meta_inner",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[pc_LoadLakeTable]",
+										"storedProcedureParameters": {
+											"ItemChild": {
+												"value": {
+													"value": "@activity('meta_inner').output.itemName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"ItemDate": {
+												"value": {
+													"value": "@activity('meta_inner').output.lastModified",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"ItemName": {
+												"value": {
+													"value": "@activity('meta_inner').output.itemName",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "chanleysvc",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "meta_inner",
+									"type": "GetMetadata",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "meta",
+											"type": "DatasetReference",
+											"parameters": {
+												"FileName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										},
+										"fieldList": [
+											"itemName",
+											"lastModified"
+										],
+										"storeSettings": {
+											"type": "AzureBlobStorageReadSettings",
+											"recursive": true
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/meta')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/metadatab3c0c554-fb5b-41b4-b658-ddffd95276ce')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "mymeta",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "Parquet1",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "mymeta",
+								"dependencyConditions": [
+									"Skipped"
 								]
 							}
 						],
@@ -1543,7 +1825,9 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/etlPersonnel')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/plUserDataToSynapse')]",
@@ -1651,176 +1935,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SchemaDrift')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "dfMisc"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "srcTraffic",
-								"type": "DatasetReference"
-							},
-							"name": "srcTraffic"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "tgtTraffic",
-								"type": "DatasetReference"
-							},
-							"name": "tgtTraffic"
-						}
-					],
-					"transformations": [],
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> srcTraffic\nsrcTraffic sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTraffic"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/srcTraffic')]",
-				"[concat(variables('factoryId'), '/datasets/tgtTraffic')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UserData')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "dfMisc"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "UserDataParquet",
-								"type": "DatasetReference"
-							},
-							"name": "UserData"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "UserDataParquet",
-								"type": "DatasetReference"
-							},
-							"name": "UserDataSink"
-						}
-					],
-					"transformations": [
-						{
-							"name": "RegistrationDT"
-						}
-					],
-					"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> UserData\nUserData derive(registrationDT = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tmapColumn(\n\t\tregistration_dttm = registrationDT,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/3_pl_d_Personnel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Add a Union ALL to pickup unknown record",
-				"activities": [
-					{
-						"name": "CopyUserData",
-						"description": "SQL Database",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select \nDate_OF_Birth as create_date, \n[User_Name] as [user_id], \n[First_Name] as first_name, \n[LastName] as last_name, \n[First_Name] + ',' + [LastName] as FullName, \n[User_Name] as login_id, \n[EMail] as email, \n1 as active, \ngetdate() as update_date, \n1 as billable, \n0 as mscrm_system_user_id, \n0 as mscrm_cat_consultant_id, \n0 as mscrm_contact_id, \n165 as contractor_rate, \n1 as contractor_rate_type, \n1234 as user_guid, \nWeight_in_Kgs as bamboo_id, \n'Data' as practice, \n1 as current_manager, \n'0' as xCustom,\n3 as joblevel_rate, \nPhone_No as mobile_phone\nfrom dbo.dboEmpSample\n",
-								"queryTimeout": "02:00:00"
-							},
-							"sink": {
-								"type": "ParquetSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "dsUser",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "bUser",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "dfUserData",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "CopyUserData",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "3_df_d_Personnel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sUserData": {},
-									"dPersonnel": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							}
-						}
-					}
-				],
-				"folder": {
-					"name": "pMGS"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/3_df_d_Personnel')]"
-			]
 		}
 	]
 }

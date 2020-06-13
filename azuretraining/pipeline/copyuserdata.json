@@ -25,7 +25,9 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink"
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [dbo].[UserData]",
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false
 				},

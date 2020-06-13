@@ -9,7 +9,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "UserDataParquet",
+						"referenceName": "UserData",
 						"type": "DatasetReference"
 					},
 					"name": "UserData"
@@ -29,7 +29,7 @@
 					"name": "RegistrationDT"
 				}
 			],
-			"script": "source(output(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 100,\n\tformat: 'parquet') ~> UserData\nUserData derive(registrationDT = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tmapColumn(\n\t\tregistration_dttm = registrationDT,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
+			"script": "source(allowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> UserData\nUserData derive(registrationDT = toDate(toString(registration_dttm))) ~> RegistrationDT\nRegistrationDT sink(input(\n\t\tregistration_dttm as timestamp,\n\t\tid as integer,\n\t\tfirst_name as string,\n\t\tlast_name as string,\n\t\temail as string,\n\t\tgender as string,\n\t\tip_address as string,\n\t\tcc as string,\n\t\tcountry as string,\n\t\tbirthdate as string,\n\t\tsalary as double,\n\t\ttitle as string,\n\t\tcomments as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tmapColumn(\n\t\tregistration_dttm = registrationDT,\n\t\tid,\n\t\tfirst_name,\n\t\tlast_name,\n\t\temail,\n\t\tgender,\n\t\tip_address,\n\t\tcc,\n\t\tcountry,\n\t\tbirthdate,\n\t\tsalary,\n\t\ttitle,\n\t\tcomments\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> UserDataSink"
 		}
 	}
 }

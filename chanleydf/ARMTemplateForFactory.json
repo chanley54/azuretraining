@@ -476,7 +476,12 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [],
+						"userProperties": [
+							{
+								"name": "name",
+								"value": "UserData"
+							}
+						],
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "UserData",

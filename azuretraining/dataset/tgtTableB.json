@@ -44,6 +44,16 @@
 				"name": "DateLoaded",
 				"type": "datetime2",
 				"scale": 7
+			},
+			{
+				"name": "DateUpdated",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DateDeleted",
+				"type": "datetime2",
+				"scale": 7
 			}
 		],
 		"typeProperties": {

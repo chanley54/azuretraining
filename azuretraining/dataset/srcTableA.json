@@ -5,6 +5,9 @@
 			"referenceName": "chanleysvc",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Upserts"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [

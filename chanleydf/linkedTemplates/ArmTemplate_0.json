@@ -165,147 +165,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/BellTarget')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "bell",
-						"container": "chanleyblob"
-					},
-					"columnDelimiter": "\t",
-					"escapeChar": "",
-					"firstRowAsHeader": true,
-					"nullValue": "\\n",
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "Name.txt",
-						"container": "chanleyblob"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "",
-					"firstRowAsHeader": true,
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "TechCrunchcontinentalUSA.csv",
-						"container": "chanleyblob"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "",
-					"firstRowAsHeader": true,
-					"quoteChar": ""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "miscparquest",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "pems_sorted/station=402260",
-						"fileSystem": "chanleyblob"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UserData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "UserData"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UserDataDS')]",
+			"name": "[concat(parameters('factoryName'), '/srcTableA')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -314,72 +174,49 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "dMisc"
+					"name": "Upserts"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "registration_dttm",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "id",
+						"name": "ID",
 						"type": "int",
 						"precision": 10
 					},
 					{
-						"name": "first_name",
-						"type": "nvarchar"
+						"name": "ItemName",
+						"type": "varchar"
 					},
 					{
-						"name": "last_name",
-						"type": "nvarchar"
+						"name": "ItemSkew",
+						"type": "varchar"
 					},
 					{
-						"name": "email",
-						"type": "nvarchar"
+						"name": "DatePurchase",
+						"type": "datetime2",
+						"scale": 7
 					},
 					{
-						"name": "gender",
-						"type": "nvarchar"
+						"name": "DateReturned",
+						"type": "datetime2",
+						"scale": 7
 					},
 					{
-						"name": "ip_address",
-						"type": "nvarchar"
-					},
-					{
-						"name": "cc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "country",
-						"type": "nvarchar"
-					},
-					{
-						"name": "birthdate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "salary",
+						"name": "cost",
 						"type": "money",
 						"precision": 19,
 						"scale": 4
 					},
 					{
-						"name": "title",
-						"type": "nvarchar"
-					},
-					{
-						"name": "comments",
-						"type": "nvarchar"
+						"name": "DateLoaded",
+						"type": "datetime2",
+						"scale": 7
 					}
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "userdata"
+					"table": "srcTableA"
 				}
 			},
 			"dependsOn": [
@@ -387,7 +224,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/UserDataFinal')]",
+			"name": "[concat(parameters('factoryName'), '/tgtTableB')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -395,391 +232,50 @@
 					"referenceName": "chanleysvc",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "Upserts"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
 					{
-						"name": "registration_dttm",
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ItemName",
+						"type": "varchar"
+					},
+					{
+						"name": "ItemSkew",
+						"type": "varchar"
+					},
+					{
+						"name": "DatePurchase",
 						"type": "datetime2",
 						"scale": 7
 					},
 					{
-						"name": "id",
-						"type": "int",
-						"precision": 10
+						"name": "DateReturned",
+						"type": "datetime2",
+						"scale": 7
 					},
 					{
-						"name": "first_name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "last_name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "email",
-						"type": "nvarchar"
-					},
-					{
-						"name": "gender",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ip_address",
-						"type": "nvarchar"
-					},
-					{
-						"name": "cc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "country",
-						"type": "nvarchar"
-					},
-					{
-						"name": "birthdate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "salary",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "title",
-						"type": "nvarchar"
-					},
-					{
-						"name": "comments",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "UserData_Final"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UserDataParquet')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "parquet",
-						"container": "chanleyblob"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "registration_dttm",
-						"type": "INT96"
-					},
-					{
-						"name": "id",
-						"type": "INT32"
-					},
-					{
-						"name": "first_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "last_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "email",
-						"type": "UTF8"
-					},
-					{
-						"name": "gender",
-						"type": "UTF8"
-					},
-					{
-						"name": "ip_address",
-						"type": "UTF8"
-					},
-					{
-						"name": "cc",
-						"type": "UTF8"
-					},
-					{
-						"name": "country",
-						"type": "UTF8"
-					},
-					{
-						"name": "birthdate",
-						"type": "UTF8"
-					},
-					{
-						"name": "salary",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "title",
-						"type": "UTF8"
-					},
-					{
-						"name": "comments",
-						"type": "UTF8"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/bUser')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMGS"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "user.parquet",
-						"folderPath": "mgs",
-						"container": "chanleyblob"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/chanleyds')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Business_Unit",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Company_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Empl_ID",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Empl_Rec_No",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Job_Row_Effective_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Job_Row_Eff_Seq",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Action",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Action_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Reason_Code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reason_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Department_ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Dept_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Code_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Job_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Work_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Work_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Reporting_Location",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Reporting_Location_Desc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Pay_Group",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Number",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Description",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Position_Entry_Date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "Primary_Job",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "TBL_PARQUET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/chanleytgr')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMisc"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "registration_dttm",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "first_name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "last_name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "email",
-						"type": "nvarchar"
-					},
-					{
-						"name": "gender",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ip_address",
-						"type": "nvarchar"
-					},
-					{
-						"name": "cc",
-						"type": "nvarchar"
-					},
-					{
-						"name": "country",
-						"type": "nvarchar"
-					},
-					{
-						"name": "birthdate",
-						"type": "nvarchar"
-					},
-					{
-						"name": "salary",
+						"name": "cost",
 						"type": "money",
 						"precision": 19,
 						"scale": 4
 					},
 					{
-						"name": "title",
-						"type": "nvarchar"
-					},
-					{
-						"name": "comments",
-						"type": "nvarchar"
+						"name": "DateLoaded",
+						"type": "datetime2",
+						"scale": 7
 					}
 				],
 				"typeProperties": {
-					"schema": "",
-					"table": ""
+					"schema": "dbo",
+					"table": "tgtTableB"
 				}
 			},
 			"dependsOn": [
@@ -787,123 +283,83 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/d_Personnel')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/dfUpsert')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dMGS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "LFBI_ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "LFBI_LoadTime",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "LFBI_Start",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "LFBI_End",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "LFBI_Current",
-						"type": "bit"
-					},
-					{
-						"name": "billable",
-						"type": "bit"
-					},
-					{
-						"name": "active",
-						"type": "bit"
-					},
-					{
-						"name": "create_date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "user_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "first_name",
-						"type": "varchar"
-					},
-					{
-						"name": "last_name",
-						"type": "varchar"
-					},
-					{
-						"name": "FullName",
-						"type": "varchar"
-					},
-					{
-						"name": "login_id",
-						"type": "varchar"
-					},
-					{
-						"name": "email",
-						"type": "varchar"
-					},
-					{
-						"name": "bamboo_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "practice",
-						"type": "varchar"
-					},
-					{
-						"name": "current_manager",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "joblevel_rate",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "Mobile_Phone",
-						"type": "varchar"
-					},
-					{
-						"name": "OnPTO",
-						"type": "bit"
-					},
-					{
-						"name": "xCustom",
-						"type": "varchar"
-					}
-				],
+				"type": "MappingDataFlow",
 				"typeProperties": {
-					"schema": "DW",
-					"table": "d_Personnel3"
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "srcTableA",
+								"type": "DatasetReference"
+							},
+							"name": "srcTableA"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tgtTableB",
+								"type": "DatasetReference"
+							},
+							"name": "tgtTableB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "upsert"
+						}
+					],
+					"script": "source(output(\n\t\tItemName as string,\n\t\tItemSkew as string,\n\t\tDatePurchase as timestamp,\n\t\tDateReturned as timestamp,\n\t\tcost as decimal(19,4)\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select\\nItemName, ItemSkew, DatePurchase, DateReturned, cost\\nfrom\\n [dbo].[srcTableA]',\n\tformat: 'query') ~> srcTableA\nsrcTableA alterRow(upsertIf(true())) ~> upsert\nupsert sink(input(\n\t\tID as integer,\n\t\tItemName as string,\n\t\tItemSkew as string,\n\t\tDatePurchase as timestamp,\n\t\tDateReturned as timestamp,\n\t\tcost as decimal(19,4),\n\t\tDateLoaded as timestamp\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ItemSkew'],\n\tformat: 'table',\n\tmapColumn(\n\t\tItemName,\n\t\tItemSkew,\n\t\tDatePurchase,\n\t\tDateReturned,\n\t\tcost\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTableB"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+				"[concat(variables('factoryId'), '/datasets/srcTableA')]",
+				"[concat(variables('factoryId'), '/datasets/tgtTableB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/upsert')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dfUpsert",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dfUpsert",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"srcTableA": {},
+									"tgtTableB": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfUpsert')]"
 			]
 		}
 	]

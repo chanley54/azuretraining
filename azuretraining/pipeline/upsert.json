@@ -20,7 +20,7 @@
 						"type": "DataFlowReference"
 					},
 					"integrationRuntime": {
-						"referenceName": "TTL10minutesIR",
+						"referenceName": "IR30Minutes",
 						"type": "IntegrationRuntimeReference"
 					}
 				}

@@ -460,7 +460,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select \nItemName + 'xxx' as Item from\n[dbo].[srcTableA]",
+								"sqlReaderQuery": {
+									"value": "select \nItemName + 'xxx' as Item from\n[dbo].[srcTableA]\nwhere cost > @pipeline().parameters.cost",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00"
 							},
 							"dataset": {
@@ -519,6 +522,12 @@
 						}
 					}
 				],
+				"parameters": {
+					"cost": {
+						"type": "int",
+						"defaultValue": 0
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [

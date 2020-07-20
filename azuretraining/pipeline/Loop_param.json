@@ -81,7 +81,7 @@
 		"parameters": {
 			"cost": {
 				"type": "int",
-				"defaultValue": 0
+				"defaultValue": 20
 			}
 		},
 		"annotations": []

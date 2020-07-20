@@ -21,7 +21,8 @@
 							"value": "\nselect \nItemName + 'xxx' as Item from\n[dbo].[srcTableA]\nwhere cost > @{pipeline().parameters.cost}",
 							"type": "Expression"
 						},
-						"queryTimeout": "02:00:00"
+						"queryTimeout": "02:00:00",
+						"isolationLevel": "ReadUncommitted"
 					},
 					"dataset": {
 						"referenceName": "srcTableA",

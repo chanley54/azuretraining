@@ -14,7 +14,7 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"item": "Duh"
+						"item": "@pipeline().parameters.item2"
 					}
 				}
 			}

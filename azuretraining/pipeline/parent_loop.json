@@ -12,7 +12,10 @@
 						"referenceName": "Loop_param",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"cost": "@pipeline().parameters.cost"
+					}
 				}
 			}
 		],

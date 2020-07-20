@@ -1,6 +1,21 @@
 {
 	"name": "parent_loop",
 	"properties": {
+		"activities": [
+			{
+				"name": "pl_loop",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Loop_param",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
 		"annotations": []
 	}
 }

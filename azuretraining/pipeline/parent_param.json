@@ -19,6 +19,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"item2": {
+				"type": "string",
+				"defaultValue": "Chris"
+			}
+		},
 		"annotations": []
 	}
 }

@@ -577,6 +577,41 @@
 				"[concat(variables('factoryId'), '/datasets/srcTableA')]",
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parent_loop')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "pl_loop",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Loop_param",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"cost": "@pipeline().parameters.cost"
+							}
+						}
+					}
+				],
+				"parameters": {
+					"cost": {
+						"type": "int",
+						"defaultValue": 0
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Loop_param')]"
+			]
 		}
 	]
 }

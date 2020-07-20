@@ -1,6 +1,12 @@
 {
 	"name": "child_param",
 	"properties": {
+		"parameters": {
+			"item": {
+				"type": "string",
+				"defaultValue": "@pipeline().parameters.item"
+			}
+		},
 		"annotations": []
 	}
 }

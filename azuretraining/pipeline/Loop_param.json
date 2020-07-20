@@ -75,6 +75,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"cost": {
+				"type": "int",
+				"defaultValue": 0
+			}
+		},
 		"annotations": []
 	}
 }

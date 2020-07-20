@@ -1,6 +1,24 @@
 {
 	"name": "parent_param",
 	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "child_param",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"item": "Duh"
+					}
+				}
+			}
+		],
 		"annotations": []
 	}
 }

@@ -461,7 +461,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "select \nItemName + 'xxx' as Item from\n[dbo].[srcTableA]\nwhere cost > @pipeline().parameters.cost",
+									"value": "\nselect \nItemName + 'xxx' as Item from\n[dbo].[srcTableA]\nwhere cost > @{pipeline().parameters.cost}",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00"

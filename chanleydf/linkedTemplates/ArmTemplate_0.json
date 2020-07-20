@@ -422,11 +422,17 @@
 							},
 							"waitOnCompletion": true,
 							"parameters": {
-								"item": "Duh"
+								"item": "@pipeline().parameters.item2"
 							}
 						}
 					}
 				],
+				"parameters": {
+					"item2": {
+						"type": "string",
+						"defaultValue": "Chris"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [

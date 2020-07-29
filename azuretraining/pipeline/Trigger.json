@@ -42,7 +42,10 @@
 						"referenceName": "srcTrigger",
 						"type": "DatasetReference",
 						"parameters": {
-							"filename": "@pipeline().parameters.sourcefile"
+							"filename": {
+								"value": "@pipeline().parameters.SourceFile",
+								"type": "Expression"
+							}
 						}
 					}
 				],

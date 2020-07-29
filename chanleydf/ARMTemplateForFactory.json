@@ -213,7 +213,7 @@
 				"parameters": {
 					"SourceFile": {
 						"type": "string",
-						"defaultValue": "@triggerBody().FileName"
+						"defaultValue": "@trigger().outputs.body.fileName"
 					}
 				},
 				"annotations": []
@@ -779,7 +779,7 @@
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
 					"blobPathBeginsWith": "/chanleyblob/blobs/Trigger/",
-					"blobPathEndsWith": "parquet",
+					"blobPathEndsWith": ".parquet",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('EventTrigger_properties_typeProperties_scope')]",
 					"events": [

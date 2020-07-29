@@ -38,6 +38,10 @@
 		"miscparquest_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
+		},
+		"EventTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.Storage/storageAccounts/chanleysg"
 		}
 	},
 	"variables": {
@@ -627,7 +631,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/metadata')]",
+			"name": "[concat(parameters('factoryName'), '/Trigger')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -649,12 +653,12 @@
 								"type": "ParquetSource",
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
-									"recursive": true
+									"recursive": false,
+									"enablePartitionDiscovery": false
 								}
 							},
 							"sink": {
-								"type": "AzureSqlSink",
-								"tableOption": "autoCreate"
+								"type": "AzureSqlSink"
 							},
 							"enableStaging": false,
 							"translator": {
@@ -670,7 +674,9 @@
 							{
 								"referenceName": "srcTrigger",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"filename": "@pipeline().parameters.sourcefile"
+								}
 							}
 						],
 						"outputs": [
@@ -682,6 +688,12 @@
 						]
 					}
 				],
+				"parameters": {
+					"sourcefile": {
+						"type": "string",
+						"defaultValue": "@triggerBody().filename"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -721,12 +733,18 @@
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"filename": {
+						"type": "string",
+						"defaultValue": "@pipeline().parameters.sourcefile"
+					}
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "userdata1.parquet",
+						"fileName": "@dataset().filename",
 						"folderPath": "Trigger",
 						"fileSystem": "chanleyblob"
 					},
@@ -811,6 +829,27 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EventTrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/chanleyblob/blobs/Trigger/",
+					"blobPathEndsWith": "parquet",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('EventTrigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

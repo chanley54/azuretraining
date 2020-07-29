@@ -39,6 +39,10 @@
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
 		},
+		"EventTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.Storage/storageAccounts/chanleysg"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -89,6 +93,9 @@
 					},
 					"miscparquest_properties_typeProperties_url": {
 						"value": "[parameters('miscparquest_properties_typeProperties_url')]"
+					},
+					"EventTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('EventTrigger_properties_typeProperties_scope')]"
 					}
 				}
 			},

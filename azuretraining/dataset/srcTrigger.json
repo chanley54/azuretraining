@@ -5,6 +5,12 @@
 			"referenceName": "miscparquest",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"filename": {
+				"type": "string",
+				"defaultValue": "@pipeline().parameters.sourcefile"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

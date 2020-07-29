@@ -40,7 +40,10 @@
 				"inputs": [
 					{
 						"referenceName": "srcTrigger",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "@pipeline().parameters.sourcefile"
+						}
 					}
 				],
 				"outputs": [

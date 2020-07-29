@@ -1,0 +1,12 @@
+{
+	"name": "tgtTrigger",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

@@ -5,6 +5,12 @@
 			"referenceName": "chanleysvc",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"filename": {
+				"type": "string",
+				"defaultValue": "@pipeline().parameters.sourcefile"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],

@@ -29,6 +29,9 @@
 		"miscparquest_properties_typeProperties_url": {
 			"value": "https://chanleysg.dfs.core.windows.net"
 		},
+		"EventTrigger_properties_Trigger_parameters_SourceFile": {
+			"value": "@triggerBody().filename"
+		},
 		"EventTrigger_properties_typeProperties_scope": {
 			"value": "/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.Storage/storageAccounts/chanleysg"
 		},

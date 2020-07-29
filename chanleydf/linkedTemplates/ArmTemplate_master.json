@@ -39,6 +39,10 @@
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
 		},
+		"EventTrigger_properties_Trigger_parameters_SourceFile": {
+			"type": "string",
+			"defaultValue": "@triggerBody().filename"
+		},
 		"EventTrigger_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.Storage/storageAccounts/chanleysg"
@@ -111,6 +115,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"EventTrigger_properties_Trigger_parameters_SourceFile": {
+						"value": "[parameters('EventTrigger_properties_Trigger_parameters_SourceFile')]"
 					},
 					"EventTrigger_properties_typeProperties_scope": {
 						"value": "[parameters('EventTrigger_properties_typeProperties_scope')]"

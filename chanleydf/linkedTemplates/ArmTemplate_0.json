@@ -333,9 +333,9 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"filename": {
+					"FileName": {
 						"type": "string",
-						"defaultValue": "@pipeline().parameters.sourcefile"
+						"defaultValue": "@pipeline().parameters.SourceFile"
 					}
 				},
 				"annotations": [],
@@ -344,7 +344,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@dataset().filename",
+							"value": "@dataset().FileName",
 							"type": "Expression"
 						},
 						"folderPath": "Trigger",
@@ -647,7 +647,10 @@
 								"referenceName": "srcTrigger",
 								"type": "DatasetReference",
 								"parameters": {
-									"filename": "@pipeline().parameters.sourcefile"
+									"FileName": {
+										"value": "@pipeline().parameters.SourceFile",
+										"type": "Expression"
+									}
 								}
 							}
 						],
@@ -661,9 +664,9 @@
 					}
 				],
 				"parameters": {
-					"sourcefile": {
+					"SourceFile": {
 						"type": "string",
-						"defaultValue": "@triggerBody().filename"
+						"defaultValue": "@triggerBody().FileName"
 					}
 				},
 				"annotations": []

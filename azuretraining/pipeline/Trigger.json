@@ -60,7 +60,7 @@
 		"parameters": {
 			"SourceFile": {
 				"type": "string",
-				"defaultValue": "@triggerBody().FileName"
+				"defaultValue": "@trigger().outputs.body.fileName"
 			}
 		},
 		"annotations": []

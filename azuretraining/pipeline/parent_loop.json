@@ -25,7 +25,7 @@
 		"parameters": {
 			"cost": {
 				"type": "int",
-				"defaultValue": "daily"
+				"defaultValue": 1
 			}
 		},
 		"annotations": []

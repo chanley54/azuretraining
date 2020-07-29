@@ -46,10 +46,7 @@
 				"outputs": [
 					{
 						"referenceName": "tgtTrigger",
-						"type": "DatasetReference",
-						"parameters": {
-							"filename": "@dataset().filename"
-						}
+						"type": "DatasetReference"
 					}
 				]
 			}

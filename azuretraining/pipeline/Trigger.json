@@ -52,8 +52,7 @@
 		],
 		"parameters": {
 			"filename": {
-				"type": "string",
-				"defaultValue": "@pipeline().parameters.sourcefile"
+				"type": "string"
 			}
 		},
 		"annotations": []

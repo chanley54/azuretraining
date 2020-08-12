@@ -225,6 +225,9 @@
 						"defaultValue": "@pipeline().parameters.item"
 					}
 				},
+				"folder": {
+					"name": "chanley"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -527,7 +530,8 @@
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
-								"isolationLevel": "ReadUncommitted"
+								"isolationLevel": "ReadUncommitted",
+								"partitionOption": "None"
 							},
 							"dataset": {
 								"referenceName": "srcTableA",
@@ -593,6 +597,9 @@
 						"type": "int",
 						"defaultValue": 20
 					}
+				},
+				"folder": {
+					"name": "chanley"
 				},
 				"annotations": []
 			},
@@ -669,6 +676,9 @@
 						"defaultValue": "@trigger().outputs.body.fileName"
 					}
 				},
+				"folder": {
+					"name": "chanley"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -707,6 +717,9 @@
 						"type": "string",
 						"defaultValue": "Chris"
 					}
+				},
+				"folder": {
+					"name": "chanley"
 				},
 				"annotations": []
 			},
@@ -783,6 +796,9 @@
 						"type": "int",
 						"defaultValue": 1
 					}
+				},
+				"folder": {
+					"name": "chanley"
 				},
 				"annotations": []
 			},

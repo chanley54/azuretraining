@@ -56,6 +56,9 @@
 						}
 					}
 				],
+				"folder": {
+					"name": "chanley"
+				},
 				"annotations": []
 			},
 			"dependsOn": []

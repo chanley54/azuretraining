@@ -63,6 +63,9 @@
 				"defaultValue": "@trigger().outputs.body.fileName"
 			}
 		},
+		"folder": {
+			"name": "chanley"
+		},
 		"annotations": []
 	}
 }

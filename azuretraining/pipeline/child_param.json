@@ -18,7 +18,10 @@
 					"storedProcedureName": "[dbo].[insert_B]",
 					"storedProcedureParameters": {
 						"item": {
-							"value": "@pipeline().parameters.item",
+							"value": {
+								"value": "@pipeline().parameters.item",
+								"type": "Expression"
+							},
 							"type": "String"
 						}
 					}
@@ -34,6 +37,9 @@
 				"type": "string",
 				"defaultValue": "@pipeline().parameters.item"
 			}
+		},
+		"folder": {
+			"name": "chanley"
 		},
 		"annotations": []
 	}

@@ -28,6 +28,9 @@
 				"defaultValue": 1
 			}
 		},
+		"folder": {
+			"name": "chanley"
+		},
 		"annotations": []
 	}
 }

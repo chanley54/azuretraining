@@ -1,0 +1,16 @@
+{
+	"name": "MyPipeline",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "mypipeline"
+		}
+	}
+}

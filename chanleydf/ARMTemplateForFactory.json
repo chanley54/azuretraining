@@ -235,6 +235,67 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/adf')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "jsonpipeline",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "MyPipeline",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "chanley"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/jsonpipeline')]",
+				"[concat(variables('factoryId'), '/datasets/MyPipeline')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/child_param')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1238,6 +1299,183 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/srcTableA')]",
 				"[concat(variables('factoryId'), '/datasets/tgtTableB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/jsonpipeline')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "miscparquest",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "PipeLinesByFactory.json",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"activities": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														},
+														"dependsOn": {
+															"type": "array"
+														},
+														"policy": {
+															"type": "object",
+															"properties": {
+																"timeout": {
+																	"type": "string"
+																},
+																"retry": {
+																	"type": "integer"
+																},
+																"retryIntervalInSeconds": {
+																	"type": "integer"
+																},
+																"secureOutput": {
+																	"type": "boolean"
+																},
+																"secureInput": {
+																	"type": "boolean"
+																}
+															}
+														},
+														"userProperties": {
+															"type": "array"
+														},
+														"typeProperties": {
+															"type": "object",
+															"properties": {
+																"dataflow": {
+																	"type": "object",
+																	"properties": {
+																		"referenceName": {
+																			"type": "string"
+																		},
+																		"type": {
+																			"type": "string"
+																		},
+																		"parameters": {
+																			"type": "object",
+																			"properties": {}
+																		},
+																		"datasetParameters": {
+																			"type": "object",
+																			"properties": {
+																				"srcTableA": {
+																					"type": "object",
+																					"properties": {}
+																				},
+																				"tgtTableB": {
+																					"type": "object",
+																					"properties": {}
+																				}
+																			}
+																		}
+																	}
+																},
+																"staging": {
+																	"type": "object",
+																	"properties": {}
+																},
+																"integrationRuntime": {
+																	"type": "object",
+																	"properties": {
+																		"referenceName": {
+																			"type": "string"
+																		},
+																		"type": {
+																			"type": "string"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											"folder": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string"
+													}
+												}
+											},
+											"annotations": {
+												"type": "array"
+											},
+											"lastPublishTime": {
+												"type": "string"
+											}
+										}
+									},
+									"etag": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MyPipeline')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "mypipeline"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
 		}
 	]

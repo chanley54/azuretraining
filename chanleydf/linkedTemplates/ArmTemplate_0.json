@@ -749,6 +749,183 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/jsonpipeline')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "miscparquest",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "PipeLinesByFactory.json",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"activities": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														},
+														"dependsOn": {
+															"type": "array"
+														},
+														"policy": {
+															"type": "object",
+															"properties": {
+																"timeout": {
+																	"type": "string"
+																},
+																"retry": {
+																	"type": "integer"
+																},
+																"retryIntervalInSeconds": {
+																	"type": "integer"
+																},
+																"secureOutput": {
+																	"type": "boolean"
+																},
+																"secureInput": {
+																	"type": "boolean"
+																}
+															}
+														},
+														"userProperties": {
+															"type": "array"
+														},
+														"typeProperties": {
+															"type": "object",
+															"properties": {
+																"dataflow": {
+																	"type": "object",
+																	"properties": {
+																		"referenceName": {
+																			"type": "string"
+																		},
+																		"type": {
+																			"type": "string"
+																		},
+																		"parameters": {
+																			"type": "object",
+																			"properties": {}
+																		},
+																		"datasetParameters": {
+																			"type": "object",
+																			"properties": {
+																				"srcTableA": {
+																					"type": "object",
+																					"properties": {}
+																				},
+																				"tgtTableB": {
+																					"type": "object",
+																					"properties": {}
+																				}
+																			}
+																		}
+																	}
+																},
+																"staging": {
+																	"type": "object",
+																	"properties": {}
+																},
+																"integrationRuntime": {
+																	"type": "object",
+																	"properties": {
+																		"referenceName": {
+																			"type": "string"
+																		},
+																		"type": {
+																			"type": "string"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											"folder": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string"
+													}
+												}
+											},
+											"annotations": {
+												"type": "array"
+											},
+											"lastPublishTime": {
+												"type": "string"
+											}
+										}
+									},
+									"etag": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MyPipeline')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "mypipeline"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Loop_param')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -850,125 +1027,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/srcTableA')]",
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Trigger')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"description": "   ",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ParquetSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "srcTrigger",
-								"type": "DatasetReference",
-								"parameters": {
-									"FileName": {
-										"value": "@pipeline().parameters.SourceFile",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "tgtTrigger",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"parameters": {
-					"SourceFile": {
-						"type": "string",
-						"defaultValue": "@trigger().outputs.body.fileName"
-					}
-				},
-				"folder": {
-					"name": "chanley"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/srcTrigger')]",
-				"[concat(variables('factoryId'), '/datasets/tgtTrigger')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/parent_param')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Execute Pipeline1",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "child_param",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"item": {
-									"value": "@pipeline().parameters.item2",
-									"type": "Expression"
-								}
-							}
-						}
-					}
-				],
-				"parameters": {
-					"item2": {
-						"type": "string",
-						"defaultValue": "Chris"
-					}
-				},
-				"folder": {
-					"name": "chanley"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/child_param')]"
 			]
 		}
 	]

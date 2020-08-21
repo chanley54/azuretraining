@@ -26,8 +26,15 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink",
-						"tableOption": "autoCreate"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false
 				},
@@ -39,7 +46,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "MyPipeline",
+						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					}
 				]

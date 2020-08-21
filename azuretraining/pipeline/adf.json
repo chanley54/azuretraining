@@ -42,7 +42,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['value'][0]['id']"
+									"path": "['id']"
 								},
 								"sink": {
 									"type": "String",
@@ -51,15 +51,16 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['name']"
+									"path": "['name']"
 								},
 								"sink": {
+									"type": "String",
 									"ordinal": 2
 								}
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['type']"
+									"path": "['type']"
 								},
 								"sink": {
 									"type": "String",
@@ -68,15 +69,16 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['name']"
+									"path": "['properties']['activities'][0]['name']"
 								},
 								"sink": {
+									"type": "String",
 									"ordinal": 4
 								}
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['type']"
+									"path": "['properties']['activities'][0]['type']"
 								},
 								"sink": {
 									"ordinal": 5
@@ -84,7 +86,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['dependsOn']"
+									"path": "['properties']['activities'][0]['dependsOn']"
 								},
 								"sink": {
 									"ordinal": 6
@@ -92,7 +94,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['policy']['timeout']"
+									"path": "['properties']['activities'][0]['policy']['timeout']"
 								},
 								"sink": {
 									"type": "String",
@@ -101,15 +103,16 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['policy']['retry']"
+									"path": "['properties']['activities'][0]['policy']['retry']"
 								},
 								"sink": {
+									"type": "Int32",
 									"ordinal": 8
 								}
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['policy']['retryIntervalInSeconds']"
+									"path": "['properties']['activities'][0]['policy']['retryIntervalInSeconds']"
 								},
 								"sink": {
 									"type": "Int32",
@@ -118,7 +121,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['policy']['secureOutput']"
+									"path": "['properties']['activities'][0]['policy']['secureOutput']"
 								},
 								"sink": {
 									"type": "String",
@@ -127,7 +130,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['policy']['secureInput']"
+									"path": "['properties']['activities'][0]['policy']['secureInput']"
 								},
 								"sink": {
 									"ordinal": 11
@@ -135,7 +138,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['userProperties']"
+									"path": "['properties']['activities'][0]['userProperties']"
 								},
 								"sink": {
 									"ordinal": 12
@@ -143,7 +146,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['referenceName']"
+									"path": "['properties']['activities'][0]['typeProperties']['dataflow']['referenceName']"
 								},
 								"sink": {
 									"type": "String",
@@ -152,7 +155,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['type']"
+									"path": "['properties']['activities'][0]['typeProperties']['dataflow']['type']"
 								},
 								"sink": {
 									"ordinal": 14
@@ -160,7 +163,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['parameters']"
+									"path": "['properties']['activities'][0]['typeProperties']['dataflow']['parameters']"
 								},
 								"sink": {
 									"type": "String",
@@ -169,7 +172,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['srcTableA']"
+									"path": "['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['srcTableA']"
 								},
 								"sink": {
 									"type": "String",
@@ -178,7 +181,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['tgtTableB']"
+									"path": "['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['tgtTableB']"
 								},
 								"sink": {
 									"type": "String",
@@ -187,7 +190,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['staging']"
+									"path": "['properties']['activities'][0]['typeProperties']['staging']"
 								},
 								"sink": {
 									"ordinal": 18
@@ -195,7 +198,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['integrationRuntime']['referenceName']"
+									"path": "['properties']['activities'][0]['typeProperties']['integrationRuntime']['referenceName']"
 								},
 								"sink": {
 									"type": "String",
@@ -204,7 +207,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['integrationRuntime']['type']"
+									"path": "['properties']['activities'][0]['typeProperties']['integrationRuntime']['type']"
 								},
 								"sink": {
 									"type": "String",
@@ -213,7 +216,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['folder']['name']"
+									"path": "['properties']['folder']['name']"
 								},
 								"sink": {
 									"type": "String",
@@ -222,7 +225,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['annotations']"
+									"path": "['properties']['annotations']"
 								},
 								"sink": {
 									"ordinal": 22
@@ -230,7 +233,7 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['properties']['lastPublishTime']"
+									"path": "['properties']['lastPublishTime']"
 								},
 								"sink": {
 									"type": "String",
@@ -239,14 +242,16 @@
 							},
 							{
 								"source": {
-									"path": "$['value'][0]['etag']"
+									"path": "['etag']"
 								},
 								"sink": {
 									"type": "String",
 									"ordinal": 24
 								}
 							}
-						]
+						],
+						"collectionReference": "$['value']",
+						"mapComplexValuesToString": true
 					}
 				},
 				"inputs": [

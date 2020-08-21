@@ -228,7 +228,8 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
 								},
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
@@ -281,6 +282,7 @@
 											"path": "[['properties']['activities'][0]['type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 5
 										}
 									},
@@ -289,6 +291,7 @@
 											"path": "[['properties']['activities'][0]['dependsOn']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 6
 										}
 									},
@@ -306,7 +309,7 @@
 											"path": "[['properties']['activities'][0]['policy']['retry']"
 										},
 										"sink": {
-											"type": "Int32",
+											"type": "String",
 											"ordinal": 8
 										}
 									},
@@ -315,7 +318,7 @@
 											"path": "[['properties']['activities'][0]['policy']['retryIntervalInSeconds']"
 										},
 										"sink": {
-											"type": "Int32",
+											"type": "String",
 											"ordinal": 9
 										}
 									},
@@ -333,6 +336,7 @@
 											"path": "[['properties']['activities'][0]['policy']['secureInput']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 11
 										}
 									},
@@ -341,6 +345,7 @@
 											"path": "[['properties']['activities'][0]['userProperties']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 12
 										}
 									},
@@ -358,6 +363,7 @@
 											"path": "[['properties']['activities'][0]['typeProperties']['dataflow']['type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 14
 										}
 									},
@@ -393,6 +399,7 @@
 											"path": "[['properties']['activities'][0]['typeProperties']['staging']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 18
 										}
 									},
@@ -428,6 +435,7 @@
 											"path": "[['properties']['annotations']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 22
 										}
 									},

@@ -36,7 +36,218 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['value'][0]['id']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 1
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['name']"
+								},
+								"sink": {
+									"ordinal": 2
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['type']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 3
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['name']"
+								},
+								"sink": {
+									"ordinal": 4
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['type']"
+								},
+								"sink": {
+									"ordinal": 5
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['dependsOn']"
+								},
+								"sink": {
+									"ordinal": 6
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['policy']['timeout']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 7
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['policy']['retry']"
+								},
+								"sink": {
+									"ordinal": 8
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['policy']['retryIntervalInSeconds']"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 9
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['policy']['secureOutput']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 10
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['policy']['secureInput']"
+								},
+								"sink": {
+									"ordinal": 11
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['userProperties']"
+								},
+								"sink": {
+									"ordinal": 12
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['referenceName']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 13
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['type']"
+								},
+								"sink": {
+									"ordinal": 14
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['parameters']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 15
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['srcTableA']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 16
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['tgtTableB']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 17
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['staging']"
+								},
+								"sink": {
+									"ordinal": 18
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['integrationRuntime']['referenceName']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 19
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['activities'][0]['typeProperties']['integrationRuntime']['type']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 20
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['folder']['name']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 21
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['annotations']"
+								},
+								"sink": {
+									"ordinal": 22
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['properties']['lastPublishTime']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 23
+								}
+							},
+							{
+								"source": {
+									"path": "$['value'][0]['etag']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 24
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{

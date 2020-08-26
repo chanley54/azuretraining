@@ -93,10 +93,12 @@
 		],
 		"parameters": {
 			"SinkContainer": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "chanleyblob"
 			},
 			"SinkDirectory": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "json"
 			}
 		},
 		"annotations": []

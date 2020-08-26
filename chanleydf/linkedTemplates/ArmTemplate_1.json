@@ -2134,6 +2134,7 @@
 											"path": "[['activityRunEnd']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 1
 										}
 									},
@@ -2142,6 +2143,7 @@
 											"path": "[['activityName']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 2
 										}
 									},
@@ -2150,6 +2152,7 @@
 											"path": "[['activityRunStart']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 3
 										}
 									},
@@ -2158,6 +2161,7 @@
 											"path": "[['activityType']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 4
 										}
 									},
@@ -2166,6 +2170,7 @@
 											"path": "[['durationInMs']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 5
 										}
 									},
@@ -2174,6 +2179,7 @@
 											"path": "[['retryAttempt']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 6
 										}
 									},
@@ -2182,6 +2188,7 @@
 											"path": "[['error']['errorCode']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 7
 										}
 									},
@@ -2190,6 +2197,7 @@
 											"path": "[['error']['message']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 8
 										}
 									},
@@ -2198,6 +2206,7 @@
 											"path": "[['error']['failureType']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 9
 										}
 									},
@@ -2214,6 +2223,7 @@
 											"path": "[['error']['details']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 11
 										}
 									},
@@ -2222,6 +2232,7 @@
 											"path": "[['activityRunId']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 12
 										}
 									},
@@ -2230,6 +2241,7 @@
 											"path": "[['iterationHash']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 13
 										}
 									},
@@ -2238,6 +2250,7 @@
 											"path": "[['input']['source']['type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 14
 										}
 									},
@@ -2246,6 +2259,7 @@
 											"path": "[['input']['source']['sqlReaderQuery']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 15
 										}
 									},
@@ -2254,6 +2268,7 @@
 											"path": "[['input']['source']['queryTimeout']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 16
 										}
 									},
@@ -2262,6 +2277,7 @@
 											"path": "[['input']['source']['partitionOption']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 17
 										}
 									},
@@ -2270,6 +2286,7 @@
 											"path": "[['input']['dataset']['referenceName']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 18
 										}
 									},
@@ -2278,6 +2295,7 @@
 											"path": "[['input']['dataset']['type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 19
 										}
 									},
@@ -2286,6 +2304,7 @@
 											"path": "[['input']['dataset']['parameters']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 20
 										}
 									},
@@ -2294,6 +2313,7 @@
 											"path": "[['input']['firstRowOnly']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 21
 										}
 									},
@@ -2302,6 +2322,7 @@
 											"path": "[['linkedServiceName']"
 										},
 										"sink": {
+											"type": "Single",
 											"ordinal": 22
 										}
 									},
@@ -2310,6 +2331,7 @@
 											"path": "[['output']['count']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 23
 										}
 									},
@@ -2318,6 +2340,7 @@
 											"path": "[['output']['value'][0]['server_name']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 24
 										}
 									},
@@ -2326,6 +2349,7 @@
 											"path": "[['output']['value'][0]['adhoc']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 25
 										}
 									},
@@ -2334,6 +2358,7 @@
 											"path": "[['output']['value'][0]['load_frequency']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 26
 										}
 									},
@@ -2342,6 +2367,7 @@
 											"path": "[['output']['value'][0]['src_type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 27
 										}
 									},
@@ -2350,6 +2376,7 @@
 											"path": "[['output']['value'][0]['src_schema']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 28
 										}
 									},
@@ -2358,6 +2385,7 @@
 											"path": "[['output']['value'][0]['src_db']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 29
 										}
 									},
@@ -2366,6 +2394,7 @@
 											"path": "[['output']['value'][0]['src_name']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 30
 										}
 									},
@@ -2374,6 +2403,7 @@
 											"path": "[['output']['value'][0]['dst_type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 31
 										}
 									},
@@ -2382,6 +2412,7 @@
 											"path": "[['output']['value'][0]['dst_name']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 32
 										}
 									},
@@ -2390,6 +2421,7 @@
 											"path": "[['output']['value'][0]['include_pipeline_flag']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 33
 										}
 									},
@@ -2398,6 +2430,7 @@
 											"path": "[['output']['value'][0]['process_type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 34
 										}
 									},
@@ -2406,6 +2439,7 @@
 											"path": "[['output']['value'][0]['priority_lane']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 35
 										}
 									},
@@ -2414,6 +2448,7 @@
 											"path": "[['output']['value'][0]['pipeline_date']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 36
 										}
 									},
@@ -2422,6 +2457,7 @@
 											"path": "[['output']['value'][0]['pipeline_status']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 37
 										}
 									},
@@ -2430,6 +2466,7 @@
 											"path": "[['output']['value'][0]['dst_folder']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 38
 										}
 									},
@@ -2438,6 +2475,7 @@
 											"path": "[['output']['value'][0]['file_type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 39
 										}
 									},
@@ -2446,6 +2484,7 @@
 											"path": "[['output']['value'][0]['last_modified_folder_date']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 40
 										}
 									},
@@ -2454,6 +2493,7 @@
 											"path": "[['output']['effectiveIntegrationRuntime']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 41
 										}
 									},
@@ -2462,6 +2502,7 @@
 											"path": "[['output']['billingReference']['activityType']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 42
 										}
 									},
@@ -2470,6 +2511,7 @@
 											"path": "[['output']['billingReference']['billableDuration'][0]['meterType']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 43
 										}
 									},
@@ -2478,6 +2520,7 @@
 											"path": "[['output']['billingReference']['billableDuration'][0]['duration']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 44
 										}
 									},
@@ -2486,6 +2529,7 @@
 											"path": "[['output']['billingReference']['billableDuration'][0]['unit']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 45
 										}
 									},
@@ -2494,6 +2538,7 @@
 											"path": "[['output']['durationInQueue']['integrationRuntimeQueue']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 46
 										}
 									},
@@ -2502,6 +2547,7 @@
 											"path": "[['userProperties']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 47
 										}
 									},
@@ -2510,6 +2556,7 @@
 											"path": "[['pipelineName']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 48
 										}
 									},
@@ -2518,6 +2565,7 @@
 											"path": "[['pipelineRunId']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 49
 										}
 									},
@@ -2526,6 +2574,7 @@
 											"path": "[['status']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 50
 										}
 									},
@@ -2534,14 +2583,16 @@
 											"path": "[['recoveryStatus']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 51
 										}
 									},
 									{
 										"source": {
-											"path": "[['integrationRuntimeNames'][0]"
+											"path": "[['integrationRuntimeNames']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 52
 										}
 									},
@@ -2550,6 +2601,7 @@
 											"path": "[['executionDetails']['integrationRuntime'][0]['name']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 53
 										}
 									},
@@ -2558,6 +2610,7 @@
 											"path": "[['executionDetails']['integrationRuntime'][0]['type']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 54
 										}
 									},
@@ -2566,14 +2619,16 @@
 											"path": "[['executionDetails']['integrationRuntime'][0]['location']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 55
 										}
 									},
 									{
 										"source": {
-											"path": "[['executionDetails']['integrationRuntime'][0]['nodes'][0]"
+											"path": "[['executionDetails']['integrationRuntime'][0]['nodes']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 56
 										}
 									},
@@ -2582,6 +2637,7 @@
 											"path": "[['id']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 57
 										}
 									},
@@ -2590,6 +2646,7 @@
 											"path": "$['continuationToken']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 58
 										}
 									}

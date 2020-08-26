@@ -6,20 +6,226 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "chanleydf"
-		},
-		"EventTrigger_properties_Trigger_parameters_SourceFile": {
-			"type": "string",
-			"defaultValue": "@triggerBody().filename"
-		},
-		"EventTrigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.Storage/storageAccounts/chanleysg"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/jsonpipeline')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "miscparquest",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "PipeLinesByFactory.json",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"activities": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														},
+														"dependsOn": {
+															"type": "array"
+														},
+														"policy": {
+															"type": "object",
+															"properties": {
+																"timeout": {
+																	"type": "string"
+																},
+																"retry": {
+																	"type": "integer"
+																},
+																"retryIntervalInSeconds": {
+																	"type": "integer"
+																},
+																"secureOutput": {
+																	"type": "boolean"
+																},
+																"secureInput": {
+																	"type": "boolean"
+																}
+															}
+														},
+														"userProperties": {
+															"type": "array"
+														},
+														"typeProperties": {
+															"type": "object",
+															"properties": {
+																"dataflow": {
+																	"type": "object",
+																	"properties": {
+																		"referenceName": {
+																			"type": "string"
+																		},
+																		"type": {
+																			"type": "string"
+																		},
+																		"parameters": {
+																			"type": "object"
+																		},
+																		"datasetParameters": {
+																			"type": "object",
+																			"properties": {
+																				"srcTableA": {
+																					"type": "object"
+																				},
+																				"tgtTableB": {
+																					"type": "object"
+																				}
+																			}
+																		}
+																	}
+																},
+																"staging": {
+																	"type": "object"
+																},
+																"integrationRuntime": {
+																	"type": "object",
+																	"properties": {
+																		"referenceName": {
+																			"type": "string"
+																		},
+																		"type": {
+																			"type": "string"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											"folder": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string"
+													}
+												}
+											},
+											"annotations": {
+												"type": "array"
+											},
+											"lastPublishTime": {
+												"type": "string"
+											}
+										}
+									},
+									"etag": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/srcSKU')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ItemName",
+						"type": "varchar"
+					},
+					{
+						"name": "ItemSkew",
+						"type": "varchar"
+					},
+					{
+						"name": "DatePurchase",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DateReturned",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "cost",
+						"type": "money",
+						"precision": 19,
+						"scale": 4
+					},
+					{
+						"name": "DateLoaded",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DateUpdated",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DateDeleted",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "srcTableA"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/srcTableA')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -383,7 +589,291 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/datasetPIPE')]",
+			"name": "[concat(parameters('factoryName'), '/activitiesJSAON')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "miscparquest",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ADF"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Aladdin_e36dbf93-f1f5-4732-b58c-d815c49338fb.json",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"activityRunEnd": {
+										"type": "string"
+									},
+									"activityName": {
+										"type": "string"
+									},
+									"activityRunStart": {
+										"type": "string"
+									},
+									"activityType": {
+										"type": "string"
+									},
+									"durationInMs": {
+										"type": "integer"
+									},
+									"retryAttempt": {
+										"type": "null"
+									},
+									"error": {
+										"type": "object",
+										"properties": {
+											"errorCode": {
+												"type": "string"
+											},
+											"message": {
+												"type": "string"
+											},
+											"failureType": {
+												"type": "string"
+											},
+											"target": {
+												"type": "string"
+											},
+											"details": {
+												"type": "string"
+											}
+										}
+									},
+									"activityRunId": {
+										"type": "string"
+									},
+									"iterationHash": {
+										"type": "string"
+									},
+									"input": {
+										"type": "object",
+										"properties": {
+											"source": {
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string"
+													},
+													"sqlReaderQuery": {
+														"type": "string"
+													},
+													"queryTimeout": {
+														"type": "string"
+													},
+													"partitionOption": {
+														"type": "string"
+													}
+												}
+											},
+											"dataset": {
+												"type": "object",
+												"properties": {
+													"referenceName": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													},
+													"parameters": {
+														"type": "object",
+														"properties": {}
+													}
+												}
+											},
+											"firstRowOnly": {
+												"type": "boolean"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"type": "string"
+									},
+									"output": {
+										"type": "object",
+										"properties": {
+											"count": {
+												"type": "integer"
+											},
+											"value": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"server_name": {
+															"type": "string"
+														},
+														"adhoc": {
+															"type": "string"
+														},
+														"load_frequency": {
+															"type": "string"
+														},
+														"src_type": {
+															"type": "string"
+														},
+														"src_schema": {
+															"type": "string"
+														},
+														"src_db": {
+															"type": "string"
+														},
+														"src_name": {
+															"type": "string"
+														},
+														"dst_type": {
+															"type": "string"
+														},
+														"dst_name": {
+															"type": "string"
+														},
+														"include_pipeline_flag": {
+															"type": "integer"
+														},
+														"process_type": {
+															"type": "string"
+														},
+														"priority_lane": {
+															"type": "integer"
+														},
+														"pipeline_date": {
+															"type": "string"
+														},
+														"pipeline_status": {
+															"type": "string"
+														},
+														"dst_folder": {
+															"type": "string"
+														},
+														"file_type": {
+															"type": "string"
+														},
+														"last_modified_folder_date": {
+															"type": "string"
+														}
+													}
+												}
+											},
+											"effectiveIntegrationRuntime": {
+												"type": "string"
+											},
+											"billingReference": {
+												"type": "object",
+												"properties": {
+													"activityType": {
+														"type": "string"
+													},
+													"billableDuration": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"meterType": {
+																	"type": "string"
+																},
+																"duration": {
+																	"type": "number"
+																},
+																"unit": {
+																	"type": "string"
+																}
+															}
+														}
+													}
+												}
+											},
+											"durationInQueue": {
+												"type": "object",
+												"properties": {
+													"integrationRuntimeQueue": {
+														"type": "integer"
+													}
+												}
+											}
+										}
+									},
+									"userProperties": {
+										"type": "object",
+										"properties": {}
+									},
+									"pipelineName": {
+										"type": "string"
+									},
+									"pipelineRunId": {
+										"type": "string"
+									},
+									"status": {
+										"type": "string"
+									},
+									"recoveryStatus": {
+										"type": "string"
+									},
+									"integrationRuntimeNames": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"executionDetails": {
+										"type": "object",
+										"properties": {
+											"integrationRuntime": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														},
+														"location": {
+															"type": "string"
+														},
+														"nodes": {
+															"type": "array",
+															"items": {
+																"type": "string"
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"id": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"continuationToken": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/activitiesPIPE')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -399,7 +889,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "dataset.txt",
+						"fileName": "activities.txt",
 						"folderPath": "json",
 						"fileSystem": "chanleyblob"
 					},
@@ -408,25 +898,6 @@
 					"quoteChar": ""
 				},
 				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ADF_DataSets')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "adf",
-					"table": "ADF_DATA_SETS"
-				}
 			},
 			"dependsOn": []
 		},
@@ -893,10 +1364,7 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/datasetPIPE')]",
-				"[concat(variables('factoryId'), '/datasets/ADF_DataSets')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Loop_param')]",
@@ -1366,7 +1834,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/jsonpipeline')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/parent_param')]",
@@ -1506,6 +1976,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/srcSKU')]",
 				"[concat(variables('factoryId'), '/datasets/tgtSKU')]"
 			]
 		},
@@ -1545,6 +2016,602 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/srcTableA')]",
 				"[concat(variables('factoryId'), '/datasets/tgtTableB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyActivities')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['activityRunEnd']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 1
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 2
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityRunStart']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 3
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 4
+										}
+									},
+									{
+										"source": {
+											"path": "[['durationInMs']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 5
+										}
+									},
+									{
+										"source": {
+											"path": "[['retryAttempt']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 6
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['errorCode']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 7
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['message']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 8
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['failureType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 9
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['target']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 10
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['details']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 11
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityRunId']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 12
+										}
+									},
+									{
+										"source": {
+											"path": "[['iterationHash']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 13
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 14
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['sqlReaderQuery']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 15
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['queryTimeout']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 16
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['partitionOption']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 17
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['dataset']['referenceName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 18
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['dataset']['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 19
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['dataset']['parameters']"
+										},
+										"sink": {
+											"ordinal": 20
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['firstRowOnly']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 21
+										}
+									},
+									{
+										"source": {
+											"path": "[['linkedServiceName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 22
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['count']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 23
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['server_name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 24
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['adhoc']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 25
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['load_frequency']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 26
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 27
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_schema']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 28
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_db']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 29
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 30
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['dst_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 31
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['dst_name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 32
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['include_pipeline_flag']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 33
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['process_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 34
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['priority_lane']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 35
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['pipeline_date']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 36
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['pipeline_status']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 37
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['dst_folder']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 38
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['file_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 39
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['last_modified_folder_date']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 40
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['effectiveIntegrationRuntime']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 41
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['activityType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 42
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['billableDuration'][0]['meterType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 43
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['billableDuration'][0]['duration']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 44
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['billableDuration'][0]['unit']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 45
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['durationInQueue']['integrationRuntimeQueue']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 46
+										}
+									},
+									{
+										"source": {
+											"path": "[['userProperties']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 47
+										}
+									},
+									{
+										"source": {
+											"path": "[['pipelineName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 48
+										}
+									},
+									{
+										"source": {
+											"path": "[['pipelineRunId']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 49
+										}
+									},
+									{
+										"source": {
+											"path": "[['status']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 50
+										}
+									},
+									{
+										"source": {
+											"path": "[['recoveryStatus']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 51
+										}
+									},
+									{
+										"source": {
+											"path": "[['integrationRuntimeNames']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 52
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 53
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 54
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['location']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 55
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['nodes']"
+										},
+										"sink": {
+											"type": "Single",
+											"ordinal": 56
+										}
+									},
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 57
+										}
+									},
+									{
+										"source": {
+											"path": "$['continuationToken']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 58
+										}
+									}
+								],
+								"collectionReference": "$['value']",
+								"mapComplexValuesToString": true
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "activitiesJSAON",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "activitiesPIPE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "ADF"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/activitiesJSAON')]",
+				"[concat(variables('factoryId'), '/datasets/activitiesPIPE')]"
 			]
 		},
 		{
@@ -1631,39 +2698,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dfUpsert')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/EventTrigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Trigger",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"SourceFile": "[parameters('EventTrigger_properties_Trigger_parameters_SourceFile')]"
-						}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/chanleyblob/blobs/Trigger/",
-					"blobPathEndsWith": ".parquet",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('EventTrigger_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Trigger')]"
 			]
 		}
 	]

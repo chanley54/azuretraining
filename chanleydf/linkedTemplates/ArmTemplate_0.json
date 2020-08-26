@@ -292,6 +292,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ADF_DataSets')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "adf",
+					"table": "ADF_DATA_SETS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -563,7 +584,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/jsonpipeline')]",
+			"name": "[concat(parameters('factoryName'), '/datasetPIPE')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -571,213 +592,26 @@
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "ADF"
+				},
 				"annotations": [],
-				"type": "Json",
+				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "PipeLinesByFactory.json",
+						"fileName": "dataset.txt",
 						"folderPath": "json",
 						"fileSystem": "chanleyblob"
-					}
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"quoteChar": ""
 				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"value": {
-							"type": "array",
-							"items": {
-								"type": "object",
-								"properties": {
-									"id": {
-										"type": "string"
-									},
-									"name": {
-										"type": "string"
-									},
-									"type": {
-										"type": "string"
-									},
-									"properties": {
-										"type": "object",
-										"properties": {
-											"activities": {
-												"type": "array",
-												"items": {
-													"type": "object",
-													"properties": {
-														"name": {
-															"type": "string"
-														},
-														"type": {
-															"type": "string"
-														},
-														"dependsOn": {
-															"type": "array"
-														},
-														"policy": {
-															"type": "object",
-															"properties": {
-																"timeout": {
-																	"type": "string"
-																},
-																"retry": {
-																	"type": "integer"
-																},
-																"retryIntervalInSeconds": {
-																	"type": "integer"
-																},
-																"secureOutput": {
-																	"type": "boolean"
-																},
-																"secureInput": {
-																	"type": "boolean"
-																}
-															}
-														},
-														"userProperties": {
-															"type": "array"
-														},
-														"typeProperties": {
-															"type": "object",
-															"properties": {
-																"dataflow": {
-																	"type": "object",
-																	"properties": {
-																		"referenceName": {
-																			"type": "string"
-																		},
-																		"type": {
-																			"type": "string"
-																		},
-																		"parameters": {
-																			"type": "object"
-																		},
-																		"datasetParameters": {
-																			"type": "object",
-																			"properties": {
-																				"srcTableA": {
-																					"type": "object"
-																				},
-																				"tgtTableB": {
-																					"type": "object"
-																				}
-																			}
-																		}
-																	}
-																},
-																"staging": {
-																	"type": "object"
-																},
-																"integrationRuntime": {
-																	"type": "object",
-																	"properties": {
-																		"referenceName": {
-																			"type": "string"
-																		},
-																		"type": {
-																			"type": "string"
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											},
-											"folder": {
-												"type": "object",
-												"properties": {
-													"name": {
-														"type": "string"
-													}
-												}
-											},
-											"annotations": {
-												"type": "array"
-											},
-											"lastPublishTime": {
-												"type": "string"
-											}
-										}
-									},
-									"etag": {
-										"type": "string"
-									}
-								}
-							}
-						}
-					}
-				}
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/srcSKU')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "chanleysvc",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ItemName",
-						"type": "varchar"
-					},
-					{
-						"name": "ItemSkew",
-						"type": "varchar"
-					},
-					{
-						"name": "DatePurchase",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "DateReturned",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "cost",
-						"type": "money",
-						"precision": 19,
-						"scale": 4
-					},
-					{
-						"name": "DateLoaded",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "DateUpdated",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "DateDeleted",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "srcTableA"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
 			]
 		}
 	]

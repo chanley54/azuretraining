@@ -5,6 +5,9 @@
 			"referenceName": "miscparquest",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "ADF"
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {

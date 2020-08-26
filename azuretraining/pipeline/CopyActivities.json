@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "copyActivitiesJSON",
+				"description": " ",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

@@ -581,7 +581,7 @@
 				]
 			},
 			{
-				"name": "copyActivities",
+				"name": "copyActivitiesPIPE",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -600,8 +600,24 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "activitiesPIPE",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"folder": {

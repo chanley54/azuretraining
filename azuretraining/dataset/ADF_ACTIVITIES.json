@@ -1,0 +1,16 @@
+{
+	"name": "ADF_ACTIVITIES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "adf",
+			"table": "ADF_ACTIVITES"
+		}
+	}
+}

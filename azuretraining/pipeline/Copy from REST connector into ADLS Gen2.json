@@ -5,7 +5,14 @@
 			{
 				"name": "CopyData",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "GetBearerToken",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -65,14 +72,7 @@
 				"name": "GetBearerToken",
 				"description": "Use this Web activity to get bearer token",
 				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "CopyData",
-						"dependencyConditions": [
-							"Skipped"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,

@@ -2246,7 +2246,7 @@
 					},
 					"columnDelimiter": "|",
 					"escapeChar": "\\",
-					"quoteChar": "\""
+					"quoteChar": ""
 				},
 				"schema": []
 			},

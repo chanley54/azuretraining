@@ -3571,7 +3571,7 @@
 							},
 							"sink": {
 								"type": "AzureSqlSink",
-								"preCopyScript": "\ntruncate table [adf].[ADF_ACTIVITES]",
+								"preCopyScript": "\n",
 								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
 							},

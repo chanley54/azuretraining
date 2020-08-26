@@ -3062,7 +3062,7 @@
 											"path": "[['linkedServiceName']"
 										},
 										"sink": {
-											"type": "Single",
+											"type": "String",
 											"ordinal": 22
 										}
 									},

@@ -1,0 +1,9 @@
+{
+	"name": "CopyActivities",
+	"properties": {
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": []
+	}
+}

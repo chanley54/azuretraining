@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "COPYJSON",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -158,11 +158,11 @@
 				]
 			},
 			{
-				"name": "Copy data2",
+				"name": "COPYPIPE",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "COPYJSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]

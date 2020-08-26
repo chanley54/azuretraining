@@ -1,0 +1,26 @@
+{
+	"name": "activitiesPIPE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "miscparquest",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "activities.txt",
+				"folderPath": "json",
+				"fileSystem": "chanleyblob"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}

@@ -2997,6 +2997,7 @@
 											"path": "[['input']['dataset']['parameters']"
 										},
 										"sink": {
+											"type": "String",
 											"ordinal": 20
 										}
 									},
@@ -3320,7 +3321,7 @@
 											"path": "[['executionDetails']['integrationRuntime'][0]['nodes']"
 										},
 										"sink": {
-											"type": "Single",
+											"type": "String",
 											"ordinal": 56
 										}
 									},

@@ -63,6 +63,10 @@
 							"Directory": {
 								"value": "@pipeline().parameters.SinkDirectory",
 								"type": "Expression"
+							},
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
 							}
 						}
 					}

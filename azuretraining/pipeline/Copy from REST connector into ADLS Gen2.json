@@ -99,6 +99,10 @@
 			"SinkDirectory": {
 				"type": "string",
 				"defaultValue": "json"
+			},
+			"fileName": {
+				"type": "string",
+				"defaultValue": "blah.json"
 			}
 		},
 		"annotations": []

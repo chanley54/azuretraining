@@ -6,12 +6,7 @@
 		"typeProperties": {
 			"url": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01",
 			"enableServerCertificateValidation": true,
-			"authenticationType": "ManagedServiceIdentity",
-			"aadResourceId": "https://management.azure.com"
-		},
-		"connectVia": {
-			"referenceName": "TTL10minutesIR",
-			"type": "IntegrationRuntimeReference"
+			"authenticationType": "Anonymous"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"

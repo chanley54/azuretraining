@@ -8,6 +8,10 @@
 			"enableServerCertificateValidation": true,
 			"authenticationType": "ManagedServiceIdentity",
 			"aadResourceId": "https://management.azure.com"
+		},
+		"connectVia": {
+			"referenceName": "TTL10minutesIR",
+			"type": "IntegrationRuntimeReference"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"

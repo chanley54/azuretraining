@@ -39,10 +39,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
 		},
-		"rest_data_sets_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'rest_data_sets'"
-		},
 		"jsonstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
@@ -53,11 +49,11 @@
 		},
 		"rest_data_sets_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
+			"defaultValue": "https://management.azure.com"
 		},
-		"rest_data_sets_properties_typeProperties_userName": {
+		"rest_data_sets_properties_typeProperties_aadResourceId": {
 			"type": "string",
-			"defaultValue": "chris.hanley@catapultsystems.com"
+			"defaultValue": "https://management.azure.com"
 		},
 		"EventTrigger_properties_Trigger_parameters_SourceFile": {
 			"type": "string",
@@ -118,9 +114,6 @@
 					"miscparquest_accountKey": {
 						"value": "[parameters('miscparquest_accountKey')]"
 					},
-					"rest_data_sets_password": {
-						"value": "[parameters('rest_data_sets_password')]"
-					},
 					"jsonstorage_properties_typeProperties_url": {
 						"value": "[parameters('jsonstorage_properties_typeProperties_url')]"
 					},
@@ -130,8 +123,8 @@
 					"rest_data_sets_properties_typeProperties_url": {
 						"value": "[parameters('rest_data_sets_properties_typeProperties_url')]"
 					},
-					"rest_data_sets_properties_typeProperties_userName": {
-						"value": "[parameters('rest_data_sets_properties_typeProperties_userName')]"
+					"rest_data_sets_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('rest_data_sets_properties_typeProperties_aadResourceId')]"
 					}
 				}
 			},

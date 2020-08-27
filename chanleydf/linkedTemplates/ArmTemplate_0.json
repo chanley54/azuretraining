@@ -39,10 +39,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
 		},
-		"rest_data_sets_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'rest_data_sets'"
-		},
 		"jsonstorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://chanleysg.dfs.core.windows.net"
@@ -53,11 +49,11 @@
 		},
 		"rest_data_sets_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
+			"defaultValue": "https://management.azure.com"
 		},
-		"rest_data_sets_properties_typeProperties_userName": {
+		"rest_data_sets_properties_typeProperties_aadResourceId": {
 			"type": "string",
-			"defaultValue": "chris.hanley@catapultsystems.com"
+			"defaultValue": "https://management.azure.com"
 		}
 	},
 	"variables": {
@@ -191,12 +187,8 @@
 				"typeProperties": {
 					"url": "[parameters('rest_data_sets_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
-					"authenticationType": "Basic",
-					"userName": "[parameters('rest_data_sets_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('rest_data_sets_password')]"
-					}
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('rest_data_sets_properties_typeProperties_aadResourceId')]"
 				}
 			},
 			"dependsOn": []
@@ -292,6 +284,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ADF_ACTIVITIES')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "adf",
+					"table": "ADF_ACTIVITES"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ADF_DataSets')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -373,7 +386,9 @@
 				},
 				"annotations": [],
 				"type": "RestResource",
-				"typeProperties": {},
+				"typeProperties": {
+					"relativeUrl": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
+				},
 				"schema": []
 			},
 			"dependsOn": [
@@ -420,83 +435,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/asbuilt')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "miscparquest",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "registration_dttm",
-						"type": "INT96"
-					},
-					{
-						"name": "id",
-						"type": "INT32"
-					},
-					{
-						"name": "first_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "last_name",
-						"type": "UTF8"
-					},
-					{
-						"name": "email",
-						"type": "UTF8"
-					},
-					{
-						"name": "gender",
-						"type": "UTF8"
-					},
-					{
-						"name": "ip_address",
-						"type": "UTF8"
-					},
-					{
-						"name": "cc",
-						"type": "UTF8"
-					},
-					{
-						"name": "country",
-						"type": "UTF8"
-					},
-					{
-						"name": "birthdate",
-						"type": "UTF8"
-					},
-					{
-						"name": "salary",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "title",
-						"type": "UTF8"
-					},
-					{
-						"name": "comments",
-						"type": "UTF8"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/datasetJSON')]",
+			"name": "[concat(parameters('factoryName'), '/activitiesJSAON')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -512,7 +451,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "DataSets.json",
+						"fileName": "Aladdin_e36dbf93-f1f5-4732-b58c-d815c49338fb.json",
 						"folderPath": "json",
 						"fileSystem": "chanleyblob"
 					}
@@ -525,55 +464,251 @@
 							"items": {
 								"type": "object",
 								"properties": {
-									"id": {
+									"activityRunEnd": {
 										"type": "string"
 									},
-									"name": {
+									"activityName": {
 										"type": "string"
 									},
-									"type": {
+									"activityRunStart": {
 										"type": "string"
 									},
-									"properties": {
+									"activityType": {
+										"type": "string"
+									},
+									"durationInMs": {
+										"type": "integer"
+									},
+									"retryAttempt": {
+										"type": "null"
+									},
+									"error": {
 										"type": "object",
 										"properties": {
-											"linkedServiceName": {
+											"errorCode": {
+												"type": "string"
+											},
+											"message": {
+												"type": "string"
+											},
+											"failureType": {
+												"type": "string"
+											},
+											"target": {
+												"type": "string"
+											},
+											"details": {
+												"type": "string"
+											}
+										}
+									},
+									"activityRunId": {
+										"type": "string"
+									},
+									"iterationHash": {
+										"type": "string"
+									},
+									"input": {
+										"type": "object",
+										"properties": {
+											"source": {
 												"type": "object",
 												"properties": {
 													"type": {
 														"type": "string"
 													},
-													"referenceName": {
+													"sqlReaderQuery": {
+														"type": "string"
+													},
+													"queryTimeout": {
+														"type": "string"
+													},
+													"partitionOption": {
 														"type": "string"
 													}
 												}
 											},
-											"annotations": {
-												"type": "array"
-											},
-											"type": {
-												"type": "string"
-											},
-											"typeProperties": {
+											"dataset": {
 												"type": "object",
 												"properties": {
-													"fileName": {
+													"referenceName": {
 														"type": "string"
 													},
-													"folderPath": {
+													"type": {
 														"type": "string"
+													},
+													"parameters": {
+														"type": "object"
+													}
+												}
+											},
+											"firstRowOnly": {
+												"type": "boolean"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"type": "string"
+									},
+									"output": {
+										"type": "object",
+										"properties": {
+											"count": {
+												"type": "integer"
+											},
+											"value": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"server_name": {
+															"type": "string"
+														},
+														"adhoc": {
+															"type": "string"
+														},
+														"load_frequency": {
+															"type": "string"
+														},
+														"src_type": {
+															"type": "string"
+														},
+														"src_schema": {
+															"type": "string"
+														},
+														"src_db": {
+															"type": "string"
+														},
+														"src_name": {
+															"type": "string"
+														},
+														"dst_type": {
+															"type": "string"
+														},
+														"dst_name": {
+															"type": "string"
+														},
+														"include_pipeline_flag": {
+															"type": "integer"
+														},
+														"process_type": {
+															"type": "string"
+														},
+														"priority_lane": {
+															"type": "integer"
+														},
+														"pipeline_date": {
+															"type": "string"
+														},
+														"pipeline_status": {
+															"type": "string"
+														},
+														"dst_folder": {
+															"type": "string"
+														},
+														"file_type": {
+															"type": "string"
+														},
+														"last_modified_folder_date": {
+															"type": "string"
+														}
+													}
+												}
+											},
+											"effectiveIntegrationRuntime": {
+												"type": "string"
+											},
+											"billingReference": {
+												"type": "object",
+												"properties": {
+													"activityType": {
+														"type": "string"
+													},
+													"billableDuration": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"meterType": {
+																	"type": "string"
+																},
+																"duration": {
+																	"type": "number"
+																},
+																"unit": {
+																	"type": "string"
+																}
+															}
+														}
+													}
+												}
+											},
+											"durationInQueue": {
+												"type": "object",
+												"properties": {
+													"integrationRuntimeQueue": {
+														"type": "integer"
 													}
 												}
 											}
 										}
 									},
-									"etag": {
+									"userProperties": {
+										"type": "object"
+									},
+									"pipelineName": {
+										"type": "string"
+									},
+									"pipelineRunId": {
+										"type": "string"
+									},
+									"status": {
+										"type": "string"
+									},
+									"recoveryStatus": {
+										"type": "string"
+									},
+									"integrationRuntimeNames": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									},
+									"executionDetails": {
+										"type": "object",
+										"properties": {
+											"integrationRuntime": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														},
+														"location": {
+															"type": "string"
+														},
+														"nodes": {
+															"type": "array",
+															"items": {
+																"type": "string"
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"id": {
 										"type": "string"
 									}
 								}
 							}
 						},
-						"nextLink": {
+						"continuationToken": {
 							"type": "string"
 						}
 					}
@@ -584,7 +719,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/datasetPIPE')]",
+			"name": "[concat(parameters('factoryName'), '/activitiesPIPE')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -600,15 +735,190 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "dataset.txt",
+						"fileName": "activities.txt",
 						"folderPath": "json",
 						"fileSystem": "chanleyblob"
 					},
 					"columnDelimiter": "|",
 					"escapeChar": "\\",
-					"quoteChar": ""
+					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"

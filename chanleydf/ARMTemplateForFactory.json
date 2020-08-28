@@ -137,7 +137,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyData",
+						"name": "CopyDataSets",
 						"type": "Copy",
 						"dependsOn": [
 							{

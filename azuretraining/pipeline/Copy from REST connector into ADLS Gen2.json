@@ -127,7 +127,8 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -144,8 +145,7 @@
 									"path": "['id']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 1
+									"type": "String"
 								}
 							},
 							{
@@ -153,8 +153,7 @@
 									"path": "['name']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 2
+									"type": "String"
 								}
 							},
 							{
@@ -162,8 +161,7 @@
 									"path": "['type']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 3
+									"type": "String"
 								}
 							},
 							{
@@ -171,8 +169,7 @@
 									"path": "['properties']['linkedServiceName']['referenceName']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 4
+									"type": "String"
 								}
 							},
 							{
@@ -180,8 +177,7 @@
 									"path": "['properties']['linkedServiceName']['type']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 5
+									"type": "String"
 								}
 							},
 							{
@@ -189,8 +185,7 @@
 									"path": "['properties']['folder']['name']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 6
+									"type": "String"
 								}
 							},
 							{
@@ -198,8 +193,7 @@
 									"path": "['properties']['annotations']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 7
+									"type": "String"
 								}
 							},
 							{
@@ -207,8 +201,7 @@
 									"path": "['properties']['type']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 8
+									"type": "String"
 								}
 							},
 							{
@@ -216,8 +209,7 @@
 									"path": "['properties']['schema'][0]['name']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 9
+									"type": "String"
 								}
 							},
 							{
@@ -225,8 +217,7 @@
 									"path": "['properties']['schema'][0]['type']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 10
+									"type": "String"
 								}
 							},
 							{
@@ -234,8 +225,7 @@
 									"path": "['properties']['schema'][0]['precision']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 11
+									"type": "String"
 								}
 							},
 							{
@@ -243,8 +233,7 @@
 									"path": "['properties']['typeProperties']['schema']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 12
+									"type": "String"
 								}
 							},
 							{
@@ -252,8 +241,7 @@
 									"path": "['properties']['typeProperties']['table']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 13
+									"type": "String"
 								}
 							},
 							{
@@ -261,8 +249,7 @@
 									"path": "['etag']"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 14
+									"type": "String"
 								}
 							}
 						],

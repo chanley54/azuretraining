@@ -6,6 +6,9 @@
 			"referenceName": "rest_data_sets",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "ADF"
+		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {

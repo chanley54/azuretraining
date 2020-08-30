@@ -271,7 +271,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "activitiesPIPE",
+						"referenceName": "datasetPIPE",
 						"type": "DatasetReference"
 					}
 				]

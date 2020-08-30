@@ -145,7 +145,8 @@
 									"path": "['id']"
 								},
 								"sink": {
-									"name": "id"
+									"name": "id",
+									"type": "String"
 								}
 							},
 							{
@@ -153,7 +154,8 @@
 									"path": "['name']"
 								},
 								"sink": {
-									"name": "name"
+									"name": "name",
+									"type": "String"
 								}
 							},
 							{
@@ -161,7 +163,8 @@
 									"path": "['type']"
 								},
 								"sink": {
-									"name": "type"
+									"name": "type",
+									"type": "String"
 								}
 							},
 							{
@@ -169,7 +172,8 @@
 									"path": "['properties']['linkedServiceName']['referenceName']"
 								},
 								"sink": {
-									"name": "referenceName"
+									"name": "referenceName",
+									"type": "String"
 								}
 							},
 							{
@@ -177,7 +181,8 @@
 									"path": "['properties']['linkedServiceName']['type']"
 								},
 								"sink": {
-									"name": "referenceType"
+									"name": "referenceType",
+									"type": "String"
 								}
 							},
 							{
@@ -185,7 +190,8 @@
 									"path": "['properties']['folder']['name']"
 								},
 								"sink": {
-									"name": "folderName"
+									"name": "folderName",
+									"type": "String"
 								}
 							},
 							{
@@ -193,7 +199,8 @@
 									"path": "['properties']['annotations']"
 								},
 								"sink": {
-									"name": "folderAnnotations"
+									"name": "folderAnnotations",
+									"type": "String"
 								}
 							},
 							{
@@ -201,7 +208,8 @@
 									"path": "['properties']['type']"
 								},
 								"sink": {
-									"name": "folderType"
+									"name": "folderType",
+									"type": "String"
 								}
 							},
 							{
@@ -209,7 +217,8 @@
 									"path": "['properties']['schema'][0]['name']"
 								},
 								"sink": {
-									"name": "schemaName"
+									"name": "schemaName",
+									"type": "String"
 								}
 							},
 							{
@@ -217,7 +226,8 @@
 									"path": "['properties']['schema'][0]['type']"
 								},
 								"sink": {
-									"name": "schemaType"
+									"name": "schemaType",
+									"type": "String"
 								}
 							},
 							{
@@ -225,7 +235,8 @@
 									"path": "['properties']['schema'][0]['precision']"
 								},
 								"sink": {
-									"name": "schemaPrecision"
+									"name": "schemaPrecision",
+									"type": "String"
 								}
 							},
 							{
@@ -233,7 +244,8 @@
 									"path": "['properties']['typeProperties']['schema']"
 								},
 								"sink": {
-									"name": "typeSchema"
+									"name": "typeSchema",
+									"type": "String"
 								}
 							},
 							{
@@ -241,7 +253,8 @@
 									"path": "['properties']['typeProperties']['table']"
 								},
 								"sink": {
-									"name": "typeTable"
+									"name": "typeTable",
+									"type": "String"
 								}
 							},
 							{
@@ -249,7 +262,8 @@
 									"path": "['etag']"
 								},
 								"sink": {
-									"name": "eTag"
+									"name": "eTag",
+									"type": "String"
 								}
 							}
 						],

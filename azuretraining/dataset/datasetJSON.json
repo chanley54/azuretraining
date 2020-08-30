@@ -28,8 +28,14 @@
 					"value": "@dataset().fileName",
 					"type": "Expression"
 				},
-				"folderPath": "json",
-				"fileSystem": "chanleyblob"
+				"folderPath": {
+					"value": "@dataset().SinkDirectory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().SinkContainer",
+					"type": "Expression"
+				}
 			}
 		},
 		"schema": {

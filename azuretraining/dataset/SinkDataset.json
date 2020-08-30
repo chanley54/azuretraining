@@ -17,6 +17,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "misc"
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {

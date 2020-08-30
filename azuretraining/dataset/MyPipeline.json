@@ -5,6 +5,9 @@
 			"referenceName": "chanleysvc",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "misc"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],

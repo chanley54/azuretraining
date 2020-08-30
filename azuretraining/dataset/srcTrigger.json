@@ -11,6 +11,9 @@
 				"defaultValue": "@pipeline().parameters.SourceFile"
 			}
 		},
+		"folder": {
+			"name": "misc"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

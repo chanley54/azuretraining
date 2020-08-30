@@ -266,7 +266,13 @@
 				"inputs": [
 					{
 						"referenceName": "datasetJSON",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [

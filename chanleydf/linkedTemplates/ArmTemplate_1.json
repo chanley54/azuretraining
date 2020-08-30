@@ -21,6 +21,9 @@
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
@@ -95,6 +98,9 @@
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
@@ -118,6 +124,17 @@
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"fileName": {
+						"type": "string"
+					},
+					"SinkContainer": {
+						"type": "string"
+					},
+					"SinkDirectory": {
+						"type": "string"
+					}
+				},
 				"folder": {
 					"name": "ADF"
 				},
@@ -126,9 +143,18 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "DataSets.json",
-						"folderPath": "json",
-						"fileSystem": "chanleyblob"
+						"fileName": {
+							"value": "@dataset().fileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().SinkDirectory",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "@dataset().SinkContainer",
+							"type": "Expression"
+						}
 					}
 				},
 				"schema": {
@@ -218,6 +244,7 @@
 					},
 					"columnDelimiter": "|",
 					"escapeChar": "\\",
+					"firstRowAsHeader": true,
 					"quoteChar": ""
 				},
 				"schema": []
@@ -232,6 +259,9 @@
 				"linkedServiceName": {
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "misc"
 				},
 				"annotations": [],
 				"type": "Json",
@@ -383,6 +413,9 @@
 					"referenceName": "chanleysvc",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [
@@ -520,6 +553,9 @@
 						"defaultValue": "@pipeline().parameters.SourceFile"
 					}
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
@@ -599,6 +635,9 @@
 				"linkedServiceName": {
 					"referenceName": "chanleysvc",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "misc"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -959,6 +998,269 @@
 							},
 							"body": "grant_type=client_credentials&client_id=b9f7e648-22a2-420c-b7df-a918d60ad785&resource=https://management.azure.com&client_secret=.9aZ_0IA6O_97iRU-es3ww6CzRtO_KON_O&tenant_id=d0659de2-684e-49bd-9b1f-1fd4cd0942d9\n"
 						}
+					},
+					{
+						"name": "CopyJsonDataSets",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "CopyDataSets",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['name']"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['type']"
+										},
+										"sink": {
+											"name": "type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['linkedServiceName']['referenceName']"
+										},
+										"sink": {
+											"name": "referenceName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['linkedServiceName']['type']"
+										},
+										"sink": {
+											"name": "referenceType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['folder']['name']"
+										},
+										"sink": {
+											"name": "folderName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['annotations']"
+										},
+										"sink": {
+											"name": "folderAnnotations",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['type']"
+										},
+										"sink": {
+											"name": "folderType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['name']"
+										},
+										"sink": {
+											"name": "schemaName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['type']"
+										},
+										"sink": {
+											"name": "schemaType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['precision']"
+										},
+										"sink": {
+											"name": "schemaPrecision",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['schema']"
+										},
+										"sink": {
+											"name": "typeSchema",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['table']"
+										},
+										"sink": {
+											"name": "typeTable",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['etag']"
+										},
+										"sink": {
+											"name": "eTag",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['value']",
+								"mapComplexValuesToString": true
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "datasetJSON",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileName": {
+										"value": "@pipeline().parameters.fileName",
+										"type": "Expression"
+									},
+									"SinkContainer": {
+										"value": "@pipeline().parameters.SinkContainer",
+										"type": "Expression"
+									},
+									"SinkDirectory": {
+										"value": "@pipeline().parameters.SinkDirectory",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "datasetPIPE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "SQLDataSets",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "CopyJsonDataSets",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "datasetPIPE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADF_DataSets",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"parameters": {
@@ -977,7 +1279,10 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/datasetJSON')]",
+				"[concat(variables('factoryId'), '/datasets/datasetPIPE')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CopyActivities')]",
@@ -2275,364 +2580,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CopyDataSet')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "COPYJSON",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "[['id']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 1
-										}
-									},
-									{
-										"source": {
-											"path": "[['name']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 2
-										}
-									},
-									{
-										"source": {
-											"path": "[['type']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 3
-										}
-									},
-									{
-										"source": {
-											"path": "[['properties']['linkedServiceName']['type']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 4
-										}
-									},
-									{
-										"source": {
-											"path": "[['properties']['linkedServiceName']['referenceName']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 5
-										}
-									},
-									{
-										"source": {
-											"path": "[['properties']['annotations']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 6
-										}
-									},
-									{
-										"source": {
-											"path": "[['properties']['type']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 7
-										}
-									},
-									{
-										"source": {
-											"path": "[['properties']['typeProperties']['fileName']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 8
-										}
-									},
-									{
-										"source": {
-											"path": "[['properties']['typeProperties']['folderPath']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 9
-										}
-									},
-									{
-										"source": {
-											"path": "[['etag']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 10
-										}
-									},
-									{
-										"source": {
-											"path": "$['nextLink']"
-										},
-										"sink": {
-											"type": "String",
-											"ordinal": 11
-										}
-									}
-								],
-								"collectionReference": "$['value']",
-								"mapComplexValuesToString": true
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "datasetJSON",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "datasetPIPE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "COPYPIPE",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "COPYJSON",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "truncate table [adf].[ADF_DATA_SETS]",
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 1
-										},
-										"sink": {
-											"name": "ds_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 2
-										},
-										"sink": {
-											"name": "ds_NAME",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 3
-										},
-										"sink": {
-											"name": "ds_DATA_SET_TYPE",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 4
-										},
-										"sink": {
-											"name": "ds_LINKED_SERVICE_TYPE",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 5
-										},
-										"sink": {
-											"name": "ds_LINKED_SERVICE_REFERENCE_NAME",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 6
-										},
-										"sink": {
-											"name": "ds_ANNOTATIONS",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 7
-										},
-										"sink": {
-											"name": "ds_TYPE",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 8
-										},
-										"sink": {
-											"name": "ds_FILE_NAME",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 9
-										},
-										"sink": {
-											"name": "ds_PATH",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 10
-										},
-										"sink": {
-											"name": "ds_ETAG",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 11
-										},
-										"sink": {
-											"name": "ds_NEXY_LINK",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "datasetPIPE",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ADF_DataSets",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"folder": {
-					"name": "ADF"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/datasetJSON')]",
-				"[concat(variables('factoryId'), '/datasets/datasetPIPE')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Loop_param')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3244,6 +3191,44 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/srcSKU')]",
 				"[concat(variables('factoryId'), '/datasets/tgtSKU')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfUpsert')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "srcTableA",
+								"type": "DatasetReference"
+							},
+							"name": "srcTableA"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tgtTableB",
+								"type": "DatasetReference"
+							},
+							"name": "tgtTableB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "upsert"
+						}
+					],
+					"script": "source(output(\n\t\tItemName as string,\n\t\tItemSkew as string,\n\t\tDatePurchase as timestamp,\n\t\tDateReturned as timestamp,\n\t\tcost as decimal(19,4)\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select\\nItemName, ItemSkew, DatePurchase, DateReturned, cost\\nfrom\\n [dbo].[srcTableA]',\n\tformat: 'query') ~> srcTableA\nsrcTableA alterRow(upsertIf(true())) ~> upsert\nupsert sink(input(\n\t\tID as integer,\n\t\tItemName as string,\n\t\tItemSkew as string,\n\t\tDatePurchase as timestamp,\n\t\tDateReturned as timestamp,\n\t\tcost as decimal(19,4),\n\t\tDateLoaded as timestamp,\n\t\tDateUpdated as timestamp,\n\t\tDateDeleted as timestamp\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ItemSkew'],\n\tformat: 'table',\n\tmapColumn(\n\t\tItemName,\n\t\tItemSkew,\n\t\tDatePurchase,\n\t\tDateReturned,\n\t\tcost\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTableB"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/srcTableA')]",
+				"[concat(variables('factoryId'), '/datasets/tgtTableB')]"
 			]
 		}
 	]

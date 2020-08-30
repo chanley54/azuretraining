@@ -292,6 +292,9 @@
 					"referenceName": "chanleysvc",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
@@ -313,9 +316,69 @@
 					"referenceName": "chanleysvc",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"schema": [],
+				"schema": [
+					{
+						"name": "id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "referenceName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "referenceType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folderName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folderAnnotations",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folderType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schemaName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schemaType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schemaPrecision",
+						"type": "nvarchar"
+					},
+					{
+						"name": "typeSchema",
+						"type": "nvarchar"
+					},
+					{
+						"name": "typeTable",
+						"type": "nvarchar"
+					},
+					{
+						"name": "eTag",
+						"type": "nvarchar"
+					}
+				],
 				"typeProperties": {
 					"schema": "adf",
 					"table": "ADF_DATA_SETS"
@@ -333,6 +396,9 @@
 				"linkedServiceName": {
 					"referenceName": "miscparquest",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "misc"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -362,6 +428,9 @@
 					"referenceName": "chanleysvc",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "misc"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
@@ -383,6 +452,9 @@
 				"linkedServiceName": {
 					"referenceName": "rest_data_sets",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ADF"
 				},
 				"annotations": [],
 				"type": "RestResource",
@@ -415,6 +487,9 @@
 					"fileName": {
 						"type": "string"
 					}
+				},
+				"folder": {
+					"name": "misc"
 				},
 				"annotations": [],
 				"type": "Json",

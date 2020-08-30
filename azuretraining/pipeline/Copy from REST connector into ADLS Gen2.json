@@ -93,6 +93,188 @@
 					},
 					"body": "grant_type=client_credentials&client_id=b9f7e648-22a2-420c-b7df-a918d60ad785&resource=https://management.azure.com&client_secret=.9aZ_0IA6O_97iRU-es3ww6CzRtO_KON_O&tenant_id=d0659de2-684e-49bd-9b1f-1fd4cd0942d9\n"
 				}
+			},
+			{
+				"name": "CopyJsonDataSets",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['id']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 1
+								}
+							},
+							{
+								"source": {
+									"path": "['name']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 2
+								}
+							},
+							{
+								"source": {
+									"path": "['type']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 3
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['linkedServiceName']['referenceName']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 4
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['linkedServiceName']['type']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 5
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['folder']['name']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 6
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['annotations']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 7
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['type']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 8
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['schema'][0]['name']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 9
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['schema'][0]['type']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 10
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['schema'][0]['precision']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 11
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['typeProperties']['schema']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 12
+								}
+							},
+							{
+								"source": {
+									"path": "['properties']['typeProperties']['table']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 13
+								}
+							},
+							{
+								"source": {
+									"path": "['etag']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 14
+								}
+							}
+						],
+						"collectionReference": "$['value']",
+						"mapComplexValuesToString": true
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "datasetJSON",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "activitiesPIPE",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {

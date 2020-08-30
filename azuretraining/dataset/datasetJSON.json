@@ -5,6 +5,11 @@
 			"referenceName": "miscparquest",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "ADF"
 		},

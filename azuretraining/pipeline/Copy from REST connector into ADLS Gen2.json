@@ -271,6 +271,14 @@
 							"fileName": {
 								"value": "@pipeline().parameters.fileName",
 								"type": "Expression"
+							},
+							"SinkContainer": {
+								"value": "@pipeline().parameters.SinkContainer",
+								"type": "Expression"
+							},
+							"SinkDirectory": {
+								"value": "@pipeline().parameters.SinkDirectory",
+								"type": "Expression"
 							}
 						}
 					}

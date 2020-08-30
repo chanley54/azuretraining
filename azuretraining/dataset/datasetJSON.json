@@ -8,6 +8,12 @@
 		"parameters": {
 			"fileName": {
 				"type": "string"
+			},
+			"SinkContainer": {
+				"type": "string"
+			},
+			"SinkDirectory": {
+				"type": "string"
 			}
 		},
 		"folder": {

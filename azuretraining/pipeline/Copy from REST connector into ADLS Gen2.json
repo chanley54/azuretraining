@@ -145,7 +145,7 @@
 									"path": "['id']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "id"
 								}
 							},
 							{
@@ -153,7 +153,7 @@
 									"path": "['name']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "name"
 								}
 							},
 							{
@@ -161,7 +161,7 @@
 									"path": "['type']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "type"
 								}
 							},
 							{
@@ -169,7 +169,7 @@
 									"path": "['properties']['linkedServiceName']['referenceName']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "referenceName"
 								}
 							},
 							{
@@ -177,7 +177,7 @@
 									"path": "['properties']['linkedServiceName']['type']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "referenceType"
 								}
 							},
 							{
@@ -185,7 +185,7 @@
 									"path": "['properties']['folder']['name']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "folderName"
 								}
 							},
 							{
@@ -193,7 +193,7 @@
 									"path": "['properties']['annotations']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "folderAnnotations"
 								}
 							},
 							{
@@ -201,7 +201,7 @@
 									"path": "['properties']['type']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "folderType"
 								}
 							},
 							{
@@ -209,7 +209,7 @@
 									"path": "['properties']['schema'][0]['name']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "schemaName"
 								}
 							},
 							{
@@ -217,7 +217,7 @@
 									"path": "['properties']['schema'][0]['type']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "schemaType"
 								}
 							},
 							{
@@ -225,7 +225,7 @@
 									"path": "['properties']['schema'][0]['precision']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "schemaPrecision"
 								}
 							},
 							{
@@ -233,7 +233,7 @@
 									"path": "['properties']['typeProperties']['schema']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "typeSchema"
 								}
 							},
 							{
@@ -241,7 +241,7 @@
 									"path": "['properties']['typeProperties']['table']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "typeTable"
 								}
 							},
 							{
@@ -249,7 +249,7 @@
 									"path": "['etag']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "eTag"
 								}
 							}
 						],

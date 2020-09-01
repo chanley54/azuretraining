@@ -1,0 +1,16 @@
+{
+	"name": "CTH_Dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "adf",
+			"table": "CTH_Dataset"
+		}
+	}
+}

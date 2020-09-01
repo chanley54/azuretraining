@@ -1,0 +1,9 @@
+{
+	"name": "CopyDatasets",
+	"properties": {
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": []
+	}
+}

@@ -45,7 +45,7 @@
 					},
 					"enableStaging": false,
 					"translator": {
-						"value": "@json(activity('Lookup_name').output.firstRow.column_name)",
+						"value": "@json(activity('Lookup_name').output.firstRow.value)",
 						"type": "Expression"
 					}
 				},

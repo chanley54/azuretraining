@@ -97,15 +97,6 @@
 							},
 							{
 								"source": {
-									"path": "['properties']['annotations']"
-								},
-								"sink": {
-									"name": "folder_items",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
 									"path": "['properties']['type']"
 								},
 								"sink": {
@@ -238,8 +229,7 @@
 						}
 					},
 					"sink": {
-						"type": "AzureSqlSink",
-						"tableOption": "autoCreate"
+						"type": "AzureSqlSink"
 					},
 					"enableStaging": false,
 					"translator": {

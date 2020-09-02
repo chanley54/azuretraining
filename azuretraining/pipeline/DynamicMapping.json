@@ -32,11 +32,32 @@
 							"type": "JsonReadSettings"
 						}
 					},
-					"enableStaging": false
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"value": "@json(activity('Lookup_name').output.firstRow.column_name)",
+						"type": "Expression"
+					}
 				},
 				"inputs": [
 					{
 						"referenceName": "datasetnames",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "boohoo",
 						"type": "DatasetReference"
 					}
 				]

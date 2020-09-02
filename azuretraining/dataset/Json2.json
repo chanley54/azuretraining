@@ -1,0 +1,116 @@
+{
+	"name": "Json2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jsonstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "blah.json",
+				"folderPath": "json",
+				"fileSystem": "chanleyblob"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"value": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"type": {
+								"type": "string"
+							},
+							"properties": {
+								"type": "object",
+								"properties": {
+									"linkedServiceName": {
+										"type": "object",
+										"properties": {
+											"referenceName": {
+												"type": "string"
+											},
+											"type": {
+												"type": "string"
+											}
+										}
+									},
+									"folder": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string"
+											}
+										}
+									},
+									"annotations": {
+										"type": "array"
+									},
+									"type": {
+										"type": "string"
+									},
+									"typeProperties": {
+										"type": "object",
+										"properties": {
+											"location": {
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string"
+													},
+													"fileName": {
+														"type": "string"
+													},
+													"folderPath": {
+														"type": "string"
+													},
+													"fileSystem": {
+														"type": "string"
+													}
+												}
+											},
+											"compressionCodec": {
+												"type": "string"
+											}
+										}
+									},
+									"schema": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"name": {
+													"type": "string"
+												},
+												"type": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							},
+							"etag": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"nextLink": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

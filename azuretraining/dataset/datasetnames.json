@@ -1,0 +1,83 @@
+{
+	"name": "datasetnames",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jsonstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "datasetnames.json",
+				"folderPath": "json",
+				"fileSystem": "chanleyblob"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				},
+				"properties": {
+					"type": "object",
+					"properties": {
+						"linkedServiceName": {
+							"type": "object",
+							"properties": {
+								"referenceName": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string"
+								}
+							}
+						},
+						"annotations": {
+							"type": "array"
+						},
+						"type": {
+							"type": "string"
+						},
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"typeProperties": {
+							"type": "object",
+							"properties": {
+								"schema": {
+									"type": "string"
+								},
+								"table": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"etag": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

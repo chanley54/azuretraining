@@ -389,6 +389,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CTH_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "adf",
+					"table": "CTH_Dataset"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -420,6 +441,277 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "jsonstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "datasetpipe.txt",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/jsonstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "jsonstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "DataSets.json",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"linkedServiceName": {
+												"type": "object",
+												"properties": {
+													"referenceName": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													}
+												}
+											},
+											"folder": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string"
+													}
+												}
+											},
+											"annotations": {
+												"type": "array"
+											},
+											"type": {
+												"type": "string"
+											},
+											"typeProperties": {
+												"type": "object",
+												"properties": {
+													"location": {
+														"type": "object",
+														"properties": {
+															"type": {
+																"type": "string"
+															},
+															"fileName": {
+																"type": "string"
+															},
+															"folderPath": {
+																"type": "string"
+															},
+															"fileSystem": {
+																"type": "string"
+															}
+														}
+													},
+													"compressionCodec": {
+														"type": "string"
+													}
+												}
+											},
+											"schema": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									},
+									"etag": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"nextLink": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/jsonstorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "jsonstorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "blah.json",
+						"folderPath": "json",
+						"fileSystem": "chanleyblob"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"type": {
+										"type": "string"
+									},
+									"properties": {
+										"type": "object",
+										"properties": {
+											"linkedServiceName": {
+												"type": "object",
+												"properties": {
+													"referenceName": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string"
+													}
+												}
+											},
+											"folder": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string"
+													}
+												}
+											},
+											"annotations": {
+												"type": "array"
+											},
+											"type": {
+												"type": "string"
+											},
+											"typeProperties": {
+												"type": "object",
+												"properties": {
+													"location": {
+														"type": "object",
+														"properties": {
+															"type": {
+																"type": "string"
+															},
+															"fileName": {
+																"type": "string"
+															},
+															"folderPath": {
+																"type": "string"
+															},
+															"fileSystem": {
+																"type": "string"
+															}
+														}
+													},
+													"compressionCodec": {
+														"type": "string"
+													}
+												}
+											},
+											"schema": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"type": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									},
+									"etag": {
+										"type": "string"
+									}
+								}
+							}
+						},
+						"nextLink": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/jsonstorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MyPipeline')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -441,569 +733,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/chanleysvc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestResource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connection to your REST/HTTP",
-				"linkedServiceName": {
-					"referenceName": "rest_data_sets",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ADF"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/rest_data_sets')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Connection to your Azure Data Lake Store",
-				"linkedServiceName": {
-					"referenceName": "jsonstorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Container": {
-						"type": "string"
-					},
-					"Directory": {
-						"type": "string"
-					},
-					"fileName": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "misc"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().fileName",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@dataset().Directory",
-							"type": "Expression"
-						},
-						"fileSystem": {
-							"value": "@dataset().Container",
-							"type": "Expression"
-						}
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/jsonstorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/activitiesJSAON')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "miscparquest",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ADF"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Aladdin_e36dbf93-f1f5-4732-b58c-d815c49338fb.json",
-						"folderPath": "json",
-						"fileSystem": "chanleyblob"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"value": {
-							"type": "array",
-							"items": {
-								"type": "object",
-								"properties": {
-									"activityRunEnd": {
-										"type": "string"
-									},
-									"activityName": {
-										"type": "string"
-									},
-									"activityRunStart": {
-										"type": "string"
-									},
-									"activityType": {
-										"type": "string"
-									},
-									"durationInMs": {
-										"type": "integer"
-									},
-									"retryAttempt": {
-										"type": "null"
-									},
-									"error": {
-										"type": "object",
-										"properties": {
-											"errorCode": {
-												"type": "string"
-											},
-											"message": {
-												"type": "string"
-											},
-											"failureType": {
-												"type": "string"
-											},
-											"target": {
-												"type": "string"
-											},
-											"details": {
-												"type": "string"
-											}
-										}
-									},
-									"activityRunId": {
-										"type": "string"
-									},
-									"iterationHash": {
-										"type": "string"
-									},
-									"input": {
-										"type": "object",
-										"properties": {
-											"source": {
-												"type": "object",
-												"properties": {
-													"type": {
-														"type": "string"
-													},
-													"sqlReaderQuery": {
-														"type": "string"
-													},
-													"queryTimeout": {
-														"type": "string"
-													},
-													"partitionOption": {
-														"type": "string"
-													}
-												}
-											},
-											"dataset": {
-												"type": "object",
-												"properties": {
-													"referenceName": {
-														"type": "string"
-													},
-													"type": {
-														"type": "string"
-													},
-													"parameters": {
-														"type": "object"
-													}
-												}
-											},
-											"firstRowOnly": {
-												"type": "boolean"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"type": "string"
-									},
-									"output": {
-										"type": "object",
-										"properties": {
-											"count": {
-												"type": "integer"
-											},
-											"value": {
-												"type": "array",
-												"items": {
-													"type": "object",
-													"properties": {
-														"server_name": {
-															"type": "string"
-														},
-														"adhoc": {
-															"type": "string"
-														},
-														"load_frequency": {
-															"type": "string"
-														},
-														"src_type": {
-															"type": "string"
-														},
-														"src_schema": {
-															"type": "string"
-														},
-														"src_db": {
-															"type": "string"
-														},
-														"src_name": {
-															"type": "string"
-														},
-														"dst_type": {
-															"type": "string"
-														},
-														"dst_name": {
-															"type": "string"
-														},
-														"include_pipeline_flag": {
-															"type": "integer"
-														},
-														"process_type": {
-															"type": "string"
-														},
-														"priority_lane": {
-															"type": "integer"
-														},
-														"pipeline_date": {
-															"type": "string"
-														},
-														"pipeline_status": {
-															"type": "string"
-														},
-														"dst_folder": {
-															"type": "string"
-														},
-														"file_type": {
-															"type": "string"
-														},
-														"last_modified_folder_date": {
-															"type": "string"
-														}
-													}
-												}
-											},
-											"effectiveIntegrationRuntime": {
-												"type": "string"
-											},
-											"billingReference": {
-												"type": "object",
-												"properties": {
-													"activityType": {
-														"type": "string"
-													},
-													"billableDuration": {
-														"type": "array",
-														"items": {
-															"type": "object",
-															"properties": {
-																"meterType": {
-																	"type": "string"
-																},
-																"duration": {
-																	"type": "number"
-																},
-																"unit": {
-																	"type": "string"
-																}
-															}
-														}
-													}
-												}
-											},
-											"durationInQueue": {
-												"type": "object",
-												"properties": {
-													"integrationRuntimeQueue": {
-														"type": "integer"
-													}
-												}
-											}
-										}
-									},
-									"userProperties": {
-										"type": "object"
-									},
-									"pipelineName": {
-										"type": "string"
-									},
-									"pipelineRunId": {
-										"type": "string"
-									},
-									"status": {
-										"type": "string"
-									},
-									"recoveryStatus": {
-										"type": "string"
-									},
-									"integrationRuntimeNames": {
-										"type": "array",
-										"items": {
-											"type": "string"
-										}
-									},
-									"executionDetails": {
-										"type": "object",
-										"properties": {
-											"integrationRuntime": {
-												"type": "array",
-												"items": {
-													"type": "object",
-													"properties": {
-														"name": {
-															"type": "string"
-														},
-														"type": {
-															"type": "string"
-														},
-														"location": {
-															"type": "string"
-														},
-														"nodes": {
-															"type": "array",
-															"items": {
-																"type": "string"
-															}
-														}
-													}
-												}
-											}
-										}
-									},
-									"id": {
-										"type": "string"
-									}
-								}
-							}
-						},
-						"continuationToken": {
-							"type": "string"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/activitiesPIPE')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "miscparquest",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ADF"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "activities.txt",
-						"folderPath": "json",
-						"fileSystem": "chanleyblob"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/miscparquest')]"
 			]
 		}
 	]

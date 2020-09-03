@@ -21,6 +21,2511 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/CopyActivities')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "copyActivitiesJSON",
+						"description": " ",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['activityRunEnd']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 1
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 2
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityRunStart']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 3
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 4
+										}
+									},
+									{
+										"source": {
+											"path": "[['durationInMs']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 5
+										}
+									},
+									{
+										"source": {
+											"path": "[['retryAttempt']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 6
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['errorCode']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 7
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['message']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 8
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['failureType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 9
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['target']"
+										},
+										"sink": {
+											"ordinal": 10
+										}
+									},
+									{
+										"source": {
+											"path": "[['error']['details']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 11
+										}
+									},
+									{
+										"source": {
+											"path": "[['activityRunId']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 12
+										}
+									},
+									{
+										"source": {
+											"path": "[['iterationHash']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 13
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 14
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['sqlReaderQuery']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 15
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['queryTimeout']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 16
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['source']['partitionOption']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 17
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['dataset']['referenceName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 18
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['dataset']['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 19
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['dataset']['parameters']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 20
+										}
+									},
+									{
+										"source": {
+											"path": "[['input']['firstRowOnly']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 21
+										}
+									},
+									{
+										"source": {
+											"path": "[['linkedServiceName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 22
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['count']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 23
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['server_name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 24
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['adhoc']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 25
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['load_frequency']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 26
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 27
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_schema']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 28
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_db']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 29
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['src_name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 30
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['dst_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 31
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['dst_name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 32
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['include_pipeline_flag']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 33
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['process_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 34
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['priority_lane']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 35
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['pipeline_date']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 36
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['pipeline_status']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 37
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['dst_folder']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 38
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['file_type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 39
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['value'][0]['last_modified_folder_date']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 40
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['effectiveIntegrationRuntime']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 41
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['activityType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 42
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['billableDuration'][0]['meterType']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 43
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['billableDuration'][0]['duration']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 44
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['billingReference']['billableDuration'][0]['unit']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 45
+										}
+									},
+									{
+										"source": {
+											"path": "[['output']['durationInQueue']['integrationRuntimeQueue']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 46
+										}
+									},
+									{
+										"source": {
+											"path": "[['userProperties']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 47
+										}
+									},
+									{
+										"source": {
+											"path": "[['pipelineName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 48
+										}
+									},
+									{
+										"source": {
+											"path": "[['pipelineRunId']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 49
+										}
+									},
+									{
+										"source": {
+											"path": "[['status']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 50
+										}
+									},
+									{
+										"source": {
+											"path": "[['recoveryStatus']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 51
+										}
+									},
+									{
+										"source": {
+											"path": "[['integrationRuntimeNames']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 52
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 53
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 54
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['location']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 55
+										}
+									},
+									{
+										"source": {
+											"path": "[['executionDetails']['integrationRuntime'][0]['nodes']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 56
+										}
+									},
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 57
+										}
+									},
+									{
+										"source": {
+											"path": "$['continuationToken']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 58
+										}
+									}
+								],
+								"collectionReference": "$['value']",
+								"mapComplexValuesToString": true
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "activitiesJSAON",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "activitiesPIPE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "copyActivitiesPIPE",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "copyActivitiesJSON",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [adf].[ADF_ACTIVITES]",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 1
+										},
+										"sink": {
+											"name": "Column1",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 2
+										},
+										"sink": {
+											"name": "Column2",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 3
+										},
+										"sink": {
+											"name": "Column3",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 4
+										},
+										"sink": {
+											"name": "Column4",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 5
+										},
+										"sink": {
+											"name": "Column5",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 6
+										},
+										"sink": {
+											"name": "Column6",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 7
+										},
+										"sink": {
+											"name": "Column7",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 8
+										},
+										"sink": {
+											"name": "Column8",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 9
+										},
+										"sink": {
+											"name": "Column9",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 10
+										},
+										"sink": {
+											"name": "Column10",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 11
+										},
+										"sink": {
+											"name": "Column11",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 12
+										},
+										"sink": {
+											"name": "Column12",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 13
+										},
+										"sink": {
+											"name": "Column13",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 14
+										},
+										"sink": {
+											"name": "Column14",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 15
+										},
+										"sink": {
+											"name": "Column15",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 16
+										},
+										"sink": {
+											"name": "Column16",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 17
+										},
+										"sink": {
+											"name": "Column17",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 18
+										},
+										"sink": {
+											"name": "Column18",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 19
+										},
+										"sink": {
+											"name": "Column19",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 20
+										},
+										"sink": {
+											"name": "Column20",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 21
+										},
+										"sink": {
+											"name": "Column21",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 22
+										},
+										"sink": {
+											"name": "Column22",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 23
+										},
+										"sink": {
+											"name": "Column23",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 24
+										},
+										"sink": {
+											"name": "Column24",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 25
+										},
+										"sink": {
+											"name": "Column25",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 26
+										},
+										"sink": {
+											"name": "Column26",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 27
+										},
+										"sink": {
+											"name": "Column27",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 28
+										},
+										"sink": {
+											"name": "Column28",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 29
+										},
+										"sink": {
+											"name": "Column29",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 30
+										},
+										"sink": {
+											"name": "Column30",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 31
+										},
+										"sink": {
+											"name": "Column31",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 32
+										},
+										"sink": {
+											"name": "Column32",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 33
+										},
+										"sink": {
+											"name": "Column33",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 34
+										},
+										"sink": {
+											"name": "Column34",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 35
+										},
+										"sink": {
+											"name": "Column35",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 36
+										},
+										"sink": {
+											"name": "Column36",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 37
+										},
+										"sink": {
+											"name": "Column37",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 38
+										},
+										"sink": {
+											"name": "Column38",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 39
+										},
+										"sink": {
+											"name": "Column39",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 40
+										},
+										"sink": {
+											"name": "Column40",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 41
+										},
+										"sink": {
+											"name": "Column41",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 42
+										},
+										"sink": {
+											"name": "Column42",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 43
+										},
+										"sink": {
+											"name": "Column43",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 44
+										},
+										"sink": {
+											"name": "Column44",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 45
+										},
+										"sink": {
+											"name": "Column45",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 46
+										},
+										"sink": {
+											"name": "Column46",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 47
+										},
+										"sink": {
+											"name": "Column47",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 48
+										},
+										"sink": {
+											"name": "Column48",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 49
+										},
+										"sink": {
+											"name": "Column49",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 50
+										},
+										"sink": {
+											"name": "Column50",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 51
+										},
+										"sink": {
+											"name": "Column51",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 52
+										},
+										"sink": {
+											"name": "Column52",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 53
+										},
+										"sink": {
+											"name": "Column53",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 54
+										},
+										"sink": {
+											"name": "Column54",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 55
+										},
+										"sink": {
+											"name": "Column55",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 56
+										},
+										"sink": {
+											"name": "Column56",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 57
+										},
+										"sink": {
+											"name": "Column57",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"type": "String",
+											"physicalType": "String",
+											"ordinal": 58
+										},
+										"sink": {
+											"name": "Column58",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "activitiesPIPE",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADF_ACTIVITIES",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "ADF"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyDatasets')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['name']"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['type']"
+										},
+										"sink": {
+											"name": "type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['linkedServiceName']['referenceName']"
+										},
+										"sink": {
+											"name": "LS_referenceName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['linkedServiceName']['type']"
+										},
+										"sink": {
+											"name": "LS_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['folder']['name']"
+										},
+										"sink": {
+											"name": "folder_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['type']"
+										},
+										"sink": {
+											"name": "folder_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['type']"
+										},
+										"sink": {
+											"name": "location_type"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['fileName']"
+										},
+										"sink": {
+											"name": "fileName"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['folderPath']"
+										},
+										"sink": {
+											"name": "folderPath"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['fileSystem']"
+										},
+										"sink": {
+											"name": "fileSystem"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['compressionCodec']"
+										},
+										"sink": {
+											"name": "compressionCodec"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['name']"
+										},
+										"sink": {
+											"name": "schema_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['type']"
+										},
+										"sink": {
+											"name": "schema_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['etag']"
+										},
+										"sink": {
+											"name": "etag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['nextLink']"
+										},
+										"sink": {
+											"name": "nextLink",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['value']",
+								"mapComplexValuesToString": true
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy data2",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LS_referenceName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LS_referenceName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "LS_type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LS_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "folder_name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "folder_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "folder_items",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "folder_items",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "folder_type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "folder_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "location_type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "location_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "fileName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "fileName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "folderPath",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "folderPath",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "fileSystem",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "fileSystem",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "compressionCodec",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "compressionCodec",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "schema_name",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "schema_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "schema_type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "schema_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "etag",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "etag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "nextLink",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "nextLink",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DelimitedText2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CTH_Dataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "ADF"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DynamicMapping')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "dynamicMapping",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Lookup_name",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"value": "@json(activity('Lookup_name').output.firstRow.json_output)",
+								"type": "Expression"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "datasetnames",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "boohoo",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Lookup_name",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[adf].[pc_getColumnMapping]",
+								"storedProcedureParameters": {
+									"schema_name": {
+										"type": "String",
+										"value": "adf"
+									},
+									"table_name": {
+										"type": "String",
+										"value": "datasetnames"
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "src_chanley",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"folder": {
+					"name": "ADF"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Loop_param')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nselect \nItemName + 'xxx' as Item from\n[dbo].[srcTableA]\nwhere cost > @{pipeline().parameters.cost}",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"isolationLevel": "ReadUncommitted",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "srcTableA",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Stored procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[insert_B]",
+										"storedProcedureParameters": {
+											"item": {
+												"value": {
+													"value": "@{item().Item}",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "chanleysvc",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"parameters": {
+					"cost": {
+						"type": "int",
+						"defaultValue": 20
+					}
+				},
+				"folder": {
+					"name": "chanley"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"description": "   ",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "srcTrigger",
+								"type": "DatasetReference",
+								"parameters": {
+									"FileName": {
+										"value": "@pipeline().parameters.SourceFile",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tgtTrigger",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"SourceFile": {
+						"type": "string",
+						"defaultValue": "@trigger().outputs.body.fileName"
+					}
+				},
+				"folder": {
+					"name": "chanley"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/adf')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "FlattenHierarchy"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 1
+										}
+									},
+									{
+										"source": {
+											"path": "[['name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 2
+										}
+									},
+									{
+										"source": {
+											"path": "[['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 3
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 4
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 5
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['dependsOn']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 6
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['policy']['timeout']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 7
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['policy']['retry']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 8
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['policy']['retryIntervalInSeconds']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 9
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['policy']['secureOutput']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 10
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['policy']['secureInput']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 11
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['userProperties']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 12
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['dataflow']['referenceName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 13
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['dataflow']['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 14
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['dataflow']['parameters']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 15
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['srcTableA']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 16
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['dataflow']['datasetParameters']['tgtTableB']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 17
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['staging']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 18
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['integrationRuntime']['referenceName']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 19
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['activities'][0]['typeProperties']['integrationRuntime']['type']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 20
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['folder']['name']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 21
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['annotations']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 22
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['lastPublishTime']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 23
+										}
+									},
+									{
+										"source": {
+											"path": "[['etag']"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 24
+										}
+									}
+								],
+								"collectionReference": "$['value']",
+								"mapComplexValuesToString": true
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "jsonpipeline",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "chanley"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parent_param')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "child_param",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"item": {
+									"value": "@pipeline().parameters.item2",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"parameters": {
+					"item2": {
+						"type": "string",
+						"defaultValue": "Chris"
+					}
+				},
+				"folder": {
+					"name": "chanley"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_SKU')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select  \n[ItemName],\n[ItemSkew],\n12 as cost\nfrom [dbo].[srcTableA]\nwhere ItemName = 'Comic2'",
+								"queryTimeout": "02:00:00",
+								"isolationLevel": "ReadUncommitted",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "ItemName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ItemName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "ItemSkew",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ItemSkew",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "cost",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "cost",
+											"type": "Decimal",
+											"physicalType": "money"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "srcSKU",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tgtSKU",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"folder": {
+					"name": "chanley"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dfUpsert')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "srcTableA",
+								"type": "DatasetReference"
+							},
+							"name": "srcTableA"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "tgtTableB",
+								"type": "DatasetReference"
+							},
+							"name": "tgtTableB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "upsert"
+						}
+					],
+					"script": "source(output(\n\t\tItemName as string,\n\t\tItemSkew as string,\n\t\tDatePurchase as timestamp,\n\t\tDateReturned as timestamp,\n\t\tcost as decimal(19,4)\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'select\\nItemName, ItemSkew, DatePurchase, DateReturned, cost\\nfrom\\n [dbo].[srcTableA]',\n\tformat: 'query') ~> srcTableA\nsrcTableA alterRow(upsertIf(true())) ~> upsert\nupsert sink(input(\n\t\tID as integer,\n\t\tItemName as string,\n\t\tItemSkew as string,\n\t\tDatePurchase as timestamp,\n\t\tDateReturned as timestamp,\n\t\tcost as decimal(19,4),\n\t\tDateLoaded as timestamp,\n\t\tDateUpdated as timestamp,\n\t\tDateDeleted as timestamp\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ItemSkew'],\n\tformat: 'table',\n\tmapColumn(\n\t\tItemName,\n\t\tItemSkew,\n\t\tDatePurchase,\n\t\tDateReturned,\n\t\tcost\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> tgtTableB"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/parent_loop')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -57,7 +2562,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Loop_param')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/upsert')]",
@@ -100,7 +2607,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dfUpsert')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/EventTrigger')]",
@@ -131,7 +2640,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Trigger')]"
+			]
 		}
 	]
 }

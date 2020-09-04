@@ -2898,9 +2898,9 @@
 								}
 							},
 							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
+							"integrationRuntime": {
+								"referenceName": "TTL10minutesIR",
+								"type": "IntegrationRuntimeReference"
 							}
 						}
 					}
@@ -2911,7 +2911,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/datasets')]"
+				"[concat(variables('factoryId'), '/dataflows/datasets')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/TTL10minutesIR')]"
 			]
 		},
 		{

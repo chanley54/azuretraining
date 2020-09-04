@@ -19,9 +19,9 @@
 						"referenceName": "datasets",
 						"type": "DataFlowReference"
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"integrationRuntime": {
+						"referenceName": "TTL10minutesIR",
+						"type": "IntegrationRuntimeReference"
 					}
 				}
 			}

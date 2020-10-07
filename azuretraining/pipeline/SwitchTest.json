@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Switch1",
+				"name": "ftlSwitch",
 				"type": "Switch",
 				"dependsOn": [],
 				"userProperties": [],

@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ftlSwitch",
+				"name": "ftlSeedSQL",
 				"type": "Switch",
 				"dependsOn": [],
 				"userProperties": [],
@@ -445,7 +445,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "ftlSwitch",
+						"activity": "ftlSeedSQL",
 						"dependencyConditions": [
 							"Succeeded"
 						]

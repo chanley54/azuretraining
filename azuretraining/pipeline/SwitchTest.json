@@ -14,7 +14,7 @@
 					},
 					"cases": [
 						{
-							"value": "Case1",
+							"value": "vintage_fact",
 							"activities": [
 								{
 									"name": "Copy data1",
@@ -458,6 +458,9 @@
 									]
 								}
 							]
+						},
+						{
+							"value": "install_base"
 						}
 					]
 				}

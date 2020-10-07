@@ -1205,7 +1205,8 @@
 		],
 		"parameters": {
 			"dst_name": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Default"
 			}
 		},
 		"folder": {

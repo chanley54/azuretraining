@@ -1205,8 +1205,7 @@
 		],
 		"parameters": {
 			"dst_name": {
-				"type": "string",
-				"defaultValue": "vintage_fact"
+				"type": "string"
 			}
 		},
 		"folder": {

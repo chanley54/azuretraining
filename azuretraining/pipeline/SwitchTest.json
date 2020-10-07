@@ -418,7 +418,7 @@
 					],
 					"defaultActivities": [
 						{
-							"name": "copyActivitiesJSON1",
+							"name": "copyDefault",
 							"description": " ",
 							"type": "Copy",
 							"dependsOn": [],

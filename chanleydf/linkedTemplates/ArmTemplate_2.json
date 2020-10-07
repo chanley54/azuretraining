@@ -3368,7 +3368,7 @@
 						}
 					},
 					{
-						"name": "copyInstall_base_copy1",
+						"name": "blahMain",
 						"type": "Copy",
 						"dependsOn": [
 							{

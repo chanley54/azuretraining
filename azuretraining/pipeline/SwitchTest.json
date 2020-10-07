@@ -1,6 +1,22 @@
 {
 	"name": "SwitchTest",
 	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"cases": []
+				}
+			}
+		],
+		"parameters": {
+			"dst_name": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "ADF"
 		},

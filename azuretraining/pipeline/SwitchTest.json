@@ -1,0 +1,9 @@
+{
+	"name": "SwitchTest",
+	"properties": {
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": []
+	}
+}

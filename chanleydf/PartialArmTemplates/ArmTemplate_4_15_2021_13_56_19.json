@@ -1,0 +1,882 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "chanleydf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SwitchTest')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ftlSeedSQL",
+						"type": "Switch",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"on": {
+								"value": "@pipeline().parameters.dst_name",
+								"type": "Expression"
+							},
+							"cases": [
+								{
+									"value": "vintage_fact",
+									"activities": [
+										{
+											"name": "vintage_fact_copy",
+											"type": "Copy",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "7.00:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"source": {
+													"type": "JsonSource",
+													"storeSettings": {
+														"type": "AzureBlobFSReadSettings",
+														"recursive": true
+													},
+													"formatSettings": {
+														"type": "JsonReadSettings"
+													}
+												},
+												"sink": {
+													"type": "DelimitedTextSink",
+													"storeSettings": {
+														"type": "AzureBlobFSWriteSettings",
+														"copyBehavior": "MergeFiles"
+													},
+													"formatSettings": {
+														"type": "DelimitedTextWriteSettings",
+														"quoteAllText": true,
+														"fileExtension": ".txt"
+													}
+												},
+												"enableStaging": false,
+												"translator": {
+													"type": "TabularTranslator",
+													"mappings": [
+														{
+															"source": {
+																"path": "[['id']"
+															},
+															"sink": {
+																"name": "id",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['name']"
+															},
+															"sink": {
+																"name": "name",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['type']"
+															},
+															"sink": {
+																"name": "type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['linkedServiceName']['referenceName']"
+															},
+															"sink": {
+																"name": "LS_referenceName",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['linkedServiceName']['type']"
+															},
+															"sink": {
+																"name": "LS_type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['folder']['name']"
+															},
+															"sink": {
+																"name": "folder_name",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['type']"
+															},
+															"sink": {
+																"name": "folder_type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['type']"
+															},
+															"sink": {
+																"name": "location_type"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['fileName']"
+															},
+															"sink": {
+																"name": "fileName"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['folderPath']"
+															},
+															"sink": {
+																"name": "folderPath"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['fileSystem']"
+															},
+															"sink": {
+																"name": "fileSystem"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['compressionCodec']"
+															},
+															"sink": {
+																"name": "compressionCodec"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['schema'][0]['name']"
+															},
+															"sink": {
+																"name": "schema_name",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['schema'][0]['type']"
+															},
+															"sink": {
+																"name": "schema_type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['etag']"
+															},
+															"sink": {
+																"name": "etag",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "$['nextLink']"
+															},
+															"sink": {
+																"name": "nextLink",
+																"type": "String"
+															}
+														}
+													],
+													"collectionReference": "$['value']",
+													"mapComplexValuesToString": true
+												}
+											},
+											"inputs": [
+												{
+													"referenceName": "Json1",
+													"type": "DatasetReference"
+												}
+											],
+											"outputs": [
+												{
+													"referenceName": "DelimitedText2",
+													"type": "DatasetReference"
+												}
+											]
+										}
+									]
+								},
+								{
+									"value": "install_base",
+									"activities": [
+										{
+											"name": "copyInstall_base",
+											"type": "Copy",
+											"dependsOn": [],
+											"policy": {
+												"timeout": "7.00:00:00",
+												"retry": 0,
+												"retryIntervalInSeconds": 30,
+												"secureOutput": false,
+												"secureInput": false
+											},
+											"userProperties": [],
+											"typeProperties": {
+												"source": {
+													"type": "JsonSource",
+													"storeSettings": {
+														"type": "AzureBlobFSReadSettings",
+														"recursive": true
+													},
+													"formatSettings": {
+														"type": "JsonReadSettings"
+													}
+												},
+												"sink": {
+													"type": "DelimitedTextSink",
+													"storeSettings": {
+														"type": "AzureBlobFSWriteSettings",
+														"copyBehavior": "MergeFiles"
+													},
+													"formatSettings": {
+														"type": "DelimitedTextWriteSettings",
+														"quoteAllText": true,
+														"fileExtension": ".txt"
+													}
+												},
+												"enableStaging": false,
+												"translator": {
+													"type": "TabularTranslator",
+													"mappings": [
+														{
+															"source": {
+																"path": "[['id']"
+															},
+															"sink": {
+																"name": "id",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['name']"
+															},
+															"sink": {
+																"name": "name",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['type']"
+															},
+															"sink": {
+																"name": "type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['linkedServiceName']['referenceName']"
+															},
+															"sink": {
+																"name": "LS_referenceName",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['linkedServiceName']['type']"
+															},
+															"sink": {
+																"name": "LS_type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['folder']['name']"
+															},
+															"sink": {
+																"name": "folder_name",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['type']"
+															},
+															"sink": {
+																"name": "folder_type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['type']"
+															},
+															"sink": {
+																"name": "location_type"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['fileName']"
+															},
+															"sink": {
+																"name": "fileName"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['folderPath']"
+															},
+															"sink": {
+																"name": "folderPath"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['location']['fileSystem']"
+															},
+															"sink": {
+																"name": "fileSystem"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['typeProperties']['compressionCodec']"
+															},
+															"sink": {
+																"name": "compressionCodec"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['schema'][0]['name']"
+															},
+															"sink": {
+																"name": "schema_name",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['properties']['schema'][0]['type']"
+															},
+															"sink": {
+																"name": "schema_type",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "[['etag']"
+															},
+															"sink": {
+																"name": "etag",
+																"type": "String"
+															}
+														},
+														{
+															"source": {
+																"path": "$['nextLink']"
+															},
+															"sink": {
+																"name": "nextLink",
+																"type": "String"
+															}
+														}
+													],
+													"collectionReference": "$['value']",
+													"mapComplexValuesToString": true
+												}
+											},
+											"inputs": [
+												{
+													"referenceName": "Json1",
+													"type": "DatasetReference"
+												}
+											],
+											"outputs": [
+												{
+													"referenceName": "DelimitedText2",
+													"type": "DatasetReference"
+												}
+											]
+										}
+									]
+								}
+							],
+							"defaultActivities": [
+								{
+									"name": "pc_RaiseError",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[pc_RaiseError]"
+									},
+									"linkedServiceName": {
+										"referenceName": "chanleysvc",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "blahMain",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "ftlSeedSQL",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['id']"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['name']"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['type']"
+										},
+										"sink": {
+											"name": "type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['linkedServiceName']['referenceName']"
+										},
+										"sink": {
+											"name": "LS_referenceName",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['linkedServiceName']['type']"
+										},
+										"sink": {
+											"name": "LS_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['folder']['name']"
+										},
+										"sink": {
+											"name": "folder_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['type']"
+										},
+										"sink": {
+											"name": "folder_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['type']"
+										},
+										"sink": {
+											"name": "location_type"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['fileName']"
+										},
+										"sink": {
+											"name": "fileName"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['folderPath']"
+										},
+										"sink": {
+											"name": "folderPath"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['location']['fileSystem']"
+										},
+										"sink": {
+											"name": "fileSystem"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['typeProperties']['compressionCodec']"
+										},
+										"sink": {
+											"name": "compressionCodec"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['name']"
+										},
+										"sink": {
+											"name": "schema_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['properties']['schema'][0]['type']"
+										},
+										"sink": {
+											"name": "schema_type",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['etag']"
+										},
+										"sink": {
+											"name": "etag",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['nextLink']"
+										},
+										"sink": {
+											"name": "nextLink",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['value']",
+								"mapComplexValuesToString": true
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText2",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"parameters": {
+					"dst_name": {
+						"type": "string",
+						"defaultValue": "Default"
+					}
+				},
+				"folder": {
+					"name": "ADF"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CTH_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LS_referenceName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LS_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_items",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "location_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folderPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fileSystem",
+						"type": "nvarchar"
+					},
+					{
+						"name": "compressionCodec",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schema_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schema_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "etag",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nextLink",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "adf",
+					"table": "CTH_Dataset"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/cth_Dataset_target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LS_referenceName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LS_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_items",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "location_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folderPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fileSystem",
+						"type": "nvarchar"
+					},
+					{
+						"name": "compressionCodec",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schema_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schema_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "etag",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nextLink",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "adf",
+					"table": "CTH_Dataset_target"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ELTControl')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Cal_Period",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Release_Date",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ELTControl"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

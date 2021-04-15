@@ -716,6 +716,94 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/cth_Dataset_target')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "chanleysvc",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LS_referenceName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LS_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_items",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folder_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "location_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fileName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "folderPath",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fileSystem",
+						"type": "nvarchar"
+					},
+					{
+						"name": "compressionCodec",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schema_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "schema_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "etag",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nextLink",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "adf",
+					"table": "CTH_Dataset_target"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/datasetJSON')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1540,68 +1628,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Branching')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET"
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "RestResource",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "copyActJSON",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"folder": {
-					"name": "Aladdin"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/RestResource')]",
-				"[concat(variables('factoryId'), '/datasets/copyActJSON')]"
-			]
 		}
 	]
 }

@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "if(equals(\n@activity('LookupControlTable').output.firstRow.Release_Date, \nCONVERT(char(10), GetDate(),126) \n), 'true', 'false')",
+						"value": "if(equals(1, 1), 'yes', 'no')",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [

@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "if(equals(1, 1), 'yes', 'no')",
+						"value": "if(equals(1, 1), 1,0)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [

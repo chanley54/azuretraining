@@ -64,7 +64,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT Release_Date FROM dbo.ELTControl\nwhere Release_Date = CONVERT(char(10), GetDate(),126)",
+						"sqlReaderQuery": "SELECT Release_Date FROM dbo.ELTControl\nwhere Release_Date = CONVERT(char(10), GetDate()+1,126)",
 						"queryTimeout": "02:00:00",
 						"isolationLevel": "ReadUncommitted",
 						"partitionOption": "None"

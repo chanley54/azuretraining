@@ -11,12 +11,18 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "LookupGetDate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "if(equals(1, 1), 1,0)",
+						"value": "@greaterOrEquals(\nactivity('LookupControlTable').output.firstRow.Release_Date,\nactivity('LookupGetDate').output.firstRow.today\n)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -59,6 +65,32 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": "SELECT Release_Date FROM dbo.ELTControl\nwhere Release_Date = CONVERT(char(10), GetDate(),126)",
+						"queryTimeout": "02:00:00",
+						"isolationLevel": "ReadUncommitted",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ELTControl",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LookupGetDate",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT CONVERT(char(10), GetDate(),126) as today\nFROM dbo.ELTControl\n",
 						"queryTimeout": "02:00:00",
 						"isolationLevel": "ReadUncommitted",
 						"partitionOption": "None"

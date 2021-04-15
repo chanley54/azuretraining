@@ -5,8 +5,32 @@
 			{
 				"name": "If Condition1",
 				"type": "IfCondition",
-				"dependsOn": [],
-				"userProperties": []
+				"dependsOn": [
+					{
+						"activity": "LookupControlTable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "if(equals(\n@activity('LookupControlTable').output.firstRow.Release_Date, \nCONVERT(char(10), GetDate(),126) \n), 'true', 'false')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Wait_True",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
+				}
 			},
 			{
 				"name": "LookupControlTable",
@@ -25,6 +49,7 @@
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": "SELECT Release_Date FROM dbo.ELTControl\nwhere Release_Date = CONVERT(char(10), GetDate(),126)",
 						"queryTimeout": "02:00:00",
+						"isolationLevel": "ReadUncommitted",
 						"partitionOption": "None"
 					},
 					"dataset": {

@@ -19,6 +19,17 @@
 						"value": "if(equals(\n@activity('LookupControlTable').output.firstRow.Release_Date, \nCONVERT(char(10), GetDate(),126) \n), 'true', 'false')",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Wait_False",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Wait_True",

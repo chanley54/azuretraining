@@ -64,7 +64,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT ISNULL(\n(SELECT Release_Date FROM dbo.ELTControl\nwhere Release_Date = CONVERT(char(10), GetDate()+1,126) \n), '1900-01-01') as Release_Date",
+						"sqlReaderQuery": "SELECT ISNULL(\n(SELECT Release_Date FROM dbo.ELTControl\nwhere Release_Date = CONVERT(char(10), GetDate(),126) \n), '1900-01-01') as Release_Date",
 						"queryTimeout": "02:00:00",
 						"isolationLevel": "ReadUncommitted",
 						"partitionOption": "None"

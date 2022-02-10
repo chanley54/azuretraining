@@ -48,8 +48,14 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "dbo",
-			"table": "address"
+			"schema": {
+				"value": "@dataset().schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
 		}
 	}
 }

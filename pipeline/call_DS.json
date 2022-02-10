@@ -1,0 +1,37 @@
+{
+	"name": "call_DS",
+	"properties": {
+		"activities": [
+			{
+				"name": "datasets",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "datasets",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "TTL10minutesIR",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-09-04T22:04:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

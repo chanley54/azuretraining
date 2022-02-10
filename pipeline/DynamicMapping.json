@@ -1,0 +1,108 @@
+{
+	"name": "DynamicMapping",
+	"properties": {
+		"activities": [
+			{
+				"name": "dynamicMapping",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Lookup_name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"value": "@json(activity('Lookup_name').output.firstRow.json_output)",
+						"type": "Expression"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "datasetnames",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "boohoo",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Lookup_name",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[adf].[pc_getColumnMapping]",
+						"storedProcedureParameters": {
+							"schema_name": {
+								"type": "String",
+								"value": "adf"
+							},
+							"table_name": {
+								"type": "String",
+								"value": "datasetnames"
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "src_chanley",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-09-03T20:30:40Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

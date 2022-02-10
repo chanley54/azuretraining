@@ -1,0 +1,20 @@
+{
+	"name": "MyPipeline",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "misc"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "mypipeline"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

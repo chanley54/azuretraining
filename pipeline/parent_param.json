@@ -1,0 +1,38 @@
+{
+	"name": "parent_param",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "child_param",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"item": {
+							"value": "@pipeline().parameters.item2",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"item2": {
+				"type": "string",
+				"defaultValue": "Chris"
+			}
+		},
+		"folder": {
+			"name": "chanley"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-08-12T16:45:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

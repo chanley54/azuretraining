@@ -1,0 +1,20 @@
+{
+	"name": "RestResource",
+	"properties": {
+		"description": "Connection to your REST/HTTP",
+		"linkedServiceName": {
+			"referenceName": "rest_data_sets",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

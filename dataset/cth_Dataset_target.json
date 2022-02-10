@@ -1,0 +1,86 @@
+{
+	"name": "cth_Dataset_target",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LS_referenceName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LS_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folder_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folder_items",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folder_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "location_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fileName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folderPath",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fileSystem",
+				"type": "nvarchar"
+			},
+			{
+				"name": "compressionCodec",
+				"type": "nvarchar"
+			},
+			{
+				"name": "schema_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "schema_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "etag",
+				"type": "nvarchar"
+			},
+			{
+				"name": "nextLink",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "adf",
+			"table": "CTH_Dataset_target"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

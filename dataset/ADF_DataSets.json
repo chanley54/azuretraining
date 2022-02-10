@@ -1,0 +1,77 @@
+{
+	"name": "ADF_DataSets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "misc"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "referenceName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "referenceType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folderName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folderAnnotations",
+				"type": "nvarchar"
+			},
+			{
+				"name": "folderType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "schemaName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "schemaType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "schemaPrecision",
+				"type": "nvarchar"
+			},
+			{
+				"name": "typeSchema",
+				"type": "nvarchar"
+			},
+			{
+				"name": "typeTable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "eTag",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "adf",
+			"table": "ADF_DATA_SETS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

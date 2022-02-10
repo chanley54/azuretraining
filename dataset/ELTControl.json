@@ -1,0 +1,27 @@
+{
+	"name": "ELTControl",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Cal_Period",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Release_Date",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ELTControl"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

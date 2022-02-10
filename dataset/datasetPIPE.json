@@ -1,0 +1,28 @@
+{
+	"name": "datasetPIPE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "miscparquest",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "dataset.txt",
+				"folderPath": "json",
+				"fileSystem": "chanleyblob"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

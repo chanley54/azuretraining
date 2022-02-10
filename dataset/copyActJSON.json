@@ -1,0 +1,24 @@
+{
+	"name": "copyActJSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "miscparquest",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "misc"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "blah.json",
+				"folderPath": "json",
+				"fileSystem": "chanleyblob"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,73 @@
+{
+	"name": "Trigger",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"description": "   ",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "srcTrigger",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@pipeline().parameters.SourceFile",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "tgtTrigger",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"SourceFile": {
+				"type": "string",
+				"defaultValue": "@trigger().outputs.body.fileName"
+			}
+		},
+		"folder": {
+			"name": "chanley"
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-08-12T16:45:03Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

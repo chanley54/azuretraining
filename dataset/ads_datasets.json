@@ -1,0 +1,17 @@
+{
+	"name": "ads_datasets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "chanleysvc",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "adf",
+			"table": "ads_datatasets"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

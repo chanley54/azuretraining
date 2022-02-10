@@ -1,0 +1,104 @@
+{
+	"name": "datasetJSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "miscparquest",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			},
+			"SinkContainer": {
+				"type": "string"
+			},
+			"SinkDirectory": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "ADF"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().SinkDirectory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().SinkContainer",
+					"type": "Expression"
+				}
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"value": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"type": {
+								"type": "string"
+							},
+							"properties": {
+								"type": "object",
+								"properties": {
+									"linkedServiceName": {
+										"type": "object",
+										"properties": {
+											"type": {
+												"type": "string"
+											},
+											"referenceName": {
+												"type": "string"
+											}
+										}
+									},
+									"annotations": {
+										"type": "array"
+									},
+									"type": {
+										"type": "string"
+									},
+									"typeProperties": {
+										"type": "object",
+										"properties": {
+											"fileName": {
+												"type": "string"
+											},
+											"folderPath": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							},
+							"etag": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"nextLink": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

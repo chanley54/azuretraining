@@ -70,6 +70,12 @@
 								"dataflow": {
 									"referenceName": "df_address",
 									"type": "DataFlowReference",
+									"parameters": {
+										"filename": {
+											"value": "'@{item().name}'",
+											"type": "Expression"
+										}
+									},
 									"datasetParameters": {
 										"addressstream": {
 											"schema": "dbo",

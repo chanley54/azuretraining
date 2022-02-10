@@ -17,16 +17,39 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": {
-				"value": "@dataset().schema",
-				"type": "Expression"
+		"schema": [
+			{
+				"name": "FirstName",
+				"type": "varchar"
 			},
-			"table": {
-				"value": "@dataset().tablename",
-				"type": "Expression"
+			{
+				"name": "LastName",
+				"type": "varchar"
+			},
+			{
+				"name": "Street",
+				"type": "varchar"
+			},
+			{
+				"name": "City",
+				"type": "varchar"
+			},
+			{
+				"name": "State",
+				"type": "varchar"
+			},
+			{
+				"name": "Zip",
+				"type": "varchar"
+			},
+			{
+				"name": "Load_Date",
+				"type": "varchar"
 			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "address"
 		}
 	}
 }

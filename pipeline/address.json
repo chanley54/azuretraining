@@ -72,8 +72,8 @@
 									"type": "DataFlowReference",
 									"datasetParameters": {
 										"addressstream": {
-											"schema": "test",
-											"tablename": "test"
+											"schema": "dbo",
+											"tablename": "address"
 										}
 									}
 								},

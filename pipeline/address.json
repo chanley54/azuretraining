@@ -20,7 +20,10 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"dir_name": "chanleyblob",
-							"subfolder": "backup/"
+							"subfolder": {
+								"value": "@pipeline().parameters.subfolder",
+								"type": "Expression"
+							}
 						}
 					},
 					"fieldList": [

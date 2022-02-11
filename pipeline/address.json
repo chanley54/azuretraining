@@ -41,7 +41,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "ForEachFolder",
+						"activity": "foldername",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,7 +50,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('filename').output.Value",
+						"value": "@activity('foldername').output.Value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -112,25 +112,6 @@
 					},
 					"condition": {
 						"value": "@equals(item().type, 'Folder')",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "ForEachFolder",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "foldername",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@activity('foldername').output.Value",
 						"type": "Expression"
 					}
 				}

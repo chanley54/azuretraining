@@ -41,7 +41,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "filename",
+						"activity": "ForEachFolder",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -94,7 +94,7 @@
 				}
 			},
 			{
-				"name": "filename",
+				"name": "foldername",
 				"type": "Filter",
 				"dependsOn": [
 					{
@@ -112,6 +112,25 @@
 					},
 					"condition": {
 						"value": "@equals(item().type, 'Folder')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEachFolder",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "foldername",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('foldername').output.Value",
 						"type": "Expression"
 					}
 				}

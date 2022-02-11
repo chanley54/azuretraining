@@ -39,11 +39,18 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "filename",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Address').output.childitems",
+						"value": "@activity('filename').output.Value",
 						"type": "Expression"
 					},
 					"activities": [

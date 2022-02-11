@@ -115,7 +115,10 @@
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "backup",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"dir_name": "chanleyblob"
+									}
 								},
 								"fieldList": [],
 								"storeSettings": {

@@ -119,7 +119,7 @@
 									"parameters": {
 										"dir_name": "chanleyblob",
 										"subfolder": {
-											"value": "@item().name",
+											"value": "backup/@item().name",
 											"type": "Expression"
 										}
 									}

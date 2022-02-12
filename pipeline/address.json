@@ -82,7 +82,7 @@
 									"type": "DataFlowReference",
 									"parameters": {
 										"filename": {
-											"value": "'@{activity('getfilename').output.itemName}'",
+											"value": "'@{activity('getfilename').output.childItems}'",
 											"type": "Expression"
 										}
 									},
@@ -129,6 +129,7 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {

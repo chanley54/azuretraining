@@ -165,7 +165,8 @@
 		],
 		"parameters": {
 			"subfolder": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "backup"
 			}
 		},
 		"folder": {

@@ -53,7 +53,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('foldername').output.Value",
+						"value": "@activity('foldername').output.Value.name",
 						"type": "Expression"
 					},
 					"activities": [

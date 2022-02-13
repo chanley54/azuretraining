@@ -53,7 +53,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('foldername').output.Value.name",
+						"value": "@activity('foldername').output.Value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -82,7 +82,7 @@
 									"type": "DataFlowReference",
 									"parameters": {
 										"filename": {
-											"value": "'@{activity('filename').output.Value}'",
+											"value": "'@{activity('filename').output.Value.name}'",
 											"type": "Expression"
 										}
 									},

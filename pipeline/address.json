@@ -87,6 +87,13 @@
 										}
 									},
 									"datasetParameters": {
+										"address": {
+											"dir_name": "chanleyblob/backup",
+											"subfolder": {
+												"value": "@activity('foldername').output.Value '/'  @item().name",
+												"type": "Expression"
+											}
+										},
 										"addressstream": {
 											"schema": "dbo",
 											"tablename": "address"

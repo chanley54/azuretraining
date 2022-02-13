@@ -1,5 +1,5 @@
 {
-	"name": "DF_CDM_Delta_Load",
+	"name": "DF_DELTA_STG_CDM_ACCOUNT_PROD",
 	"properties": {
 		"folder": {
 			"name": "DF_DELTA_STG_CDM_ACCOUNT_PROD"

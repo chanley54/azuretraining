@@ -2,14 +2,98 @@
 	"name": "DF_DELTA_STG_CDM_ACCOUNT_PROD",
 	"properties": {
 		"folder": {
-			"name": "DF_DELTA_STG_CDM_ACCOUNT_PROD"
+			"name": "DF_CDM_Delta_Load"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
-			"transformations": [],
-			"script": ""
+			"sources": [
+				{
+					"name": "InvolvedParty"
+				},
+				{
+					"name": "ClosedDate"
+				},
+				{
+					"name": "OfficerGroup"
+				},
+				{
+					"name": "BranchPrimary"
+				},
+				{
+					"name": "CDMAccountUpdate"
+				},
+				{
+					"name": "CDMAccountHistroy"
+				},
+				{
+					"name": "CDMAccountRowKey"
+				},
+				{
+					"name": "AbsoluteHistoricalRecords"
+				},
+				{
+					"name": "CustomerStartDate"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "InvolvedPartyWithClosedDate"
+				},
+				{
+					"name": "JoinOfficerGroup"
+				},
+				{
+					"name": "RenameToStdColName"
+				},
+				{
+					"name": "JoinToBranchPrimary"
+				},
+				{
+					"name": "DerivedBranchPrimary"
+				},
+				{
+					"name": "Exists1"
+				},
+				{
+					"name": "DeActivateOldVersion"
+				},
+				{
+					"name": "IdentifyingHistoricalRecords"
+				},
+				{
+					"name": "ConvertToDate"
+				},
+				{
+					"name": "CombineActiveInactiveRecords"
+				},
+				{
+					"name": "CDMRowKey"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "Exists2"
+				},
+				{
+					"name": "ConvertToProperDate"
+				},
+				{
+					"name": "JoinToGetCustStartDate"
+				}
+			],
+			"script": "source(output(\n\t\tCUSTOMER_ID as string,\n\t\tINVOLVED_PARTY_ID as string,\n\t\tNAME_FULL as string,\n\t\tPERSONAL_CODE as string,\n\t\tPHONE_NUMBER_PRIMARY as string,\n\t\tRISK_CODE as string,\n\t\tDATE_SERVICE_FIRST as date,\n\t\tFIRSTSERVICEDATE as date,\n\t\tPHONE_NUMBER_CELLULAR as string,\n\t\tSIC_CODE as string,\n\t\tBRANCH_PRIMARY as string,\n\t\tEMAIL_BUSINESS as string,\n\t\tOFFICER_PRIMARY as string,\n\t\tUSER_DEFINED_5V_04 as string,\n\t\tEMAIL_HOME as string,\n\t\tSOLICITABLE_IND as string,\n\t\tSOLICITABLE_IND_EMAIL as string,\n\t\tSOURCENATURALKEY as string,\n\t\tTAX_ID_NUMBER as string,\n\t\tLOAD_DATE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> InvolvedParty\nsource(output(\n\t\tTAX_ID_NUMBER as string,\n\t\tDATE_CLOSED as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ClosedDate\nsource(output(\n\t\tINVOLVED_PARTY_ID as string,\n\t\tM_NAME_FULL as string,\n\t\tRELATIONSHIP_GROUP as string,\n\t\tOFFICER_GROUP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OfficerGroup\nsource(output(\n\t\tLEVEL_04_ORG_UNIT_ID as string,\n\t\tinvolved_party_id as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> BranchPrimary\nsource(output(\n\t\tcr94a_sourcecustomerid as string,\n\t\tname as string,\n\t\ttelephone1 as string,\n\t\tmsfsi_riskrating as string,\n\t\tcr94a_customerstartdate as string,\n\t\tcr94a_customerenddate as string,\n\t\tcr94a_firstservicedate as string,\n\t\tcr94a_mobilephonenumber as string,\n\t\tcr94a_naicsindustrycode as string,\n\t\tcr94a_branchsourcenaturalkey as string,\n\t\temailaddress1 as string,\n\t\tcr94a_usersourcenaturalkey as string,\n\t\tcr94a_relationshipgroupid as string,\n\t\tcr94a_relationshipgroupofficername as string,\n\t\temailaddress2 as string,\n\t\tcr94a_solicitableindicator as string,\n\t\tcr94a_solicitablemailcode as string,\n\t\tcr94a_sourcenaturalkey as string,\n\t\tcr94a_taxpayerid as string,\n\t\tcr94a_versionstartdate as string,\n\t\tcr94a_versionenddate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\twildcardPaths:['EDW/Company.p*']) ~> CDMAccountUpdate\nsource(output(\n\t\tcr94a_sourcecustomerid as string,\n\t\tname as string,\n\t\ttelephone1 as string,\n\t\tmsfsi_riskrating as string,\n\t\tcr94a_customerstartdate as string,\n\t\tcr94a_customerenddate as string,\n\t\tcr94a_firstservicedate as string,\n\t\tcr94a_mobilephonenumber as string,\n\t\tcr94a_naicsindustrycode as string,\n\t\tcr94a_branchsourcenaturalkey as string,\n\t\temailaddress1 as string,\n\t\tcr94a_usersourcenaturalkey as string,\n\t\tcr94a_relationshipgroupid as string,\n\t\tcr94a_relationshipgroupofficername as string,\n\t\temailaddress2 as string,\n\t\tcr94a_solicitableindicator as string,\n\t\tcr94a_solicitablemailcode as string,\n\t\tcr94a_sourcenaturalkey as string,\n\t\tcr94a_taxpayerid as string,\n\t\tcr94a_versionstartdate as string,\n\t\tcr94a_versionenddate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\twildcardPaths:['EDW/Company.p*']) ~> CDMAccountHistroy\nsource(output(\n\t\tcr94a_sourcecustomerid as string,\n\t\tname as string,\n\t\ttelephone1 as string,\n\t\tmsfsi_riskrating as string,\n\t\tcr94a_customerstartdate as string,\n\t\tcr94a_customerenddate as string,\n\t\tcr94a_firstservicedate as string,\n\t\tcr94a_mobilephonenumber as string,\n\t\tcr94a_naicsindustrycode as string,\n\t\tcr94a_branchsourcenaturalkey as string,\n\t\temailaddress1 as string,\n\t\tcr94a_usersourcenaturalkey as string,\n\t\tcr94a_relationshipgroupid as string,\n\t\tcr94a_relationshipgroupofficername as string,\n\t\temailaddress2 as string,\n\t\tcr94a_solicitableindicator as string,\n\t\tcr94a_solicitablemailcode as string,\n\t\tcr94a_sourcenaturalkey as string,\n\t\tcr94a_taxpayerid as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CDMAccountRowKey\nsource(output(\n\t\tcr94a_sourcecustomerid as string,\n\t\tname as string,\n\t\ttelephone1 as string,\n\t\tmsfsi_riskrating as string,\n\t\tcr94a_customerstartdate as string,\n\t\tcr94a_customerenddate as string,\n\t\tcr94a_firstservicedate as string,\n\t\tcr94a_mobilephonenumber as string,\n\t\tcr94a_naicsindustrycode as string,\n\t\tcr94a_branchsourcenaturalkey as string,\n\t\temailaddress1 as string,\n\t\tcr94a_usersourcenaturalkey as string,\n\t\tcr94a_relationshipgroupid as string,\n\t\tcr94a_relationshipgroupofficername as string,\n\t\temailaddress2 as string,\n\t\tcr94a_solicitableindicator as string,\n\t\tcr94a_solicitablemailcode as string,\n\t\tcr94a_sourcenaturalkey as string,\n\t\tcr94a_taxpayerid as string,\n\t\tcr94a_versionenddate as string,\n\t\tcr94a_versionstartdate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> AbsoluteHistoricalRecords\nsource(output(\n\t\tTAX_ID_NUMBER as string,\n\t\tCustStartDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CustomerStartDate\nJoinOfficerGroup, ClosedDate join(InvolvedParty@TAX_ID_NUMBER == ClosedDate@TAX_ID_NUMBER,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> InvolvedPartyWithClosedDate\nInvolvedParty, OfficerGroup join(InvolvedParty@INVOLVED_PARTY_ID == OfficerGroup@INVOLVED_PARTY_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinOfficerGroup\nDerivedBranchPrimary select(mapColumn(\n\t\tcustomer_ID = CUSTOMER_ID,\n\t\tcr94a_sourcecustomerid = InvolvedParty@INVOLVED_PARTY_ID,\n\t\tName = NAME_FULL,\n\t\tinvolve_party_type = PERSONAL_CODE,\n\t\ttelephone1 = PHONE_NUMBER_PRIMARY,\n\t\tmsfsi_riskrating = RISK_CODE,\n\t\tcr94a_customerstartdate = CustStartDate,\n\t\tcr94a_customerenddate = DATE_CLOSED,\n\t\tcr94a_firstservicedate = FIRSTSERVICEDATE,\n\t\tcr94a_mobilephonenumber = PHONE_NUMBER_CELLULAR,\n\t\tcr94a_naicsindustrycode = SIC_CODE,\n\t\tcr94a_branchsourcenaturalkey = DerivedBranchPrimary@Branch_Primary,\n\t\temailaddress1 = EMAIL_BUSINESS,\n\t\tcr94a_usersourcenaturalkey = OFFICER_PRIMARY,\n\t\tcr94a_relationshipgroupid = USER_DEFINED_5V_04,\n\t\tcr94a_relationshipgroupofficername = OFFICER_GROUP,\n\t\temailaddress2 = EMAIL_HOME,\n\t\tcr94a_solicitableindicator = SOLICITABLE_IND,\n\t\tcr94a_solicitablemailcode = SOLICITABLE_IND_EMAIL,\n\t\tcr94a_sourcenaturalkey = SOURCENATURALKEY,\n\t\tcr94a_taxpayerid = InvolvedParty@TAX_ID_NUMBER,\n\t\tcr94a_versionstartdate,\n\t\tcr94a_versionenddate\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameToStdColName\nInvolvedPartyWithClosedDate, BranchPrimary join(InvolvedParty@INVOLVED_PARTY_ID == BranchPrimary@involved_party_id,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinToBranchPrimary\nJoinToGetCustStartDate derive(Branch_Primary = iif(isNull(LEVEL_04_ORG_UNIT_ID),'INVALID BRANCH',LEVEL_04_ORG_UNIT_ID),\n\t\tcr94a_versionstartdate = toDate(currentUTC()),\n\t\tcr94a_versionenddate = toDate('9999-12-31')) ~> DerivedBranchPrimary\nCDMAccountUpdate, Select1 exists(CDMAccountUpdate@cr94a_sourcenaturalkey == Select1@cr94a_sourcenaturalkey,\n\tnegate:false,\n\tbroadcast: 'auto')~> Exists1\nExists1 derive(cr94a_versionstartdate = toDate(cr94a_versionstartdate),\n\t\tcr94a_versionenddate = toDate(currentUTC())-1,\n\t\tcr94a_customerstartdate = toDate(cr94a_customerstartdate,'YYYY-MM-DD'),\n\t\tcr94a_customerenddate = toDate(cr94a_customerenddate,'YYYY-MM-DD'),\n\t\tcr94a_firstservicedate = toDate(cr94a_firstservicedate,'YYYY-MM-DD')) ~> DeActivateOldVersion\nCDMAccountHistroy, Select1 exists(CDMAccountHistroy@cr94a_sourcenaturalkey == Select1@cr94a_sourcenaturalkey,\n\tnegate:true,\n\tbroadcast: 'auto')~> IdentifyingHistoricalRecords\nIdentifyingHistoricalRecords derive(cr94a_versionstartdate = toDate(cr94a_versionstartdate),\n\t\tcr94a_versionenddate = toDate(cr94a_versionenddate),\n\t\tcr94a_customerstartdate = toDate(cr94a_customerstartdate, 'YYYY-MM-DD'),\n\t\tcr94a_customerenddate = toDate(cr94a_customerenddate, 'YYYY-MM-DD'),\n\t\tcr94a_firstservicedate = toDate(cr94a_firstservicedate,'YYYY-MM-DD')) ~> ConvertToDate\nSelect1, DeActivateOldVersion, ConvertToDate, ConvertToProperDate union(byName: true)~> CombineActiveInactiveRecords\nDerivedColumn1 derive(CDM_RowKey = md5(\r\niif(isNull(cr94a_sourcecustomerid),'',toString(cr94a_sourcecustomerid))+\r\niif(isNull(telephone1),'',toString(telephone1))+\r\niif(isNull(msfsi_riskrating),'',toString(msfsi_riskrating))+\r\niif(isNull(cr94a_customerstartdate),'',toString(cr94a_customerstartdate))+\r\niif(isNull(cr94a_customerenddate),'',toString(cr94a_customerenddate))+\r\niif(isNull(cr94a_firstservicedate),'',toString(cr94a_firstservicedate))+\r\niif(isNull(cr94a_mobilephonenumber),'',toString(cr94a_mobilephonenumber))+\r\niif(isNull(cr94a_naicsindustrycode),'',toString(cr94a_naicsindustrycode))+\r\niif(isNull(cr94a_branchsourcenaturalkey),'',toString(cr94a_branchsourcenaturalkey))+\r\niif(isNull(emailaddress1),'',toString(emailaddress1))+\r\niif(isNull(cr94a_usersourcenaturalkey),'',toString(cr94a_usersourcenaturalkey))+\r\niif(isNull(cr94a_relationshipgroupid),'',toString(cr94a_relationshipgroupid))+\r\niif(isNull(cr94a_relationshipgroupofficername),'',toString(cr94a_relationshipgroupofficername))+\r\niif(isNull(emailaddress2),'',toString(emailaddress2))+\r\niif(isNull(cr94a_solicitableindicator),'',toString(cr94a_solicitableindicator))+\r\niif(isNull(cr94a_solicitablemailcode),'',toString(cr94a_solicitablemailcode))+\r\niif(isNull(cr94a_sourcenaturalkey),'',toString(cr94a_sourcenaturalkey))+\r\niif(isNull(cr94a_taxpayerid),'',toString(cr94a_taxpayerid))+iif(isNull(name),'',toString(name)))) ~> CDMRowKey\nCDMAccountRowKey derive(cr94a_customerstartdate = toDate(cr94a_customerstartdate,'YYYY-MM-DD'),\n\t\tcr94a_customerenddate = toDate(cr94a_customerenddate, 'YYYY-MM-DD'),\n\t\tcr94a_firstservicedate = toDate(cr94a_firstservicedate, 'YYYY-MM-DD')) ~> DerivedColumn1\nExists2 select(mapColumn(\n\t\tcr94a_sourcecustomerid,\n\t\ttelephone1,\n\t\tmsfsi_riskrating,\n\t\tcr94a_customerstartdate,\n\t\tcr94a_customerenddate,\n\t\tcr94a_firstservicedate,\n\t\tcr94a_mobilephonenumber,\n\t\tcr94a_naicsindustrycode,\n\t\tcr94a_branchsourcenaturalkey,\n\t\temailaddress1,\n\t\tcr94a_usersourcenaturalkey,\n\t\tcr94a_relationshipgroupid,\n\t\tcr94a_relationshipgroupofficername,\n\t\temailaddress2,\n\t\tcr94a_solicitableindicator,\n\t\tcr94a_solicitablemailcode,\n\t\tcr94a_sourcenaturalkey,\n\t\tcr94a_taxpayerid,\n\t\tcr94a_versionstartdate,\n\t\tcr94a_versionenddate,\n\t\tname = Name\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nRenameToStdColName derive(Src_RowKey = md5(iif(isNull(cr94a_sourcecustomerid),'',toString(cr94a_sourcecustomerid))+iif(isNull(telephone1),'',toString(telephone1))+iif(isNull(msfsi_riskrating),'',toString(msfsi_riskrating))+iif(isNull(cr94a_customerstartdate),'',toString(cr94a_customerstartdate))+iif(isNull(cr94a_customerenddate),'',toString(cr94a_customerenddate))+iif(isNull(cr94a_firstservicedate),'',toString(cr94a_firstservicedate))+iif(isNull(cr94a_mobilephonenumber),'',toString(cr94a_mobilephonenumber))+iif(isNull(cr94a_naicsindustrycode),'',toString(cr94a_naicsindustrycode))+iif(isNull(cr94a_branchsourcenaturalkey),'',toString(cr94a_branchsourcenaturalkey))+iif(isNull(emailaddress1),'',toString(emailaddress1))+iif(isNull(cr94a_usersourcenaturalkey),'',toString(cr94a_usersourcenaturalkey))+iif(isNull(cr94a_relationshipgroupid),'',toString(cr94a_relationshipgroupid))+iif(isNull(cr94a_relationshipgroupofficername),'',toString(cr94a_relationshipgroupofficername))+iif(isNull(emailaddress2),'',toString(emailaddress2))+iif(isNull(cr94a_solicitableindicator),'',toString(cr94a_solicitableindicator))+iif(isNull(cr94a_solicitablemailcode),'',toString(cr94a_solicitablemailcode))+iif(isNull(cr94a_sourcenaturalkey),'',toString(cr94a_sourcenaturalkey))+iif(isNull(cr94a_taxpayerid),'',toString(cr94a_taxpayerid))+iif(isNull(Name),'',toString(Name)))) ~> DerivedColumn2\nDerivedColumn2, CDMRowKey exists(Src_RowKey == CDM_RowKey,\n\tnegate:true,\n\tbroadcast: 'auto')~> Exists2\nAbsoluteHistoricalRecords derive(cr94a_versionenddate = toDate(cr94a_versionenddate),\n\t\tcr94a_versionstartdate = toDate(cr94a_versionstartdate),\n\t\tcr94a_customerstartdate = toDate(cr94a_customerstartdate),\n\t\tcr94a_customerenddate = toDate(cr94a_customerenddate),\n\t\tcr94a_firstservicedate = toDate(cr94a_firstservicedate)) ~> ConvertToProperDate\nJoinToBranchPrimary, CustomerStartDate join(InvolvedParty@TAX_ID_NUMBER == CustomerStartDate@TAX_ID_NUMBER,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinToGetCustStartDate\nCombineActiveInactiveRecords sink(allowSchemaDrift: false,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Company.parquet'],\n\tskipDuplicateMapInputs: true,\n\tmapColumn(\n\t\tmsfsi_riskrating,\n\t\tcr94a_solicitableindicator,\n\t\temailaddress2,\n\t\temailaddress1,\n\t\ttelephone1,\n\t\tcr94a_relationshipgroupofficername,\n\t\tcr94a_mobilephonenumber,\n\t\tcr94a_naicsindustrycode,\n\t\tcr94a_relationshipgroupid,\n\t\tcr94a_solicitablemailcode,\n\t\tcr94a_sourcenaturalkey,\n\t\tcr94a_taxpayerid,\n\t\tcr94a_branchsourcenaturalkey,\n\t\tcr94a_usersourcenaturalkey,\n\t\tcr94a_sourcecustomerid,\n\t\tcr94a_customerstartdate,\n\t\tcr94a_customerenddate,\n\t\tcr94a_firstservicedate,\n\t\tcr94a_versionstartdate,\n\t\tcr94a_versionenddate,\n\t\tname\n\t),\n\tpartitionBy('hash', 1),\n\tentity: 'account.cdm.json/account',\n\tmanifestType: 'manifest',\n\tpartitionPath: 'Account',\n\tfolderPath: 'EDW-CDM/Account',\n\tfileSystem: 'container1',\n\tsubformat: 'parquet',\n\tcorpusPath: 'CDMTableDefinition',\n\tcorpusStore: 'adlsgen2',\n\tadlsgen2_fileSystem: 'container1',\n\tpreCommands: [],\n\tpostCommands: []) ~> sink1"
 		}
 	}
 }

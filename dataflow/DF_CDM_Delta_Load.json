@@ -1,0 +1,15 @@
+{
+	"name": "DF_CDM_Delta_Load",
+	"properties": {
+		"folder": {
+			"name": "DF_DELTA_STG_CDM_ACCOUNT_PROD"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"script": ""
+		}
+	}
+}

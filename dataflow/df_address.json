@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "backup",
+						"referenceName": "address",
 						"type": "DatasetReference"
 					},
 					"name": "address"

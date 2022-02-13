@@ -87,6 +87,11 @@
 										}
 									},
 									"datasetParameters": {
+										"address": {
+											"directory": "chanleyblob/backup",
+											"subdirectory": "20220209",
+											"filename": "addresses_20220209.csv"
+										},
 										"addressstream": {
 											"schema": "dbo",
 											"tablename": "address"

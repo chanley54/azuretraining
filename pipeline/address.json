@@ -23,8 +23,7 @@
 							"subfolder": {
 								"value": "@pipeline().parameters.subfolder",
 								"type": "Expression"
-							},
-							"filename": "none"
+							}
 						}
 					},
 					"fieldList": [
@@ -90,8 +89,7 @@
 									"datasetParameters": {
 										"address": {
 											"dir_name": "chanleyblob/backup",
-											"subfolder": "20220209",
-											"filename": "addresses_20220209.csv"
+											"subfolder": "20220209"
 										},
 										"addressstream": {
 											"schema": "dbo",

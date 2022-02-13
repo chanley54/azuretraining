@@ -87,10 +87,6 @@
 										}
 									},
 									"datasetParameters": {
-										"address": {
-											"dir_name": "chanleyblob/backup",
-											"subfolder": "20220209"
-										},
 										"addressstream": {
 											"schema": "dbo",
 											"tablename": "address"

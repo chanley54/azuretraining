@@ -11,6 +11,10 @@
 			},
 			"subfolder": {
 				"type": "string"
+			},
+			"filename": {
+				"type": "string",
+				"defaultValue": "none"
 			}
 		},
 		"annotations": [],

@@ -89,10 +89,7 @@
 									"datasetParameters": {
 										"address": {
 											"dir_name": "chanleyblob/backup",
-											"subfolder": {
-												"value": "@activity('foldername').output.Value '/'  @item().name",
-												"type": "Expression"
-											}
+											"subfolder": "20220209/addresses_20220209.csv"
 										},
 										"addressstream": {
 											"schema": "dbo",

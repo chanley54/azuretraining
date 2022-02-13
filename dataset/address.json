@@ -21,9 +21,18 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "addresses_20220209.csv",
-				"folderPath": "backup/20220209",
-				"fileSystem": "chanleyblob"
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().subdirectory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().directory",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

@@ -82,7 +82,7 @@
 									"type": "DataFlowReference",
 									"parameters": {
 										"filename": {
-											"value": "'@{item().name}'",
+											"value": "'@{activity('getfilename').output}'",
 											"type": "Expression"
 										}
 									},

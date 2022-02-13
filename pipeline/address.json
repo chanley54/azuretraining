@@ -23,7 +23,8 @@
 							"subfolder": {
 								"value": "@pipeline().parameters.subfolder",
 								"type": "Expression"
-							}
+							},
+							"filename": "none"
 						}
 					},
 					"fieldList": [

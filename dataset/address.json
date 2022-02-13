@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "addresses_20220209.csv",
-				"folderPath": "backup",
+				"fileName": "addresses_20200209.csv",
+				"folderPath": "backup/20220209",
 				"fileSystem": "chanleyblob"
 			},
 			"columnDelimiter": ",",

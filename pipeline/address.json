@@ -62,7 +62,7 @@
 							"type": "ExecuteDataFlow",
 							"dependsOn": [
 								{
-									"activity": "getfilename",
+									"activity": "filename",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -139,6 +139,29 @@
 								},
 								"formatSettings": {
 									"type": "DelimitedTextReadSettings"
+								}
+							}
+						},
+						{
+							"name": "filename",
+							"type": "Filter",
+							"dependsOn": [
+								{
+									"activity": "getfilename",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"items": {
+									"value": "@activity('getfilename').output.childitems",
+									"type": "Expression"
+								},
+								"condition": {
+									"value": "@equals(item().type, 'File')",
+									"type": "Expression"
 								}
 							}
 						}

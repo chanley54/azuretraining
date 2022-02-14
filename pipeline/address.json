@@ -89,7 +89,10 @@
 									"datasetParameters": {
 										"address": {
 											"directory": "chanleyblob",
-											"subdirectory": "backup/20220209",
+											"subdirectory": {
+												"value": "backup/'@{activity('foldername').output.Value}'",
+												"type": "Expression"
+											},
 											"filename": {
 												"value": "@activity('filename').output.Value[0].name",
 												"type": "Expression"

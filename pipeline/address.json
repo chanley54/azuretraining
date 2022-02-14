@@ -90,7 +90,10 @@
 										"address": {
 											"directory": "chanleyblob",
 											"subdirectory": "backup/20220209",
-											"filename": "addresses_20220209.csv"
+											"filename": {
+												"value": "@activity('filename').output.Value[0].name",
+												"type": "Expression"
+											}
 										},
 										"addressstream": {
 											"schema": "dbo",

@@ -122,7 +122,7 @@
 									"referenceName": "backup",
 									"type": "DatasetReference",
 									"parameters": {
-										"dir_name": "chanleyblob/backup/20220209",
+										"dir_name": "chanleyblob/backup",
 										"subfolder": {
 											"value": "@item().name",
 											"type": "Expression"

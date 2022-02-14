@@ -90,7 +90,7 @@
 										"address": {
 											"directory": "chanleyblob",
 											"subdirectory": {
-												"value": "backup/'@{activity('foldername').output.Value[0].name}'",
+												"value": "backup/@{activity('foldername').output.Value[0].name}",
 												"type": "Expression"
 											},
 											"filename": {

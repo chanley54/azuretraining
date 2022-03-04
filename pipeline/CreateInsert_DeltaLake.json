@@ -1,0 +1,9 @@
+{
+	"name": "CreateInsert_DeltaLake",
+	"properties": {
+		"folder": {
+			"name": "Deltalake"
+		},
+		"annotations": []
+	}
+}

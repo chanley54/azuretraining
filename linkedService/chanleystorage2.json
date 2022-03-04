@@ -1,0 +1,10 @@
+{
+	"name": "chanleystorage2",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://chanleystghir.dfs.core.windows.net"
+		}
+	}
+}

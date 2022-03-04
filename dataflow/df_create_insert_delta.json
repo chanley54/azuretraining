@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "df_create_insert_delta",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {

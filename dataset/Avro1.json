@@ -1,0 +1,22 @@
+{
+	"name": "Avro1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLake2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Avro",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "userdata1.avro",
+				"folderPath": "raw/avro",
+				"fileSystem": "ingest"
+			},
+			"avroCompressionCodec": "snappy",
+			"avroCompressionLevel": 1
+		},
+		"schema": {}
+	}
+}

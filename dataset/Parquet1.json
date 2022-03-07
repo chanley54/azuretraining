@@ -1,0 +1,21 @@
+{
+	"name": "Parquet1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLake2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "blah.parquet",
+				"folderPath": "raw/avro",
+				"fileSystem": "ingest"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

@@ -26,6 +26,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"receiver": {
+				"type": "string",
+				"defaultValue": "chris.hanley@catapultsystems.com"
+			}
+		},
 		"annotations": []
 	}
 }

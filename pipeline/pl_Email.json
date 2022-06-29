@@ -9,7 +9,7 @@
 					{
 						"activity": "Fail1",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],

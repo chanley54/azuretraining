@@ -5,7 +5,14 @@
 			{
 				"name": "Email",
 				"type": "WebActivity",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Fail1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -23,6 +30,16 @@
 						"pipelineName": "@{pipeline().Pipeline}",
 						"receiver": "@{pipeline().parameters.receiver}"
 					}
+				}
+			},
+			{
+				"name": "Fail1",
+				"type": "Fail",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "I failed",
+					"errorCode": "322"
 				}
 			}
 		],

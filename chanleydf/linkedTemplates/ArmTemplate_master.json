@@ -11,13 +11,25 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"DataLake2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLake2'"
+		},
 		"Names_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Names'"
 		},
+		"adf_datasets_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'adf_datasets'"
+		},
 		"chanley54Synapse_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'chanley54Synapse'"
+		},
+		"chanley54_Synapse_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'chanley54_Synapse'"
 		},
 		"chanleypool_connectionString": {
 			"type": "secureString",
@@ -38,6 +50,22 @@
 		"miscparquest_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'miscparquest'"
+		},
+		"DataLake2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://chanleystghir.dfs.core.windows.net"
+		},
+		"adf_datasets_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
+		},
+		"adf_datasets_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "chris_hanley"
+		},
+		"chanleystorage2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://chanleystghir.dfs.core.windows.net"
 		},
 		"jsonstorage_properties_typeProperties_url": {
 			"type": "string",
@@ -93,11 +121,20 @@
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
+					"DataLake2_accountKey": {
+						"value": "[parameters('DataLake2_accountKey')]"
+					},
 					"Names_connectionString": {
 						"value": "[parameters('Names_connectionString')]"
 					},
+					"adf_datasets_password": {
+						"value": "[parameters('adf_datasets_password')]"
+					},
 					"chanley54Synapse_connectionString": {
 						"value": "[parameters('chanley54Synapse_connectionString')]"
+					},
+					"chanley54_Synapse_connectionString": {
+						"value": "[parameters('chanley54_Synapse_connectionString')]"
 					},
 					"chanleypool_connectionString": {
 						"value": "[parameters('chanleypool_connectionString')]"
@@ -113,6 +150,18 @@
 					},
 					"miscparquest_accountKey": {
 						"value": "[parameters('miscparquest_accountKey')]"
+					},
+					"DataLake2_properties_typeProperties_url": {
+						"value": "[parameters('DataLake2_properties_typeProperties_url')]"
+					},
+					"adf_datasets_properties_typeProperties_url": {
+						"value": "[parameters('adf_datasets_properties_typeProperties_url')]"
+					},
+					"adf_datasets_properties_typeProperties_userName": {
+						"value": "[parameters('adf_datasets_properties_typeProperties_userName')]"
+					},
+					"chanleystorage2_properties_typeProperties_url": {
+						"value": "[parameters('chanleystorage2_properties_typeProperties_url')]"
 					},
 					"jsonstorage_properties_typeProperties_url": {
 						"value": "[parameters('jsonstorage_properties_typeProperties_url')]"
@@ -163,6 +212,26 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'chanleydf_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "chanleydf_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
 					},
 					"EventTrigger_properties_Trigger_parameters_SourceFile": {
 						"value": "[parameters('EventTrigger_properties_Trigger_parameters_SourceFile')]"
@@ -173,7 +242,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'chanleydf_ArmTemplate_1')]"
+				"[resourceId('Microsoft.Resources/deployments', 'chanleydf_ArmTemplate_2')]"
 			]
 		}
 	]

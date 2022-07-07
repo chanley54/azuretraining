@@ -8,10 +8,19 @@
 		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
+		"DataLake2_accountKey": {
+			"value": ""
+		},
 		"Names_connectionString": {
 			"value": ""
 		},
+		"adf_datasets_password": {
+			"value": ""
+		},
 		"chanley54Synapse_connectionString": {
+			"value": ""
+		},
+		"chanley54_Synapse_connectionString": {
 			"value": ""
 		},
 		"chanleypool_connectionString": {
@@ -28,6 +37,18 @@
 		},
 		"miscparquest_accountKey": {
 			"value": ""
+		},
+		"DataLake2_properties_typeProperties_url": {
+			"value": "https://chanleystghir.dfs.core.windows.net"
+		},
+		"adf_datasets_properties_typeProperties_url": {
+			"value": "https://management.azure.com/subscriptions/a192e78c-6b15-4954-b587-3cce7c28eb26/resourceGroups/chanley_rg/providers/Microsoft.DataFactory/factories/chanleydf/datasets?api-version=2018-06-01"
+		},
+		"adf_datasets_properties_typeProperties_userName": {
+			"value": "chris_hanley"
+		},
+		"chanleystorage2_properties_typeProperties_url": {
+			"value": "https://chanleystghir.dfs.core.windows.net"
 		},
 		"jsonstorage_properties_typeProperties_url": {
 			"value": "https://chanleysg.dfs.core.windows.net"

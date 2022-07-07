@@ -25,7 +25,7 @@
 					"url": "https://prod-88.eastus.logic.azure.com:443/workflows/d3adf52e1bd54dfe8d854600ce854288/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xLhqhyPwDtudefGdPqodWZ1qk3fgcZ7EGp7n5IYTuZQ",
 					"method": "POST",
 					"body": {
-						"message": "Blah Blah Blah This is a custom dynamic message from your pipeline with run ID @{pipeline().RunId}.",
+						"message": " This is a custom dynamic message from your pipeline with run ID @{pipeline().RunId}.",
 						"dataFactoryName": "@{pipeline().DataFactory}",
 						"pipelineName": "@{pipeline().Pipeline}",
 						"receiver": "@{pipeline().parameters.receiver}"

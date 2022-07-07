@@ -77,33 +77,6 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"dataflow": {
-									"referenceName": "df_address",
-									"type": "DataFlowReference",
-									"parameters": {
-										"filename": {
-											"value": "'@{activity('filename').output.Value[0].name}'",
-											"type": "Expression"
-										}
-									},
-									"datasetParameters": {
-										"address": {
-											"directory": "chanleyblob",
-											"subdirectory": {
-												"value": "backup/@{item().name}",
-												"type": "Expression"
-											},
-											"filename": {
-												"value": "@activity('filename').output.Value[0].name",
-												"type": "Expression"
-											}
-										},
-										"addressstream": {
-											"schema": "dbo",
-											"tablename": "address"
-										}
-									}
-								},
 								"compute": {
 									"coreCount": 8,
 									"computeType": "General"

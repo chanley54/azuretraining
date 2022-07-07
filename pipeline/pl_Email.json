@@ -36,7 +36,16 @@
 				"name": "Fail1",
 				"type": "Fail",
 				"dependsOn": [],
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "name",
+						"value": "Chris"
+					},
+					{
+						"name": "business owner",
+						"value": "AJ"
+					}
+				],
 				"typeProperties": {
 					"message": "I failed",
 					"errorCode": "322"

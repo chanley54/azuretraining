@@ -1,0 +1,9 @@
+{
+	"name": "dfchanley2",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0e44d340-d3b0-4699-bde4-e743570b611e",
+		"tenantId": "ac67becb-8790-4ee2-adae-57bb2152e559"
+	}
+}
